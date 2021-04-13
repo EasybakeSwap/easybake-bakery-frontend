@@ -1,0 +1,18 @@
+{
+    "terminal.integrated.profiles.windows": {
+    
+        "PowerShell": {
+            "source": "PowerShell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": []
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        }
+    }
+}
