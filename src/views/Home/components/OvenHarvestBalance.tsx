@@ -2,12 +2,10 @@ import React from 'react'
 import { Text } from 'easybakeswap-uikit'
 import { useWallet } from '@binance-chain/bsc-use-wallet'
 import BigNumber from 'bignumber.js'
-import useI18n from 'hooks/useI18n'
 import useAllEarnings from 'hooks/useAllEarnings'
 import CardValue from './CardValue'
 
 const OvenHarvestBalance = () => {
-  const TranslateString = useI18n()
   const { account } = useWallet()
   const allEarnings = useAllEarnings()
   const earningsSum = allEarnings.reduce((accum, earning) => {
@@ -17,7 +15,7 @@ const OvenHarvestBalance = () => {
   if (!account) {
     return (
       <Text color="textDisabled" style={{ lineHeight: '60px' }}>
-        {TranslateString(298, 'Locked')}
+        Locked
       </Text>
     )
   }

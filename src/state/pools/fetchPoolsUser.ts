@@ -1,18 +1,18 @@
 import { AbiItem } from 'web3-utils'
 import poolsConfig from 'config/constants/pools'
-import masterChefABI from '../config/abi/masterchef.json'
-import sousChefABI from '../config/abi/sousChef.json'
+import masterChefABI from 'config/abi/masterchef.json'
+import sousChefABI from 'config/abi/sousChef.json'
 import erc20ABI from 'config/abi/erc20.json'
-import { QuoteToken } from '../config/constants/types'
-import multicall from '../utils/multicall'
-import { getAddress, getMasterChefAddress } from '../utils/addressHelpers'
-import { getWeb3 } from '../utils/web3'
+import { QuoteToken } from 'config/constants/types'
+import multicall from 'utils/multicall'
+import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
+import { getWeb3 } from 'utils/web3'
 import BigNumber from 'bignumber.js'
 
 // Pool 0, Oven / Oven is a different kind of contract (master chef)
 // ETH pools use the native ETH token (wrapping ? unwrapping is done at the contract level)
-const nonEthPools = poolsConfig.filter((p) => p.stakingTokenName !== QuoteToken.ETH)
-const ethPools = poolsConfig.filter((p) => p.stakingTokenName === QuoteToken.ETH)
+const nonEthPools = poolsConfig.filter((p) => p.stakingTokenName !== QuoteToken.WETH)
+const ethPools = poolsConfig.filter((p) => p.stakingTokenName === QuoteToken.WETH)
 const nonMasterPools = poolsConfig.filter((p) => p.sousId !== 0)
 const web3 = getWeb3()
 const masterChefContract = new web3.eth.Contract((masterChefABI as unknown) as AbiItem, getMasterChefAddress())
