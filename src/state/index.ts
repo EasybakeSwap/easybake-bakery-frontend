@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import farmsReducer from './farms'
 import toastsReducer from './toasts'
 import poolsReducer from './pools'
+import profileReducer from './profile'
 
 
 export default configureStore({
@@ -10,5 +11,6 @@ export default configureStore({
     farms: farmsReducer,
     toasts: toastsReducer,
     pools: poolsReducer,
+    profile: profileReducer,
   },
 })

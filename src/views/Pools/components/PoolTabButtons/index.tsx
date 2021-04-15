@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { useRouteMatch, Link } from 'react-router-dom'
 import { ButtonMenu, ButtonMenuItem, Toggle, Text } from 'easybakeswap-uikit'
 
-const PoolTabButtons = ({ stackedOnly, setStackedOnly }) => {
+const PoolTabButtons = ({ stakedOnly, setStakedOnly }) => {
   const { url, isExact } = useRouteMatch()
 
   return (
     <Wrapper>
       <ToggleWrapper>
-        <Toggle checked={stackedOnly} onChange={() => setStackedOnly(!stackedOnly)} />
+        <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} />
         <Text> {'Staked Only'}</Text>
       </ToggleWrapper>
       <ButtonMenu activeIndex={isExact ? 0 : 1} size="sm" variant="subtle">

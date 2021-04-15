@@ -7,9 +7,9 @@ const config: MenuEntry[] = [
     href: '/',
   },
   {
-    label: 'Farms',
+    label: 'Bakery',
     icon: 'FarmIcon',
-    href: '/farms',
+    href: '/bakery',
   },
   {
     label: 'Exchange',

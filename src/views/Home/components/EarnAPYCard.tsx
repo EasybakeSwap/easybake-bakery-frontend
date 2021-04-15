@@ -4,7 +4,7 @@ import { Heading, Card, CardBody, Flex, ArrowForwardIcon, Skeleton } from 'easyb
 import { NavLink } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { QuoteToken } from 'config/constants/types'
-import { useFarms, usePriceEthUsdc } from 'state/hooks'
+import { useFarms, usePriceEthUsd } from 'state/hooks'
 import { BLOCKS_PER_YEAR, OVEN_PER_BLOCK, OVEN_POOL_PID } from 'config'
 
 const StyledFarmStakingCard = styled(Card)`
@@ -22,7 +22,7 @@ const CardMidContent = styled(Heading).attrs({ size: 'xl' })`
 `
 const EarnAPYCard = () => {
   const farmsLP = useFarms()
-  const ethPrice = usePriceEthUsdc()
+  const ethPrice = usePriceEthUsd
 
   const maxAPY = useRef(Number.MIN_VALUE)
 
@@ -74,22 +74,25 @@ const EarnAPYCard = () => {
     <StyledFarmStakingCard>
       <CardBody>
         <Heading color="contrast" size="lg">
-          Earn up to
+          Discover our
         </Heading>
         <CardMidContent color="#7645d9">
           {getHighestAPY() ? (
             `${getHighestAPY()}% ${'APR'}`
           ) : (
-            <Skeleton animation="pulse" variant="rect" height="44px" />
+            `UTILITY`// <Skeleton animation="pulse" variant="rect" height="44px" />
           )}
         </CardMidContent>
         <Flex justifyContent="space-between">
           <Heading color="contrast" size="lg">
-            in Farms
+            in our Medium.
           </Heading>
-          <NavLink exact activeClassName="active" to="/farms" id="farm-apy-cta">
+          <a href = 'https://easybake.medium.com' >
             <ArrowForwardIcon mt={30} color="primary" />
-          </NavLink>
+          </a>
+          {/* <NavLink exact activeClassName="active" to="/bakery" id="farm-apy-cta">
+            <ArrowForwardIcon mt={30} color="primary" />
+          </NavLink> */}
         </Flex>
       </CardBody>
     </StyledFarmStakingCard>

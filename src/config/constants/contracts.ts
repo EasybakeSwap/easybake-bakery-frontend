@@ -31,4 +31,12 @@ export default {
     4: '0x01BE23585060835E02B77ef475b0Cc51aA1e0709',
     1: '',
   },
+  pancakeProfile: {
+    4: '',
+    1: '',
+  },
+  pancakeRabbits: {
+    4: '',
+    1: '',
+  },
 }

@@ -3,11 +3,6 @@ import styled from 'styled-components'
 import { Card, CardBody, Heading, Skeleton, Text } from 'easybakeswap-uikit'
 import { useGetStats } from 'hooks/api'
 
-// const StyledTotalValueLockedCard = styled(Card)`
-//   align-items: center;
-//   display: flex;
-//   flex: 1;
-// `
 const StyledTotalValueLockedCard = styled(Card)`
   background-image: url('/images/lilac.png');
   margin-left: auto;
@@ -29,13 +24,26 @@ const TotalValueLockedCard = () => {
   return (
     <StyledTotalValueLockedCard style={{ textAlign: 'center' }}>
       <CardBody>
-        <Heading size="lg" mb="24px">
-          Total Value Locked (TVL)
+        <Heading size="md" mb="12px">
+          { 'Launch Details' }
         </Heading>
         {data ? (
           <>
-            <Heading size="xl">{`$${tvl}`}</Heading>
-            <Text color="textSubtle">{'Across all LPs and Sugar Pools'}</Text>
+            <a href={'https://view.monday.com/1095099231-236887ea96824ef7051147cef14a9f2a?r=use1'}>
+              <Text color="textSubtle">{ 'Progress Tracker' }</Text>
+            </a>
+
+            <a href={'https://easybake.medium.com/introducing-easybake-finance-e8f704a36e41'}>
+              <Text color="textSubtle">{ 'Introduction' }</Text>
+            </a>
+
+            <a href={'https://forum.easybake.finance'}>
+              <Text color="textSubtle">{ 'Forum' }</Text>
+            </a>
+
+            <a href={'https://forum.easybake.finance/c/tokenomics/6'}>
+              <Text color="textSubtle">{ 'Tokenomics' }</Text>
+            </a>
           </>
         ) : (
           <>

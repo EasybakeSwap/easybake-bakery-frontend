@@ -29,7 +29,7 @@ const OvenStats = () => {
   return (
     <StyledOvenStats style={{ textAlign: 'center' }}>
       <CardBody>
-        <Heading size="xl" mb="24px">
+        <Heading size="lg" mb="24px">
           Oven Token Stats
         </Heading>
         <Row>
@@ -41,7 +41,7 @@ const OvenStats = () => {
           <Text fontSize="12px">Total OVEN Burned</Text>
         </Row>
         <Row>
-          <CardValue fontSize="24px" decimals={0} value={40} />
+          <CardValue fontSize="24px" decimals={0} value={14} />
           <Text fontSize="12px">OVEN per Block</Text>
         </Row>
       </CardBody>
