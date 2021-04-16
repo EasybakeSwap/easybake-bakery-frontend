@@ -42,12 +42,12 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
         Stake
         <StyledLinkExternal href={addLiquidityUrl}>{lpLabel}</StyledLinkExternal>
       </Flex>
-      {!removed && (
+      {/* {!removed && (
         <Flex justifyContent="space-between">
           Total Liquidity
           <Text>{totalValueFormated}</Text>
         </Flex>
-      )}
+      )} */}
       <Flex justifyContent="flex-start">
         <Link external href={ercScanAddress} bold={false}>
           View on Etherscan
