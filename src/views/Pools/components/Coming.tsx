@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Image, Button } from 'easybakeswap-uikit'
-import { CommunityTag } from 'components/Tags'
+// import { CommunityTag } from 'components/Tags'
 
 import Card from './Card'
 // import CardTitle from './CardTitle'
@@ -61,7 +61,7 @@ const Coming: React.FC = () => {
         </DetailPlaceholder> */}
       </div>
       <Footer style={{ textAlign: 'center' }}>
-        <CommunityTag />
+        {/* <CommunityTag /> */}
       </Footer>
     </Card>
   )

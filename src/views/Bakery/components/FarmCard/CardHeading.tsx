@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Tag, Flex, Heading, Image } from 'easybakeswap-uikit'
-import { CommunityTag, CoreTag } from 'components/Tags'
+// import { CommunityTag, CoreTag } from 'components/Tags'
 
 export interface ExpandableSectionProps {
   lpLabel?: string
@@ -33,10 +33,10 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
       <Image src={`/images/farms/${farmImage}.svg`} alt={tokenSymbol} width={64} height={64} />
       <Flex flexDirection="column" alignItems="flex-end">
         <Heading mb="4px">{lpLabel}</Heading>
-        <Flex justifyContent="center">
+        {/* <Flex justifyContent="center">
           {isCommunityFarm ? <CommunityTag /> : <CoreTag />}
           <MultiplierTag variant="secondary">{multiplier}</MultiplierTag>
-        </Flex>
+        </Flex> */}
       </Flex>
     </Wrapper>
   )
