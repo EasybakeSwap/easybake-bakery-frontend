@@ -57,7 +57,7 @@ const App: React.FC = () => {
               <Bakery />
             </Route>
             <Route path="/pools">
-              <Pools />
+              <Bakery />
             </Route>
             {/* <Route path="/profile">
               <Profile />

@@ -12,7 +12,7 @@ import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import DetailsSection from './DetailsSection'
 import CardHeading from './CardHeading'
 import CardActionsContainer from './CardActionsContainer'
-import ApyButton from './ApyButton'
+// import ApyButton from './ApyButton'
 
 export interface FarmWithStakedValue extends Farm {
   apy?: BigNumber
@@ -135,7 +135,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, ethPrice,
         farmImage={farmImage}
         tokenSymbol={farm.tokenSymbol}
       />
-      {!removed && (
+      {/* {!removed && (
         <Flex justifyContent="space-between" alignItems="center">
           <Text>APR</Text>
           <Text bold style={{ display: 'flex', alignItems: 'center' }}>
@@ -149,7 +149,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, ethPrice,
             )}
           </Text>
         </Flex>
-      )}
+      )} */}
       <Flex justifyContent="space-between">
         <Text>Earn:</Text>
         <Text bold>{earnLabel}</Text>
