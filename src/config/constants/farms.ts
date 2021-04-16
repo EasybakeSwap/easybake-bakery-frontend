@@ -19,14 +19,14 @@ const farms: FarmConfig[] = [
   },
   {
     pid: 1,
-    lpSymbol: 'UNI-ETH LP',
+    lpSymbol: 'OVEN-ETH LP',
     lpAddresses: {
-      4: '0x4E99615101cCBB83A462dC4DE2bc1362EF1365e5',
+      4: '0xC23F0b56D9E167A5EdA5c57f5772037fdbb6e0Af',
       1: '',
     },
-    tokenSymbol: 'UNI',
+    tokenSymbol: 'OVEN',
     tokenAddresses: {
-      4: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',
+      4: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
       1: '',
     },
     quoteTokenSymbol: QuoteToken.WETH,
@@ -79,14 +79,14 @@ const farms: FarmConfig[] = [
   },
   {
     pid: 5,
-    lpSymbol: 'OVEN-ETH LP',
+    lpSymbol: 'UNI-ETH LP',
     lpAddresses: {
-      4: '0xC23F0b56D9E167A5EdA5c57f5772037fdbb6e0Af',
+      4: '0x4E99615101cCBB83A462dC4DE2bc1362EF1365e5',
       1: '',
     },
-    tokenSymbol: 'OVEN',
+    tokenSymbol: 'UNI',
     tokenAddresses: {
-      4: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
+      4: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',
       1: '',
     },
     quoteTokenSymbol: QuoteToken.WETH,
