@@ -88,6 +88,15 @@ const FarmedStakingCard = () => {
         <Heading size="xl" mb="24px" style={{ textAlign: 'center' }}>
           EasyBake $OVEN
         </Heading>
+        {/* <CardImage src="/images/donut.svg" alt="cupcake logo" width={64} height={64} /> */}
+        <Block style={{ textAlign: 'center' }}>
+          <OvenHarvestBalance />
+          <Label style={{ textAlign: 'center' }}>{'OVEN to Claim'}</Label>
+        </Block>
+        <Block style={{ textAlign: 'center' }}>
+          <OvenWalletBalance />
+          <Label style={{ textAlign: 'center' }}>{'OVEN in Wallet'}</Label>
+        </Block>
         <Flex justifyContent="center">
           <Button size="sm" onClick={addWatchOvenToken}>
             Add Oven Token &nbsp;
@@ -98,15 +107,6 @@ const FarmedStakingCard = () => {
             />
           </Button>
         </Flex>
-        {/* <CardImage src="/images/donut.svg" alt="cupcake logo" width={64} height={64} /> */}
-        <Block style={{ textAlign: 'center' }}>
-          <OvenHarvestBalance />
-          <Label style={{ textAlign: 'center' }}>{'OVEN to Claim'}</Label>
-        </Block>
-        <Block style={{ textAlign: 'center' }}>
-          <OvenWalletBalance />
-          <Label style={{ textAlign: 'center' }}>{'OVEN in Wallet'}</Label>
-        </Block>
         <Actions>
           {account ? (
             <Button
