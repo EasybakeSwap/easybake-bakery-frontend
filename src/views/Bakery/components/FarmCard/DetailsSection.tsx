@@ -39,8 +39,7 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
   return (
     <Wrapper>
       <Flex justifyContent="center">
-      <Text>Get LP Tokens:</Text>
-      _ 
+        <Text>Get LP Tokens:&nbsp;</Text>
         <StyledLinkExternal href={addLiquidityUrl}>{lpLabel}</StyledLinkExternal>
       </Flex>
       {/* {!removed && (
