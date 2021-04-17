@@ -10,7 +10,7 @@ const FarmTabButtons = ({ stakedOnly, setStakedOnly }) => {
     <Wrapper>
       <ToggleWrapper>
         <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} />
-        Staked
+        <Text>Staked</Text>
       </ToggleWrapper>
       <ButtonMenu activeIndex={isExact ? 0 : 1} size="sm" variant="subtle">
         <ButtonMenuItem as={Link} to={`${url}`}>

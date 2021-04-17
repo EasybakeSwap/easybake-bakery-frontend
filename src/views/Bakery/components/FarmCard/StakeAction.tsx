@@ -34,7 +34,11 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   const { onUnstake } = useUnstake(pid)
 
   const rawStakedBalance = getBalanceNumber(stakedBalance)
-  const displayBalance = rawStakedBalance.toLocaleString()
+
+  let displayBalance = rawStakedBalance.toLocaleString()
+  if (rawStakedBalance < 0.001 && rawStakedBalance !== 0) { 
+    displayBalance = '<0.001'.toLocaleString()
+  }
 
   const [onPresentDeposit] = useModal(
     <DepositModal max={tokenBalance} onConfirm={onStake} tokenName={tokenName} addLiquidityUrl={addLiquidityUrl} />,

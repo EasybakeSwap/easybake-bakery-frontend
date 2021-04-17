@@ -5,14 +5,14 @@ import { getBalanceNumber } from 'utils/formatBalance'
 
 import { ChevronDown, ChevronUp } from 'react-feather'
 import Balance from 'components/Balance'
-import { CommunityTag, CoreTag, EthereumTag } from 'components/Tags'
+// import { CommunityTag, CoreTag, EthereumTag } from 'components/Tags'
 import { PoolCategory } from 'config/constants/types'
 
-const tags = {
-  [PoolCategory.ETH]: EthereumTag,
-  [PoolCategory.CORE]: CoreTag,
-  [PoolCategory.COMMUNITY]: CommunityTag,
-}
+// const tags = {
+//   [PoolCategory.ETH]: EthereumTag,
+//   [PoolCategory.CORE]: CoreTag,
+//   [PoolCategory.COMMUNITY]: CommunityTag,
+// }
 
 interface Props {
   projectLink: string
@@ -85,13 +85,13 @@ const CardFooter: React.FC<Props> = ({
   const Icon = isOpen ? ChevronUp : ChevronDown
 
   const handleClick = () => setIsOpen(!isOpen)
-  const Tag = tags[poolCategory]
+  // const Tag = tags[poolCategory]
 
   return (
     <StyledFooter isFinished={isFinished}>
       <Row>
         <FlexFull>
-          <Tag />
+          {/* <Tag /> */}
         </FlexFull>
         <StyledDetailsButton onClick={handleClick}>
           {isOpen ? 'Hide' : 'Details'} <Icon />
