@@ -38,8 +38,9 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
 }) => {
   return (
     <Wrapper>
-      <Flex justifyContent="space-between">
+      <Flex justifyContent="center">
       <Text>Get LP Tokens:</Text>
+      _ 
         <StyledLinkExternal href={addLiquidityUrl}>{lpLabel}</StyledLinkExternal>
       </Flex>
       {/* {!removed && (
@@ -48,9 +49,9 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
           <Text>{totalValueFormated}</Text>
         </Flex>
       )} */}
-      <Flex justifyContent="flex-start">
+      <Flex justifyContent="center" >
         <Link external href={ercScanAddress} bold={false}>
-        View {lpLabel} on Etherscan
+         View {lpLabel} on Etherscan
         </Link>
       </Flex>
     </Wrapper>
