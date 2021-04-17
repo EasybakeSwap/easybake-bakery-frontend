@@ -18,7 +18,7 @@ const farms: FarmConfig[] = [
     quoteTokenAdresses: contracts.weth,
   },
   {
-    pid: 1,
+    pid: 5,
     lpSymbol: 'OVEN-ETH LP',
     lpAddresses: {
       4: '0xC23F0b56D9E167A5EdA5c57f5772037fdbb6e0Af',
@@ -78,7 +78,7 @@ const farms: FarmConfig[] = [
     quoteTokenAdresses: contracts.weth,
   },
   {
-    pid: 5,
+    pid: 1,
     lpSymbol: 'UNI-ETH LP',
     lpAddresses: {
       4: '0x4E99615101cCBB83A462dC4DE2bc1362EF1365e5',
