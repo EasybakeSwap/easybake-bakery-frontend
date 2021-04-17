@@ -13,7 +13,7 @@ import useRefresh from 'hooks/useRefresh'
 import { fetchFarmUserDataAsync } from 'state/actions'
 import { QuoteToken } from 'config/constants/types'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
-import FarmTabButtons from './components/FarmTabButtons'
+// import FarmTabButtons from './components/FarmTabButtons'
 import Divider from './components/Divider'
 
 const Bakery: React.FC = () => {
