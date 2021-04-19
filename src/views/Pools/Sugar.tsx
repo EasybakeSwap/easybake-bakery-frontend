@@ -27,7 +27,7 @@ const Farm: React.FC = () => {
   const pools = usePools(account)
   const ethPriceUSD = usePriceEthUsdc()
   const block = useBlock()
-  const [stackedOnly, setStackedOnly] = useState(false)
+  const [stakedOnly, setStakedOnly] = useState(false)
 
   const priceToEth = (tokenName: string, tokenPrice: BigNumber, quoteToken: QuoteToken): BigNumber => {
     const tokenPriceETH = new BigNumber(tokenPrice)
@@ -71,7 +71,7 @@ const Farm: React.FC = () => {
   })
 
   const [finishedPools, openPools] = partition(poolsWithApy, (pool) => pool.isFinished)
-  const stackedOnlyPools = openPools.filter(
+  const stakedOnlyPools = openPools.filter(
     (pool) => pool.userData && new BigNumber(pool.userData.stakedBalance).isGreaterThan(0),
   )
 
@@ -88,15 +88,15 @@ const Farm: React.FC = () => {
             <li>{'Rewards are calculated per block.'}</li>
           </ul>
         </div>
-        <img src="/images/yummy.png" alt="SYRUP POOL icon" width={400} height={100} />
+        <img src="/images/yummy.png" alt="SUGAR POOL icon" />
       </Hero>
-      <PoolTabButtons stackedOnly={stackedOnly} setStackedOnly={setStackedOnly} />
+      <PoolTabButtons stakedOnly={stakedOnly} setStakedOnly={setStakedOnly} />
       <Divider />
       <FlexLayout>
         <Route exact path={`${path}`}>
           <>
-            {stackedOnly
-              ? orderBy(stackedOnlyPools, ['sortOrder']).map((pool) => <PoolCard key={pool.sousId} pool={pool} />)
+            {stakedOnly
+              ? orderBy(stakedOnlyPools, ['sortOrder']).map((pool) => <PoolCard key={pool.sousId} pool={pool} />)
               : orderBy(openPools, ['sortOrder']).map((pool) => <PoolCard key={pool.sousId} pool={pool} />)}
             <Coming />
           </>

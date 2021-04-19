@@ -2,20 +2,21 @@ import BigNumber from 'bignumber.js'
 import { ResetCSS } from 'easybakeswap-uikit'
 import React, { lazy, Suspense, useEffect } from 'react'
 import { Redirect, Route, Router, Switch } from 'react-router-dom'
-import { useFetchPublicData } from 'state/hooks'
-import { useWallet } from 'use-wallet'
-import Menu from './components/Menu'
-import PageLoader from './components/PageLoader'
-import Pools from './views/Pools'
-import ToastListener from './components/ToastListener'
-import history from './routerHistory'
-import GlobalStyle from './style/Global'
+import { useFetchPublicData, useFetchProfile } from 'state/hooks'
+import { useWallet } from "@binance-chain/bsc-use-wallet"
+import Menu from 'components/Menu'
+import PageLoader from 'components/PageLoader'
+import Pools from 'views/Pools'
+import ToastListener from 'components/ToastListener'
+import history from 'routerHistory'
+import GlobalStyle from 'style/Global'
 
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page'
 const Home = lazy(() => import('./views/Home'))
 const Bakery = lazy(() => import('./views/Bakery'))
 const NotFound = lazy(() => import('./views/NotFound'))
+const Profile = lazy(() => import('./views/Profile'))
 
 
 // This config is required for number formating
@@ -40,7 +41,7 @@ const App: React.FC = () => {
   }, [account, connect])
 
   useFetchPublicData()
-  // useFetchProfile()
+  useFetchProfile()
 
   return (
     <Router history={history}>
@@ -56,16 +57,19 @@ const App: React.FC = () => {
               <Bakery />
             </Route>
             <Route path="/pools">
-              <Pools />
+              <Bakery />
             </Route>
+            {/* <Route path="/profile">
+              <Profile />
+            </Route> */}
             {/* Redirect */}
-            {/* 404 */}
             <Route path="/staking">
               <Redirect to="/pools" />
             </Route>
             <Route path = "/sugar">
               <Redirect to = "/pools" />
             </Route>
+             {/* 404 */}
             <Route component={NotFound} />
           </Switch>
         </Suspense>

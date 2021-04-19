@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button } from 'easybakeswap-uikit'
-import useI18n from 'hooks/useI18n'
 import Input, { InputProps } from './Input'
 
 interface Props extends InputProps {
@@ -35,7 +34,6 @@ const StyledTokenSymbol = styled.span`
 `
 
 const BalanceInput: React.FC<Props> = ({ max, symbol, onChange, onSelectMax, value }) => {
-  const TranslateString = useI18n()
 
   return (
     <div>
@@ -46,7 +44,7 @@ const BalanceInput: React.FC<Props> = ({ max, symbol, onChange, onSelectMax, val
             <StyledSpacer />
             <div>
               <Button size="sm" onClick={onSelectMax}>
-                {TranslateString(452, 'Max')}
+                { 'Max' }
               </Button>
             </div>
           </StyledTokenAdornmentWrapper>
@@ -55,7 +53,7 @@ const BalanceInput: React.FC<Props> = ({ max, symbol, onChange, onSelectMax, val
         placeholder="0"
         value={value}
       />
-      <StyledMaxText>{TranslateString(454, `${max.toLocaleString()} ${symbol} Available`)}</StyledMaxText>
+      <StyledMaxText>{ `${max.toLocaleString()} ${symbol} Available` }</StyledMaxText>
     </div>
   )
 }

@@ -1,5 +1,5 @@
-import addresses from '../config/constants/contracts'
-import { Address } from '../config/constants/types'
+import addresses from 'config/constants/contracts'
+import { Address } from 'config/constants/types'
 
 export const getAddress = (address: Address): string => {
   const mainNetChainId = 4
@@ -18,4 +18,10 @@ export const getMulticallAddress = () => {
 }
 export const getWethAddress = () => {
   return getAddress(addresses.weth)
+}
+export const getPancakeProfileAddress = () => {
+  return getAddress(addresses.pancakeProfile)
+}
+export const getPancakeRabbitsAddress = () => {
+  return getAddress(addresses.pancakeRabbits)
 }

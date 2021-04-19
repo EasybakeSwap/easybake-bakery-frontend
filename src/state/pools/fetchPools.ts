@@ -37,8 +37,8 @@ export const fetchPoolsBlockLimits = async () => {
 }
 
 export const fetchPoolsTotalStatking = async () => {
-  const nonEthPools = poolsConfig.filter((p) => p.stakingTokenName !== QuoteToken.ETH)
-  const ethPool = poolsConfig.filter((p) => p.stakingTokenName === QuoteToken.ETH)
+  const nonEthPools = poolsConfig.filter((p) => p.stakingTokenName !== QuoteToken.WETH)
+  const ethPool = poolsConfig.filter((p) => p.stakingTokenName === QuoteToken.WETH)
 
   const callsNonEthPools = nonEthPools.map((poolConfig) => {
     return {

@@ -13,7 +13,7 @@ import useRefresh from 'hooks/useRefresh'
 import { fetchFarmUserDataAsync } from 'state/actions'
 import { QuoteToken } from 'config/constants/types'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
-import FarmTabButtons from './components/FarmTabButtons'
+// import FarmTabButtons from './components/FarmTabButtons'
 import Divider from './components/Divider'
 
 const Bakery: React.FC = () => {
@@ -93,7 +93,7 @@ const Bakery: React.FC = () => {
       <Heading as="h1" size="lg" color="secondary" mb="50px" style={{ textAlign: 'center' }}>
         Bake DOUGH, Earn OVEN
       </Heading>
-      <FarmTabButtons stakedOnly={stakedOnly} setStakedOnly={setStakedOnly} />
+      {/* <FarmTabButtons stakedOnly={stakedOnly} setStakedOnly={setStakedOnly} /> */}
       <div>
         <Divider />
         <FlexLayout>

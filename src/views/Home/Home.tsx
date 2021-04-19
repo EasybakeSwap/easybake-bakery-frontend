@@ -7,6 +7,8 @@ import OvenStats from 'views/Home/components/OvenStats'
 import TotalValueLockedCard from 'views/Home/components/TotalValueLockedCard'
 import EarnAPYCard from 'views/Home/components/EarnAPYCard'
 import EarnAssetCard from 'views/Home/components/EarnAssetCard'
+import OvenWinnings from './components/OvenWinnings'
+import WinCard from './components/WinCard'
 
 const Hero = styled.div`
   align-items: center;
@@ -77,12 +79,8 @@ const Home: React.FC = () => {
 
   return (
     <Page>
-      <Hero>
-        <Heading as="h1" size="xl" mb="24px" color="secondary">
-          {'EasyBakeSwap'}
-        </Heading>
-        <Text>{'AMM and yield farm on Polkadot.'}</Text>
-      </Hero>
+       {/* <Hero>
+       </Hero> */}
       <div>
         <Cards>
           <FarmStakingCard />
@@ -90,9 +88,10 @@ const Home: React.FC = () => {
         <CTACards>
           <EarnAPYCard />
           <EarnAssetCard />
+          <WinCard />
         </CTACards>
         <Cards>
-          <OvenStats />
+          {/* <OvenStats /> */}
           <TotalValueLockedCard />
         </Cards>
       </div>

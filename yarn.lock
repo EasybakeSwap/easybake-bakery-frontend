@@ -6237,10 +6237,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-easybakeswap-uikit@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/easybakeswap-uikit/-/easybakeswap-uikit-1.1.0.tgz#88d82686b33cf65bfd75765af4af249bc9246810"
-  integrity sha512-zo3mEIiWH4Q5SHOEyxaw5P2IQiy0BCq1p3+k3YxO+2bAUsRtsvF7UkohhZtWFBN5ANPFo6u34VIQ7K+AzdkjuQ==
+easybakeswap-uikit@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/easybakeswap-uikit/-/easybakeswap-uikit-1.2.0.tgz#f7882154cfba02fe7fe736a6c9eae31286b3efdf"
+  integrity sha512-p/MShotlUb2md2cP6N7Ht55bJze7ia3JbIJeCJwQJWJ5mSXufDuQT520mvVxURelr31aLoPWfm8EMzZUHgYjCQ==
   dependencies:
     "@types/lodash" "^4.14.162"
     "@types/styled-system" "^5.1.10"

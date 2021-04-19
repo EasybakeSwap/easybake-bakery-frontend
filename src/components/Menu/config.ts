@@ -7,29 +7,31 @@ const config: MenuEntry[] = [
     href: '/',
   },
   {
-    label: 'Farms',
-    icon: 'FarmIcon',
-    href: '/farms',
+    label: 'Bakery',
+    icon: 'BakeryIcon',
+    href: '/bakery',
   },
   {
-    label: 'Exchange',
+    label: 'Swap',
     icon: 'TradeIcon',
-    items: [
-      {
-        label: 'Exchange',
-        href: 'https://swap.easybake.finance/#/swap',
-      },
-      {
-        label: 'Liquidity',
-        href: 'https://swap.easybake.finance/add/#/add/eth',
-      },
-    ],
+    // should be /swap
+    href: 'https://swap.easybake.finance/#/swap',
+    // items: [
+    //   {
+    //     label: 'Swap Tokens',
+    //     href: 'https://swap.easybake.finance/#/swap',
+    //   },
+    //   {
+    //     label: 'Provide Liquidity',
+    //     href: 'https://swap.easybake.finance/add/#/add/eth',
+    //   },
+    // ],
   },
-  {
-    label: 'Pools',
-    icon: 'PoolIcon',
-    href: '/pools',
-  },
+  // {
+  //   label: 'Pools',
+  //   icon: 'PoolIcon',
+  //   href: '/pools',
+  // },
   {
     label: 'Analytics',
     icon: 'InfoIcon',
