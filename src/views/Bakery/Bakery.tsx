@@ -4,19 +4,44 @@ import { useDispatch } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { useWallet } from '@binance-chain/bsc-use-wallet'
 import { provider } from 'web3-core'
-import { Heading } from 'easybakeswap-uikit'
+import { Heading, RowType } from 'easybakeswap-uikit'
 import { BLOCKS_PER_YEAR, OVEN_PER_BLOCK, OVEN_POOL_PID } from 'config'
 import FlexLayout from 'components/layout/Flex'
+import styled from 'styled-components'
+// import { orderBy } from 'lodash'
+import { getBalanceNumber } from 'utils/formatBalance'
+
 import Page from 'components/layout/Page'
 import { useFarms, usePriceEthUsdc, usePriceOvenUsdc } from 'state/hooks'
+import usePersistState from 'hooks/usePersistState'
 import useRefresh from 'hooks/useRefresh'
+import ToggleView from './components/ToggleView/ToggleView'
 import { fetchFarmUserDataAsync } from 'state/actions'
 import { QuoteToken } from 'config/constants/types'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
-// import FarmTabButtons from './components/FarmTabButtons'
+import Table from './components/FarmTable/FarmTable'
+import { RowProps } from './components/FarmTable/Row'
 import Divider from './components/Divider'
+import { DesktopColumnSchema, ViewMode } from './components/types'
+
+const ControlContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  position: relative;
+
+  justify-content: space-between;
+  flex-direction: column;
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 16px 32px;
+  }
+`
 
 const Bakery: React.FC = () => {
+  const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, 'pancake_farm_view')
   const { path } = useRouteMatch()
   const farmsLP = useFarms()
   const ovenPrice = usePriceOvenUsdc()
@@ -31,13 +56,9 @@ const Bakery: React.FC = () => {
     }
   }, [account, dispatch, fastRefresh])
 
-  const [stakedOnly, setStakedOnly] = useState(false)
-
   const activeFarms = farmsLP.filter((farm) => farm.pid !== 0 && farm.multiplier !== '0X')
   const inactiveFarms = farmsLP.filter((farm) => farm.pid !== 0 && farm.multiplier === '0X')
-  const stakedOnlyFarms = activeFarms.filter(
-    (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
-  )
+
   // /!\ This function will be removed soon
   // This function compute the APY for each farm and will be replaced when we have a reliable API
   // to retrieve assets prices against USD
@@ -45,7 +66,7 @@ const Bakery: React.FC = () => {
     (farmsToDisplay, removed: boolean) => {
       const ovenPriceVsETH = new BigNumber(farmsLP.find((farm) => farm.pid === OVEN_POOL_PID)?.tokenPriceVsQuote || 0)
       const farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map((farm) => {
-        if (!farm.tokenAmount || !farm.lpTotalInQuoteToken || !farm.lpTotalInQuoteToken) {
+        if (!farm.tokenAmount || !farm.lpTotalInQuoteToken) {
           return farm
         }
         const ovenRewardPerBlock = OVEN_PER_BLOCK.times(farm.poolWeight)
@@ -88,24 +109,106 @@ const Bakery: React.FC = () => {
     [farmsLP, ovenPrice, ethPrice, ethereum, account],
   )
 
-  return (
-    <Page>
-      <Heading as="h1" size="lg" color="secondary" mb="50px" style={{ textAlign: 'center' }}>
-        Bake DOUGH, Earn OVEN
-      </Heading>
-      {/* <FarmTabButtons stakedOnly={stakedOnly} setStakedOnly={setStakedOnly} /> */}
+  let farmsStaked = []
+
+  const rowData = farmsStaked.map((farm) => {
+    const { token, quoteToken } = farm
+    const tokenAddress = token.address
+    const quoteTokenAddress = quoteToken.address
+    const lpLabel = farm.lpSymbol && farm.lpSymbol.split(' ')[0].toUpperCase().replace('PANCAKE', '')
+
+    const row: RowProps = {
+      // apr: {
+      //   value: farm.apr && farm.apr.toLocaleString('en-US', { maximumFractionDigits: 2 }),
+      //   multiplier: farm.multiplier,
+      //   lpLabel,
+      //   tokenAddress,
+      //   quoteTokenAddress,
+      //   cakePrice: ovenPrice,
+      //   originalValue: farm.apr,
+      // },
+      farm: {
+        image: farm.lpSymbol.split(' ')[0].toLocaleLowerCase(),
+        label: lpLabel,
+        pid: farm.pid,
+      },
+      earned: {
+        earnings: farm.userData ? getBalanceNumber(new BigNumber(farm.userData.earnings)) : null,
+        pid: farm.pid,
+      },
+      liquidity: {
+        liquidity: farm.liquidity,
+      },
+      multiplier: {
+        multiplier: farm.multiplier,
+      },
+      details: farm,
+    }
+
+    return row
+  })
+
+  const renderContent = (): JSX.Element => {
+    if (viewMode === ViewMode.TABLE && rowData.length) {
+      const columnSchema = DesktopColumnSchema
+
+      const columns = columnSchema.map((column) => ({
+        id: column.id,
+        name: column.name,
+        label: column.label,
+        sort: (a: RowType<RowProps>, b: RowType<RowProps>) => {
+          switch (column.name) {
+            case 'farm':
+              return b.id - a.id
+              // case 'apr':
+              //   if (a.original.apr.value && b.original.apr.value) {
+              //     return Number(a.original.apr.value) - Number(b.original.apr.value)
+              //   }
+
+              return 0
+            case 'earned':
+              return a.original.earned.earnings - b.original.earned.earnings
+            default:
+              return 1
+          }
+        },
+        sortable: column.sortable,
+      }))
+
+      return <Table data={rowData} columns={columns} />
+    }
+
+    return (
       <div>
-        <Divider />
         <FlexLayout>
           <Route exact path={`${path}`}>
-            {stakedOnly ? farmsList(stakedOnlyFarms, false) : farmsList(activeFarms, false)}
+            {farmsList(activeFarms, false)}
           </Route>
           <Route exact path={`${path}/history`}>
             {farmsList(inactiveFarms, true)}
           </Route>
         </FlexLayout>
       </div>
-    </Page>
+    )
+  }
+
+  return (
+    <>
+      <br />
+      <Heading as="h1" size="xl" color="secondary" mb="24px" style={{ textAlign: 'center' }}>
+        Bake DOUGH, Earn OVEN
+      </Heading>
+      <Heading size="lg" color="text" style={{ textAlign: 'center' }}>
+        Stake Liquidity Pool (LP) tokens to earn.
+      </Heading>
+      <Page>
+        <Divider />
+        <ControlContainer>
+          <ToggleView viewMode={viewMode} onToggle={(mode: ViewMode) => setViewMode(mode)} />
+        </ControlContainer>
+        {renderContent()}
+      </Page>
+    </>
   )
 }
 

@@ -36,7 +36,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   const rawStakedBalance = getBalanceNumber(stakedBalance)
 
   let displayBalance = rawStakedBalance.toLocaleString()
-  if (rawStakedBalance < 0.001 && rawStakedBalance !== 0) { 
+  if (rawStakedBalance < 0.001 && rawStakedBalance !== 0) {
     displayBalance = '<0.001'.toLocaleString()
   }
 
