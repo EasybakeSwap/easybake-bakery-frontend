@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { Route, useRouteMatch } from 'react-router-dom'
+import { Route, useRouteMatch, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { useWallet } from '@binance-chain/bsc-use-wallet'
@@ -10,6 +10,8 @@ import FlexLayout from 'components/layout/Flex'
 import styled from 'styled-components'
 // import { orderBy } from 'lodash'
 import { getBalanceNumber } from 'utils/formatBalance'
+import weth from 'config/constants/contracts'
+import farms from 'config/constants/farms'
 
 import Page from 'components/layout/Page'
 import { useFarms, usePriceEthUsdc, usePriceOvenUsdc } from 'state/hooks'
@@ -43,6 +45,7 @@ const ControlContainer = styled.div`
 const Bakery: React.FC = () => {
   const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, 'pancake_farm_view')
   const { path } = useRouteMatch()
+  const { pathname } = useLocation()
   const farmsLP = useFarms()
   const ovenPrice = usePriceOvenUsdc()
   const { account, ethereum }: { account: string; ethereum: provider } = useWallet()
@@ -56,6 +59,7 @@ const Bakery: React.FC = () => {
     }
   }, [account, dispatch, fastRefresh])
 
+  const isActive = !pathname.includes('history')
   const activeFarms = farmsLP.filter((farm) => farm.pid !== 0 && farm.multiplier !== '0X')
   const inactiveFarms = farmsLP.filter((farm) => farm.pid !== 0 && farm.multiplier === '0X')
 
@@ -63,7 +67,7 @@ const Bakery: React.FC = () => {
   // This function compute the APY for each farm and will be replaced when we have a reliable API
   // to retrieve assets prices against USD
   const farmsList = useCallback(
-    (farmsToDisplay, removed: boolean) => {
+    (farmsToDisplay, removed?: boolean) => {
       const ovenPriceVsETH = new BigNumber(farmsLP.find((farm) => farm.pid === OVEN_POOL_PID)?.tokenPriceVsQuote || 0)
       const farmsToDisplayWithAPY: FarmWithStakedValue[] = farmsToDisplay.map((farm) => {
         if (!farm.tokenAmount || !farm.lpTotalInQuoteToken) {
@@ -110,11 +114,16 @@ const Bakery: React.FC = () => {
   )
 
   let farmsStaked = []
+  if (isActive) {
+    farmsStaked = farmsList(activeFarms)
+  } else {
+    farmsStaked = farmsList(inactiveFarms)
+  }
 
   const rowData = farmsStaked.map((farm) => {
-    const { token, quoteToken } = farm
-    const tokenAddress = token.address
-    const quoteTokenAddress = quoteToken.address
+    // const { token, quoteToken } = farm
+    // const quoteTokenAddress = weth
+    // const tokenAddress = farms[tokenAddresses][process.env.REACT_APP_CHAIN_ID]
     const lpLabel = farm.lpSymbol && farm.lpSymbol.split(' ')[0].toUpperCase().replace('PANCAKE', '')
 
     const row: RowProps = {
@@ -128,7 +137,7 @@ const Bakery: React.FC = () => {
       //   originalValue: farm.apr,
       // },
       farm: {
-        image: farm.lpSymbol.split(' ')[0].toLocaleLowerCase(),
+        image: farm.lpSymbol,
         label: lpLabel,
         pid: farm.pid,
       },
@@ -160,10 +169,10 @@ const Bakery: React.FC = () => {
           switch (column.name) {
             case 'farm':
               return b.id - a.id
-              // case 'apr':
-              //   if (a.original.apr.value && b.original.apr.value) {
-              //     return Number(a.original.apr.value) - Number(b.original.apr.value)
-              //   }
+            case 'apr':
+              // if (a.original.apr.value && b.original.apr.value) {
+              //   return Number(a.original.apr.value) - Number(b.original.apr.value)
+              // }
 
               return 0
             case 'earned':

@@ -76,18 +76,17 @@ const EarnAPYCard = () => {
         <Heading color="contrast" size="lg">
           Discover our
         </Heading>
-        <CardMidContent color="#7645d9">
-          {getHighestAPY() ? (
-            `${getHighestAPY()}% ${'APR'}`
-          ) : (
-            `UTILITY`// <Skeleton animation="pulse" variant="rect" height="44px" />
-          )}
-        </CardMidContent>
+        {/* <CardMidContent color="#7645d9">
+          {getHighestAPY()
+            ? `${getHighestAPY()}% ${'APR'}`
+            : `UTILITY` // <Skeleton animation="pulse" variant="rect" height="44px" />
+          }
+        </CardMidContent> */}
         <Flex justifyContent="space-between">
           <Heading color="contrast" size="lg">
             in our Medium.
           </Heading>
-          <a href = 'https://easybake.medium.com' >
+          <a href="https://easybake.medium.com">
             <ArrowForwardIcon mt={30} color="primary" />
           </a>
           {/* <NavLink exact activeClassName="active" to="/bakery" id="farm-apy-cta">

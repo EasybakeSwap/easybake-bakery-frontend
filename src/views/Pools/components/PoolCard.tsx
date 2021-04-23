@@ -180,14 +180,14 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
               </>
             ))}
         </StyledCardActions>
-        <StyledDetails>
+        {/* <StyledDetails>
           <div style={{ flex: 1 }}>{'APR'}:</div>
           {isFinished || isOldSugar || !apy || apy?.isNaN() || !apy?.isFinite() ? (
             '-'
           ) : (
             <Balance fontSize="14px" isDisabled={isFinished} value={apy?.toNumber()} decimals={2} unit="%" />
           )}
-        </StyledDetails>
+        </StyledDetails> */}
         <StyledDetails>
           <div style={{ flex: 1 }}>
             <span role="img" aria-label={stakingTokenName}>
