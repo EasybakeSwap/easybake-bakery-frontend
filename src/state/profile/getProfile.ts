@@ -1,13 +1,12 @@
-import { getPancakeProfileAddress, getPancakeRabbitsAddress } from 'utils/addressHelpers'
-import pancakeProfileAbi from 'config/abi/pancakeProfile.json'
-import pancakeRabbitsAbi from 'config/abi/pancakeRabbits.json'
+import Cookies from 'js-cookie'
+import { getProfileContract } from 'utils/contractHelpers'
 import { Nft } from 'config/constants/types'
-import { getContract } from 'utils/web3'
+import { getNftByTokenId } from 'utils/collectibles'
 import { Profile } from 'state/types'
+import { getTeam } from 'state/teams/helpers'
 import { transformProfileResponse } from './helpers'
 
-const profileContract = getContract(pancakeProfileAbi, getPancakeProfileAddress())
-const rabbitContract = getContract(pancakeRabbitsAbi, getPancakeRabbitsAddress())
+const profileContract = getProfileContract()
 const profileApi = process.env.REACT_APP_API_PROFILE
 
 export interface GetProfileResponse {
@@ -41,21 +40,23 @@ const getProfile = async (address: string): Promise<GetProfileResponse> => {
 
     const profileResponse = await profileContract.methods.getUserProfile(address).call()
     const { userId, points, teamId, tokenId, nftAddress, isActive } = transformProfileResponse(profileResponse)
+    const team = await getTeam(teamId)
     const username = await getUsername(address)
 
     // If the profile is not active the tokenId returns 0, which is still a valid token id
     // so only fetch the nft data if active
     let nft: Nft
     if (isActive) {
-      const bunnyId = await rabbitContract.methods.getBunnyId(tokenId).call()
+      nft = await getNftByTokenId(nftAddress, tokenId)
 
-      // Save the preview image to local storage for the exchange
-      localStorage.setItem(
+      // Save the preview image in a cookie so it can be used on the exchange
+      Cookies.set(
         `profile_${address}`,
-        JSON.stringify({
+        {
           username,
-          avatar: `https://easybake.finance/images/nfts/${nft.images.sm}`,
-        }),
+          avatar: `https://pancakeswap.finance/images/nfts/${nft?.images.sm}`,
+        },
+        { domain: 'pancakeswap.finance', secure: true, expires: 30 },
       )
     }
 
@@ -68,6 +69,7 @@ const getProfile = async (address: string): Promise<GetProfileResponse> => {
       nftAddress,
       isActive,
       nft,
+      team,
     } as Profile
 
     return { hasRegistered, profile }

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useWallet } from '@binance-chain/bsc-use-wallet'
+import { useWeb3React } from '@web3-react/core'
 import {
   Card,
   CardBody,
@@ -13,17 +13,27 @@ import {
   PrizeIcon,
   OpenNewIcon,
   BlockIcon,
-} from 'easybakeswap-uikit'
+  VisibilityOn,
+  VisibilityOff,
+} from '@pancakeswap-libs/uikit'
+import useI18n from 'hooks/useI18n'
 import { useProfile } from 'state/hooks'
+import usePersistState from 'hooks/usePersistState'
 import Menu from './components/Menu'
 import CardHeader from './components/CardHeader'
-import ComingSoon from './components/ComingSoon'
+import Collectibles from './components/Collectibles'
 import WalletNotConnected from './components/WalletNotConnected'
 import StatBox from './components/StatBox'
-import ProfileAvatar from './components/ProfileAvatar'
+import EditProfileAvatar from './components/EditProfileAvatar'
+import AchievementsList from './components/AchievementsList'
 
 const Content = styled.div`
   flex: 1;
+  padding: 16px 0;
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    padding: 0 16px;
+  }
 `
 
 const Username = styled(Heading)`
@@ -66,51 +76,71 @@ const AddressLink = styled(Link)`
   }
 `
 
+const Section = styled.div`
+  margin-bottom: 40px;
+`
+
 const PublicProfile = () => {
-  const { account } = useWallet()
+  const { account } = useWeb3React()
   const { profile } = useProfile()
+  const [usernameVisibilityToggled, setUsernameVisibility] = usePersistState(false, 'username_visibility_toggled')
+  const TranslateString = useI18n()
 
   if (!account) {
     return <WalletNotConnected />
   }
 
+  const toggleUsernameVisibility = () => {
+    setUsernameVisibility(!usernameVisibilityToggled)
+  }
+
+  const { username, team, isActive, points } = profile
+
+  const Icon = usernameVisibilityToggled ? VisibilityOff : VisibilityOn
+
   return (
     <>
-      <Menu />
+      <Menu activeIndex={1} />
       <div>
         <Card>
           <CardHeader>
             <Flex alignItems={['start', null, 'center']} flexDirection={['column', null, 'row']}>
-              <ProfileAvatar profile={profile} />
+              <EditProfileAvatar profile={profile} />
               <Content>
-                <Username>{`@${profile.username}`}</Username>
                 <Flex alignItems="center">
-                  <AddressLink href={`https://etherscan.io/address/${account}`} color="text" external>
-                    {account}
-                  </AddressLink>
-                  <OpenNewIcon ml="4px" />
+                  <Username>@{usernameVisibilityToggled ? username : username.replace(/./g, '*')}</Username>
+                  <Icon ml="4px" onClick={toggleUsernameVisibility} cursor="pointer" />
                 </Flex>
-                <ResponsiveText bold>{profile.team.name}</ResponsiveText>
+                <Flex alignItems="center">
+                  <AddressLink href={`https://bscscan.com/address/${account}`} color="text" external>
+                    {account}
+                    <OpenNewIcon ml="4px" />
+                  </AddressLink>
+                </Flex>
+                <ResponsiveText bold>{team.name}</ResponsiveText>
               </Content>
             </Flex>
             <Status>
-              {profile.isActive ? (
+              {isActive ? (
                 <Tag startIcon={<CheckmarkCircleIcon width="18px" />} outline>
-                  Active
+                  {TranslateString(698, 'Active')}
                 </Tag>
               ) : (
                 <Tag variant="failure" startIcon={<BlockIcon width="18px" />} outline>
-                  Paused
+                  {TranslateString(999, 'Paused')}
                 </Tag>
               )}
             </Status>
           </CardHeader>
           <CardBody>
-            <StatBox icon={PrizeIcon} title={profile.points} subtitle={ 'Points' } mb="24px" />
-            <Heading as="h4" size="md">
-              Achievements
-            </Heading>
-            <ComingSoon />
+            <StatBox icon={PrizeIcon} title={points} subtitle={TranslateString(999, 'Points')} mb="24px" />
+            <Section>
+              <Heading as="h4" size="md" mb="16px">
+                {TranslateString(1092, 'Achievements')}
+              </Heading>
+              <AchievementsList />
+            </Section>
+            <Collectibles />
           </CardBody>
         </Card>
       </div>

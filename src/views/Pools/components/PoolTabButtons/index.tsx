@@ -1,45 +1,32 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useRouteMatch, Link } from 'react-router-dom'
-import { ButtonMenu, ButtonMenuItem, Toggle, Text } from 'easybakeswap-uikit'
+import { ButtonMenu, ButtonMenuItem, Toggle, Text, Flex, NotificationDot } from '@pancakeswap-libs/uikit'
+import useI18n from 'hooks/useI18n'
 
-const PoolTabButtons = ({ stakedOnly, setStakedOnly }) => {
+const PoolTabButtons = ({ stakedOnly, setStakedOnly, hasStakeInFinishedPools }) => {
   const { url, isExact } = useRouteMatch()
+  const TranslateString = useI18n()
 
   return (
-    <Wrapper>
-      <ToggleWrapper>
-        <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} />
-        <Text> {'Staked Only'}</Text>
-      </ToggleWrapper>
-      <ButtonMenu activeIndex={isExact ? 0 : 1} size="sm" variant="subtle">
+    <Flex alignItems="center" justifyContent="center" mb="32px">
+      <ButtonMenu activeIndex={isExact ? 0 : 1} scale="sm" variant="subtle">
         <ButtonMenuItem as={Link} to={`${url}`}>
-          {' Active'}
+          {TranslateString(1198, 'Live')}
         </ButtonMenuItem>
-        <ButtonMenuItem as={Link} to={`${url}/history`}>
-          {'Inactive'}
-        </ButtonMenuItem>
+        <NotificationDot show={hasStakeInFinishedPools}>
+          <ButtonMenuItem as={Link} to={`${url}/history`}>
+            {TranslateString(388, 'Finished')}
+          </ButtonMenuItem>
+        </NotificationDot>
       </ButtonMenu>
-    </Wrapper>
+      <Flex ml="24px" justifyContent="center" alignItems="center">
+        <Toggle scale="sm" checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} />
+        <Text ml="8px" color={`${stakedOnly ? 'body' : 'textDisabled'}`}>
+          {TranslateString(999, 'Staked only')}
+        </Text>
+      </Flex>
+    </Flex>
   )
 }
 
 export default PoolTabButtons
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 32px;
-`
-
-const ToggleWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 32px;
-
-  ${Text} {
-    margin-left: 8px;
-  }
-`

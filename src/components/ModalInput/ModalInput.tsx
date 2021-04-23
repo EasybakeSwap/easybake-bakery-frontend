@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Button, Input, InputProps, Flex, Link } from 'easybakeswap-uikit'
+import { Text, Button, Input, InputProps, Flex, Link } from '@pancakeswap-libs/uikit'
+import useI18n from 'hooks/useI18n'
 
 interface ModalInputProps {
   max: string
@@ -64,9 +65,19 @@ const ModalInput: React.FC<ModalInputProps> = ({
   addLiquidityUrl,
   inputTitle,
 }) => {
+  const TranslateString = useI18n()
   const isBalanceZero = max === '0' || !max
 
-  const displayBalance = isBalanceZero ? '0' : parseFloat(max).toFixed(4)
+  const displayBalance = (balance: string) => {
+    if (isBalanceZero) {
+      return '0'
+    }
+    const balanceNumber = Number(balance)
+    if (balanceNumber > 0 && balanceNumber < 0.0001) {
+      return balanceNumber.toLocaleString(undefined, { maximumFractionDigits: 20 })
+    }
+    return balanceNumber.toLocaleString()
+  }
 
   return (
     <div style={{ position: 'relative' }}>
@@ -74,13 +85,21 @@ const ModalInput: React.FC<ModalInputProps> = ({
         <Flex justifyContent="space-between" pl="16px">
           <Text fontSize="14px">{inputTitle}</Text>
           <Text fontSize="14px">
-          Balance: {displayBalance}
+            {TranslateString(1120, 'Balance')}: {displayBalance(max)}
           </Text>
         </Flex>
         <Flex alignItems="flex-end" justifyContent="space-around">
-          <StyledInput onChange={onChange} placeholder="0" value={value} />
-          <Button size="sm" onClick={onSelectMax} mr="8px">
-            Max
+          <StyledInput
+            pattern="^[0-9]*[.,]?[0-9]*$"
+            inputMode="decimal"
+            step="any"
+            min="0"
+            onChange={onChange}
+            placeholder="0"
+            value={value}
+          />
+          <Button scale="sm" onClick={onSelectMax} mr="8px">
+            {TranslateString(452, 'Max')}
           </Button>
           <Text fontSize="16px">{symbol}</Text>
         </Flex>
@@ -89,7 +108,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
         <StyledErrorMessage fontSize="14px" color="failure">
           No tokens to stake:{' '}
           <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
-            get {symbol}
+            {TranslateString(999, 'get')} {symbol}
           </Link>
         </StyledErrorMessage>
       )}

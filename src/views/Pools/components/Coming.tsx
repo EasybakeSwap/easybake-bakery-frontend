@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Image, Button } from 'easybakeswap-uikit'
-// import { CommunityTag } from 'components/Tags'
-
+import { Image, Button } from '@pancakeswap-libs/uikit'
+import { CommunityTag } from 'components/Tags'
+import useI18n from 'hooks/useI18n'
 import Card from './Card'
-// import CardTitle from './CardTitle'
+import CardTitle from './CardTitle'
 
 const Balance = styled.div`
   color: ${({ theme }) => theme.colors.text};
@@ -32,36 +32,46 @@ const Footer = styled.div`
   padding: 24px;
 `
 const Coming: React.FC = () => {
+  const TranslateString = useI18n()
+
   return (
     <Card>
-      <div style={{ padding: '32px' }}>
-        {/* <CardTitle>
-          {'Your Project?'}{' '}
+      <div style={{ padding: '24px' }}>
+        <CardTitle>
+          {TranslateString(414, 'Your Project?')}{' '}
           <span role="img" aria-label="eyes">
+            👀
           </span>
         </CardTitle>
         <Image src="/images/bunny-placeholder.svg" width={64} height={64} alt="Your project here" />
         <Balance>???</Balance>
-        <Label>{'Create a pool for your token'}</Label> */}
-        <Button variant="secondary" as="a" href="https://docs.google.com/viewform" external fullWidth mb="16px">
-          {'Apply Now'}
+        <Label>{TranslateString(416, 'Create a pool for your token')}</Label>
+        <Button
+          variant="secondary"
+          as="a"
+          href="https://docs.google.com/forms/d/e/1FAIpQLScGdT5rrVMr4WOWr08pvcroSeuIOtEJf1sVdQGVdcAOqryigQ/viewform"
+          external
+          width="100%"
+          mb="16px"
+        >
+          {TranslateString(418, 'Apply Now')}
         </Button>
-        {/* <DetailPlaceholder>
-          <div style={{ flex: 1 }}>{'APR'}:</div>
+        <DetailPlaceholder>
+          <div style={{ flex: 1 }}>{TranslateString(736, 'APR')}:</div>
           <Value>??</Value>
         </DetailPlaceholder>
         <DetailPlaceholder>
           <div style={{ flex: 1 }}>
             <span role="img" aria-label="syrup">
-              {' '}
+              🥞{' '}
             </span>
-            {'Your Stake'}:
+            {TranslateString(384, 'Your Stake')}:
           </div>
-          <Value>??? OVEN</Value>
-        </DetailPlaceholder> */}
+          <Value>??? CAKE</Value>
+        </DetailPlaceholder>
       </div>
-      <Footer style={{ textAlign: 'center' }}>
-        {/* <CommunityTag /> */}
+      <Footer>
+        <CommunityTag />
       </Footer>
     </Card>
   )

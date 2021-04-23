@@ -1,54 +1,113 @@
-import { useEffect, useState } from 'react'
-import { AbiItem } from 'web3-utils'
-import { ContractOptions } from 'web3-eth-contract'
+import { useMemo } from 'react'
 import useWeb3 from 'hooks/useWeb3'
 import {
-  getAddress,
-  getMasterChefAddress,
-  getOvenAddress,
-} from 'utils/addressHelpers'
-import { poolsConfig } from 'config/constants'
-import { PoolCategory } from 'config/constants/types'
-import erc20 from 'config/abi/erc20.json'
-import masterChef from 'config/abi/masterchef.json'
-import sousChef from 'config/abi/sousChef.json'
-import sousChefEth from 'config/abi/sousChefEth.json'
-
-const useContract = (abi: AbiItem, address: string, contractOptions?: ContractOptions) => {
-  const web3 = useWeb3()
-  const [contract, setContract] = useState(new web3.eth.Contract(abi, address, contractOptions))
-
-  useEffect(() => {
-    setContract(new web3.eth.Contract(abi, address, contractOptions))
-  }, [abi, address, contractOptions, web3])
-
-  return contract
-}
+  getBep20Contract,
+  getCakeContract,
+  getBunnyFactoryContract,
+  getBunnySpecialContract,
+  getPancakeRabbitContract,
+  getProfileContract,
+  getIfoV1Contract,
+  getIfoV2Contract,
+  getLotteryContract,
+  getLotteryTicketContract,
+  getMasterchefContract,
+  getPointCenterIfoContract,
+  getSouschefContract,
+  getClaimRefundContract,
+  getTradingCompetitionContract,
+  getEasterNftContract,
+  getErc721Contract,
+} from 'utils/contractHelpers'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
  */
 
-
-export const useERC20 = (address: string) => {
-  const erc20Abi = (erc20 as unknown) as AbiItem
-  return useContract(erc20Abi, address)
+export const useIfoV1Contract = (address: string) => {
+  const web3 = useWeb3()
+  return useMemo(() => getIfoV1Contract(address, web3), [address, web3])
 }
 
-export const useOven = () => {
-  return useERC20(getOvenAddress())
+export const useIfoV2Contract = (address: string) => {
+  const web3 = useWeb3()
+  return useMemo(() => getIfoV2Contract(address, web3), [address, web3])
+}
+
+export const useERC20 = (address: string) => {
+  const web3 = useWeb3()
+  return useMemo(() => getBep20Contract(address, web3), [address, web3])
+}
+
+/**
+ * @see https://docs.openzeppelin.com/contracts/3.x/api/token/erc721
+ */
+export const useERC721 = (address: string) => {
+  const web3 = useWeb3()
+  return useMemo(() => getErc721Contract(address, web3), [address, web3])
+}
+
+export const useCake = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getCakeContract(web3), [web3])
+}
+
+export const useBunnyFactory = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getBunnyFactoryContract(web3), [web3])
+}
+
+export const usePancakeRabbits = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getPancakeRabbitContract(web3), [web3])
+}
+
+export const useProfile = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getProfileContract(web3), [web3])
+}
+
+export const useLottery = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getLotteryContract(web3), [web3])
+}
+
+export const useLotteryTicket = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getLotteryTicketContract(web3), [web3])
 }
 
 export const useMasterchef = () => {
-  const abi = (masterChef as unknown) as AbiItem
-  return useContract(abi, getMasterChefAddress())
+  const web3 = useWeb3()
+  return useMemo(() => getMasterchefContract(web3), [web3])
 }
 
 export const useSousChef = (id) => {
-  const config = poolsConfig.find((pool) => pool.sousId === id)
-  const rawAbi = config.poolCategory === PoolCategory.ETH ? sousChefEth : sousChef
-  const abi = (rawAbi as unknown) as AbiItem
-  return useContract(abi, getAddress(config.contractAddress))
+  const web3 = useWeb3()
+  return useMemo(() => getSouschefContract(id, web3), [id, web3])
 }
 
-export default useContract
+export const usePointCenterIfoContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getPointCenterIfoContract(web3), [web3])
+}
+
+export const useBunnySpecialContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getBunnySpecialContract(web3), [web3])
+}
+
+export const useClaimRefundContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getClaimRefundContract(web3), [web3])
+}
+
+export const useTradingCompetitionContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getTradingCompetitionContract(web3), [web3])
+}
+
+export const useEasterNftContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getEasterNftContract(web3), [web3])
+}

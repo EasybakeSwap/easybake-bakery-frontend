@@ -1,10 +1,9 @@
 import poolsConfig from 'config/constants/pools'
 import sousChefABI from 'config/abi/sousChef.json'
-import ovenABI from 'config/abi/oven.json'
-import wethABI from 'config/abi/weth.json'
-import { QuoteToken } from 'config/constants/types'
+import cakeABI from 'config/abi/cake.json'
+import wbnbABI from 'config/abi/weth.json'
 import multicall from 'utils/multicall'
-import { getAddress, getWethAddress } from 'utils/addressHelpers'
+import { getAddress, getWbnbAddress } from 'utils/addressHelpers'
 import BigNumber from 'bignumber.js'
 
 export const fetchPoolsBlockLimits = async () => {
@@ -25,48 +24,48 @@ export const fetchPoolsBlockLimits = async () => {
   const starts = await multicall(sousChefABI, callsStartBlock)
   const ends = await multicall(sousChefABI, callsEndBlock)
 
-  return poolsWithEnd.map((ovenPoolConfig, index) => {
+  return poolsWithEnd.map((cakePoolConfig, index) => {
     const startBlock = starts[index]
     const endBlock = ends[index]
     return {
-      sousId: ovenPoolConfig.sousId,
+      sousId: cakePoolConfig.sousId,
       startBlock: new BigNumber(startBlock).toJSON(),
       endBlock: new BigNumber(endBlock).toJSON(),
     }
   })
 }
 
-export const fetchPoolsTotalStatking = async () => {
-  const nonEthPools = poolsConfig.filter((p) => p.stakingTokenName !== QuoteToken.WETH)
-  const ethPool = poolsConfig.filter((p) => p.stakingTokenName === QuoteToken.WETH)
+export const fetchPoolsTotalStaking = async () => {
+  const nonBnbPools = poolsConfig.filter((p) => p.stakingToken.symbol !== 'BNB')
+  const bnbPool = poolsConfig.filter((p) => p.stakingToken.symbol === 'BNB')
 
-  const callsNonEthPools = nonEthPools.map((poolConfig) => {
+  const callsNonBnbPools = nonBnbPools.map((poolConfig) => {
     return {
-      address: poolConfig.stakingTokenAddress,
+      address: getAddress(poolConfig.stakingToken.address),
       name: 'balanceOf',
       params: [getAddress(poolConfig.contractAddress)],
     }
   })
 
-  const callsEthPools = ethPool.map((poolConfig) => {
+  const callsBnbPools = bnbPool.map((poolConfig) => {
     return {
-      address: getWethAddress(),
+      address: getWbnbAddress(),
       name: 'balanceOf',
       params: [getAddress(poolConfig.contractAddress)],
     }
   })
 
-  const nonEthPoolsTotalStaked = await multicall(ovenABI, callsNonEthPools)
-  const ethPoolsTotalStaked = await multicall(wethABI, callsEthPools)
+  const nonBnbPoolsTotalStaked = await multicall(cakeABI, callsNonBnbPools)
+  const bnbPoolsTotalStaked = await multicall(wbnbABI, callsBnbPools)
 
   return [
-    ...nonEthPools.map((p, index) => ({
+    ...nonBnbPools.map((p, index) => ({
       sousId: p.sousId,
-      totalStaked: new BigNumber(nonEthPoolsTotalStaked[index]).toJSON(),
+      totalStaked: new BigNumber(nonBnbPoolsTotalStaked[index]).toJSON(),
     })),
-    ...ethPool.map((p, index) => ({
+    ...bnbPool.map((p, index) => ({
       sousId: p.sousId,
-      totalStaked: new BigNumber(ethPoolsTotalStaked[index]).toJSON(),
+      totalStaked: new BigNumber(bnbPoolsTotalStaked[index]).toJSON(),
     })),
   ]
 }

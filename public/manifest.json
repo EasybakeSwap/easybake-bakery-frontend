@@ -1,7 +1,7 @@
 {
-  "short_name": "EasyBakeSwap",
-  "name": "EasyBakeSwap",
-  "description": "Bake your DOUGH in our EasyBake OVEN.",
+  "short_name": "PancakeSwap",
+  "name": "PancakeSwap",
+  "description": "Farm CAKE with Pancake LP Tokens",
   "icons": [
     {
       "src": "favicon.ico",
