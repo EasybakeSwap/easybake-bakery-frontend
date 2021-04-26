@@ -7,128 +7,72 @@ const config: MenuEntry[] = [
     href: '/',
   },
   {
-    label: 'Trade',
+    label: 'Bakery',
+    icon: 'TradeIcon', // *Make `BakeryIcon`
+    href: '/bakery',
+  },
+  {
+    label: 'Swap',
     icon: 'TradeIcon',
-    status: {
-      text: 'MIGRATE',
-      color: 'warning',
-    },
-    items: [
-      {
-        label: 'LP Migration',
-        href: 'https://v1exchange.pancakeswap.finance/#/migrate',
-      },
-      {
-        label: 'Exchange',
-        href: 'https://exchange.pancakeswap.finance',
-      },
-      {
-        label: 'Liquidity',
-        href: 'https://exchange.pancakeswap.finance/#/pool',
-      },
-      {
-        label: 'V1 Liquidity (Old)',
-        href: 'https://v1exchange.pancakeswap.finance/#/pool',
-      },
-    ],
+    // should be /swap
+    href: 'https://swap.easybake.finance/#/swap',
+    // items: [
+    //   {
+    //     label: 'Swap Tokens',
+    //     href: 'https://swap.easybake.finance/#/swap',
+    //   },
+    //   {
+    //     label: 'Provide Liquidity',
+    //     href: 'https://swap.easybake.finance/add/#/add/eth',
+    //   },
+    // ],
   },
+  // {
+  //   label: 'Pools',
+  //   icon: 'PoolIcon',
+  //   href: '/pools',
+  // },
   {
-    label: 'Farms',
-    icon: 'FarmIcon',
-    href: '/farms',
-  },
-  {
-    label: 'Pools',
-    icon: 'PoolIcon',
-    href: '/pools',
-  },
-  {
-    label: 'Lottery',
-    icon: 'TicketIcon',
-    href: '/lottery',
-  },
-  {
-    label: 'Collectibles',
-    icon: 'NftIcon',
-    href: '/collectibles',
-  },
-  {
-    label: 'Team Battle',
-    icon: 'TeamBattleIcon',
-    href: '/competition',
-  },
-  {
-    label: 'Teams & Profile',
-    icon: 'GroupsIcon',
-    items: [
-      {
-        label: 'Leaderboard',
-        href: '/teams',
-      },
-      {
-        label: 'Task Center',
-        href: '/profile/tasks',
-      },
-      {
-        label: 'Your Profile',
-        href: '/profile',
-      },
-    ],
-  },
-  {
-    label: 'Info',
+    label: 'Analytics',
     icon: 'InfoIcon',
     items: [
       {
         label: 'Overview',
-        href: 'https://pancakeswap.info',
+        href: 'https://info.EasyBake.finance',
       },
       {
         label: 'Tokens',
-        href: 'https://pancakeswap.info/tokens',
+        href: 'https://info.easybake.finance/tokens',
       },
       {
         label: 'Pairs',
-        href: 'https://pancakeswap.info/pairs',
-      },
-      {
-        label: 'Accounts',
-        href: 'https://pancakeswap.info/accounts',
-      },
+        href: 'https://info.easybake.finance/pairs',
+      }
     ],
-  },
-  {
-    label: 'IFO',
-    icon: 'IfoIcon',
-    href: '/ifo',
   },
   {
     label: 'More',
     icon: 'MoreIcon',
     items: [
       {
-        label: 'Contact',
-        href: 'https://docs.pancakeswap.finance/contact-us',
+        label: 'Forum',
+        href: 'https://forum.easybake.finance',
       },
       {
-        label: 'Voting',
-        href: 'https://voting.pancakeswap.finance',
+        label: 'Vote',
+        href: 'https://snapshot.page/#/easybake.eth',
       },
       {
         label: 'Github',
-        href: 'https://github.com/pancakeswap',
+        href: 'https://github.com/EasyBakeSwap',
       },
-      {
-        label: 'Docs',
-        href: 'https://docs.pancakeswap.finance',
-      },
+      // {
+      //   label: 'Docs',
+      //   href: 'docs.easybake.finance',
+      // },
       {
         label: 'Blog',
-        href: 'https://pancakeswap.medium.com',
-      },
-      {
-        label: 'Merch',
-        href: 'https://pancakeswap.creator-spring.com/',
+        href: 'https://easybake.medium.com',
       },
     ],
   },

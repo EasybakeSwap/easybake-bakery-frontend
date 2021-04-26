@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-router'
 import { customMeta, DEFAULT_META } from 'config/constants/meta'
-import { usePriceCakeBusd } from 'state/hooks'
-import { MigrationV2 } from 'components/Banner'
+import { usePriceOvenUsdc } from 'state/hooks'
 import Container from './Container'
 
 const StyledPage = styled(Container)`
@@ -25,7 +24,7 @@ const StyledPage = styled(Container)`
 
 const PageMeta = () => {
   const { pathname } = useLocation()
-  const cakePriceUsd = usePriceCakeBusd()
+  const cakePriceUsd = usePriceOvenUsdc()
   const cakePriceUsdDisplay = cakePriceUsd.eq(0)
     ? ''
     : `$${cakePriceUsd.toNumber().toLocaleString(undefined, {
@@ -50,7 +49,6 @@ const Page: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, ...pro
   return (
     <>
       <PageMeta />
-      <MigrationV2 />
       <StyledPage {...props}>{children}</StyledPage>
     </>
   )

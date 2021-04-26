@@ -1,9 +1,9 @@
 import poolsConfig from 'config/constants/pools'
 import sousChefABI from 'config/abi/sousChef.json'
-import cakeABI from 'config/abi/cake.json'
+import ovenABI from 'config/abi/oven.json'
 import wbnbABI from 'config/abi/weth.json'
 import multicall from 'utils/multicall'
-import { getAddress, getWbnbAddress } from 'utils/addressHelpers'
+import { getAddress, getWethAddress } from 'utils/addressHelpers'
 import BigNumber from 'bignumber.js'
 
 export const fetchPoolsBlockLimits = async () => {
@@ -36,10 +36,10 @@ export const fetchPoolsBlockLimits = async () => {
 }
 
 export const fetchPoolsTotalStaking = async () => {
-  const nonBnbPools = poolsConfig.filter((p) => p.stakingToken.symbol !== 'BNB')
-  const bnbPool = poolsConfig.filter((p) => p.stakingToken.symbol === 'BNB')
+  const nonEthPools = poolsConfig.filter((p) => p.stakingToken.symbol !== 'BNB')
+  const ethPool = poolsConfig.filter((p) => p.stakingToken.symbol === 'BNB')
 
-  const callsNonBnbPools = nonBnbPools.map((poolConfig) => {
+  const callsNonBnbPools = nonEthPools.map((poolConfig) => {
     return {
       address: getAddress(poolConfig.stakingToken.address),
       name: 'balanceOf',
@@ -47,25 +47,25 @@ export const fetchPoolsTotalStaking = async () => {
     }
   })
 
-  const callsBnbPools = bnbPool.map((poolConfig) => {
+  const callsEthPools = ethPool.map((poolConfig) => {
     return {
-      address: getWbnbAddress(),
+      address: getWethAddress(),
       name: 'balanceOf',
       params: [getAddress(poolConfig.contractAddress)],
     }
   })
 
-  const nonBnbPoolsTotalStaked = await multicall(cakeABI, callsNonBnbPools)
-  const bnbPoolsTotalStaked = await multicall(wbnbABI, callsBnbPools)
+  const nonEthPoolsTotalStaked = await multicall(ovenABI, callsNonBnbPools)
+  const ethPoolsTotalStaked = await multicall(wbnbABI, callsEthPools)
 
   return [
-    ...nonBnbPools.map((p, index) => ({
+    ...nonEthPools.map((p, index) => ({
       sousId: p.sousId,
-      totalStaked: new BigNumber(nonBnbPoolsTotalStaked[index]).toJSON(),
+      totalStaked: new BigNumber(nonEthPoolsTotalStaked[index]).toJSON(),
     })),
-    ...bnbPool.map((p, index) => ({
+    ...ethPool.map((p, index) => ({
       sousId: p.sousId,
-      totalStaked: new BigNumber(bnbPoolsTotalStaked[index]).toJSON(),
+      totalStaked: new BigNumber(ethPoolsTotalStaked[index]).toJSON(),
     })),
   ]
 }

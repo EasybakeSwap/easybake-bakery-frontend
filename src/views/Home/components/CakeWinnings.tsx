@@ -1,6 +1,6 @@
 import React from 'react'
 import { getBalanceNumber } from 'utils/formatBalance'
-import { usePriceCakeBusd } from 'state/hooks'
+import { usePriceOvenUsdc } from 'state/hooks'
 import { Text } from '@pancakeswap-libs/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from 'bignumber.js'
@@ -21,7 +21,7 @@ const CakeWinnings: React.FC<CakeWinningsProps> = ({ claimAmount }) => {
   const TranslateString = useI18n()
   const { account } = useWeb3React()
   const cakeAmount = getBalanceNumber(claimAmount)
-  const cakePriceBusd = usePriceCakeBusd()
+  const cakePriceBusd = usePriceOvenUsdc()
   const claimAmountBusd = new BigNumber(cakeAmount).multipliedBy(cakePriceBusd).toNumber()
 
   if (!account) {

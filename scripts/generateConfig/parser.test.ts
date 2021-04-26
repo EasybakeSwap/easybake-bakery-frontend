@@ -13,7 +13,7 @@ describe('Parser', () => {
       description:
         'BLINk enables BNB holders to enjoy gaming experiences that WINk users on Tron have been enjoying for over two years.',
       project_url: 'https://blink.wink.org',
-      currency: 'CAKE-BNB LP',
+      currency: 'OVEN-BNB LP',
       currency_address: '0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6',
       launch_datetime: '2020-11-20T13:00:00.000Z',
       sale_amount: '100000000',
@@ -34,7 +34,7 @@ describe('Parser', () => {
       description:
         'BLINk enables BNB holders to enjoy gaming experiences that WINk users on Tron have been enjoying for over two years.',
       project_url: 'https://blink.wink.org',
-      currency: 'CAKE-BNB LP',
+      currency: 'OVEN-BNB LP',
       currency_address: '0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6',
       launch_datetime: '2020-11-20T13:00:00.000Z',
       sale_amount: '100000000',
@@ -50,7 +50,7 @@ describe('Parser', () => {
       multiplier: 1,
       is_community: false,
       pid: 0,
-      lp_symbol: 'CAKE',
+      lp_symbol: 'OVEN',
       lp_mainnet_address: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
       token: {
         _id: '5ffd7e79361bff0009cc8189',
@@ -112,7 +112,7 @@ describe('Parser', () => {
         raiseAmount: 1000000,
         cakeToBurn: 500000,
         projectSiteUrl: 'https://blink.wink.org',
-        currency: 'CAKE-BNB LP',
+        currency: 'OVEN-BNB LP',
         currencyAddress: '0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6',
         tokenDecimals: 18,
         releaseBlockNumber: 0,
@@ -125,7 +125,7 @@ describe('Parser', () => {
     const outPut = [
       {
         pid: 0,
-        lpSymbol: 'CAKE',
+        lpSymbol: 'OVEN',
         lpAddresses: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
         tokenSymbol: 'SYRUP',
         tokenAddresses: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',

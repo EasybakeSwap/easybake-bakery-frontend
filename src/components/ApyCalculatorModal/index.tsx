@@ -35,7 +35,7 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
   apr,
   linkLabel,
   linkHref,
-  earningTokenSymbol = 'CAKE',
+  earningTokenSymbol = 'OVEN',
 }) => {
   const TranslateString = useI18n()
   const oneThousandDollarsWorthOfToken = 1000 / tokenPrice

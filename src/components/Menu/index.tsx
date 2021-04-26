@@ -5,7 +5,7 @@ import { allLanguages } from 'config/localisation/languageCodes'
 import { LanguageContext } from 'contexts/Localisation/languageContext'
 import useTheme from 'hooks/useTheme'
 import useAuth from 'hooks/useAuth'
-import { usePriceCakeBusd, useProfile } from 'state/hooks'
+import { usePriceOvenUsdc } from 'state/hooks'
 import config from './config'
 
 const Menu = (props) => {
@@ -13,8 +13,8 @@ const Menu = (props) => {
   const { login, logout } = useAuth()
   const { selectedLanguage, setSelectedLanguage } = useContext(LanguageContext)
   const { isDark, toggleTheme } = useTheme()
-  const cakePriceUsd = usePriceCakeBusd()
-  const { profile } = useProfile()
+  const cakePriceUsd = usePriceOvenUsdc()
+  // const { profile } = useProfile()
 
   return (
     <UikitMenu
@@ -28,13 +28,13 @@ const Menu = (props) => {
       setLang={setSelectedLanguage}
       cakePriceUsd={cakePriceUsd.toNumber()}
       links={config}
-      profile={{
-        username: profile?.username,
-        image: profile?.nft ? `/images/nfts/${profile.nft?.images.sm}` : undefined,
-        profileLink: '/profile',
-        noProfileLink: '/profile',
-        showPip: !profile?.username,
-      }}
+      // profile={{
+      //   username: profile?.username,
+      //   image: profile?.nft ? `/images/nfts/${profile.nft?.images.sm}` : undefined,
+      //   profileLink: '/profile',
+      //   noProfileLink: '/profile',
+      //   showPip: !profile?.username,
+      // }}
       {...props}
     />
   )

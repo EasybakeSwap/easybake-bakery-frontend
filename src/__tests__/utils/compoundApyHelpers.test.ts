@@ -7,7 +7,7 @@ it.each([
   [{ numberOfDays: 330, farmApr: 45.12, tokenPrice: 5 }, 100.67],
   [{ numberOfDays: 365, farmApr: 100, tokenPrice: 0.2 }, 8572.84],
   [{ numberOfDays: 365, farmApr: 20, tokenPrice: 1 }, 221.34],
-])('calculate cake earned with values %o', ({ numberOfDays, farmApr, tokenPrice }, expected) => {
+])('calculate OVEN earned with values %o', ({ numberOfDays, farmApr, tokenPrice }, expected) => {
   expect(tokenEarnedPerThousandDollarsCompounding({ numberOfDays, farmApr, tokenPrice })).toEqual(expected)
 })
 

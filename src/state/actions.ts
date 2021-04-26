@@ -8,6 +8,5 @@ export {
   updateUserPendingReward,
   updateUserStakedBalance,
 } from './pools'
-export { profileFetchStart, profileFetchSucceeded, profileFetchFailed } from './profile'
-export { fetchStart, teamFetchSucceeded, fetchFailed, teamsFetchSucceeded } from './teams'
+// export { profileFetchStart, profileFetchSucceeded, profileFetchFailed } from './profile'
 export { setBlock } from './block'

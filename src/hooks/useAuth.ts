@@ -13,11 +13,11 @@ import { ConnectorNames, connectorLocalStorageKey } from '@pancakeswap-libs/uiki
 import { connectorsByName } from 'utils/web3React'
 import { setupNetwork } from 'utils/wallet'
 import { useToast } from 'state/hooks'
-import { profileClear } from 'state/profile'
-import { useAppDispatch } from 'state'
+// import { profileClear } from 'state/profile'
+// import { useAppDispatch } from 'state'
 
 const useAuth = () => {
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
   const { activate, deactivate } = useWeb3React()
   const { toastError } = useToast()
 
@@ -55,9 +55,9 @@ const useAuth = () => {
   }, [])
 
   const logout = useCallback(() => {
-    dispatch(profileClear())
+    // dispatch(profileClear())
     deactivate()
-  }, [deactivate, dispatch])
+  }, [deactivate]) // add `dispatch`
 
   return { login, logout }
 }

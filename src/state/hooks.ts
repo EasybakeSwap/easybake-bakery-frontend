@@ -1,12 +1,11 @@
 import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { kebabCase } from 'lodash'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
 import { Toast, toastTypes } from '@pancakeswap-libs/uikit'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
-import { Team } from 'config/constants/types'
-import Nfts from 'config/constants/nfts'
+// import Nfts from 'config/constants/nfts'
 import { getWeb3NoAccount } from 'utils/web3'
 import { getAddress } from 'utils/addressHelpers'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -20,12 +19,10 @@ import {
   clear as clearToast,
   setBlock,
 } from './actions'
-import { State, Farm, Pool, ProfileState, TeamsState, AchievementState, PriceState } from './types'
-import { fetchProfile } from './profile'
-import { fetchTeam, fetchTeams } from './teams'
-import { fetchAchievements } from './achievements'
+import { State, Farm, Pool, PriceState } from './types' // disabled `ProfileState`
 import { fetchPrices } from './prices'
-import { fetchWalletNfts } from './collectibles'
+// import { fetchProfile } from './profile'
+// import { fetchWalletNfts } from './collectibles'
 
 export const useFetchPublicData = () => {
   const dispatch = useAppDispatch()
@@ -104,6 +101,7 @@ export const usePoolFromPid = (sousId): Pool => {
 }
 
 // Toasts
+
 export const useToast = () => {
   const dispatch = useAppDispatch()
   const helpers = useMemo(() => {
@@ -131,65 +129,25 @@ export const useToast = () => {
   return helpers
 }
 
-// Profile
+// // Profile
 
-export const useFetchProfile = () => {
-  const { account } = useWeb3React()
-  const dispatch = useAppDispatch()
+// export const useFetchProfile = () => {
+//   const { account } = useWeb3React()
+//   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(fetchProfile(account))
-  }, [account, dispatch])
-}
+//   useEffect(() => {
+//     dispatch(fetchProfile(account))
+//   }, [account, dispatch])
+// }
 
-export const useProfile = () => {
-  const { isInitialized, isLoading, data, hasRegistered }: ProfileState = useSelector((state: State) => state.profile)
-  return { profile: data, hasProfile: isInitialized && hasRegistered, isInitialized, isLoading }
-}
+// export const useProfile = () => {
+//   const { isInitialized, isLoading, data, hasRegistered }: ProfileState = useSelector((state: State) => state.profile)
+//   return { profile: data, hasProfile: isInitialized && hasRegistered, isInitialized, isLoading }
+// }
 
-// Teams
-
-export const useTeam = (id: number) => {
-  const team: Team = useSelector((state: State) => state.teams.data[id])
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(fetchTeam(id))
-  }, [id, dispatch])
-
-  return team
-}
-
-export const useTeams = () => {
-  const { isInitialized, isLoading, data }: TeamsState = useSelector((state: State) => state.teams)
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(fetchTeams())
-  }, [dispatch])
-
-  return { teams: data, isInitialized, isLoading }
-}
-
-// Achievements
-
-export const useFetchAchievements = () => {
-  const { account } = useWeb3React()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (account) {
-      dispatch(fetchAchievements(account))
-    }
-  }, [account, dispatch])
-}
-
-export const useAchievements = () => {
-  const achievements: AchievementState['data'] = useSelector((state: State) => state.achievements.data)
-  return achievements
-}
 
 // Prices
+
 export const useFetchPriceList = () => {
   const { slowRefresh } = useRefresh()
   const dispatch = useAppDispatch()
@@ -214,18 +172,19 @@ export const useGetApiPrice = (address: string) => {
   return prices[address.toLowerCase()]
 }
 
-export const usePriceCakeBusd = (): BigNumber => {
+export const usePriceOvenUsdc = (): BigNumber => {
   const ZERO = new BigNumber(0)
-  const cakeBnbFarm = useFarmFromPid(1)
-  const bnbBusdFarm = useFarmFromPid(2)
+  const ovenEthFarm = useFarmFromPid(1)
+  const usdcEthFarm = useFarmFromPid(2)
 
-  const bnbBusdPrice = bnbBusdFarm.tokenPriceVsQuote ? new BigNumber(1).div(bnbBusdFarm.tokenPriceVsQuote) : ZERO
-  const cakeBusdPrice = cakeBnbFarm.tokenPriceVsQuote ? bnbBusdPrice.times(cakeBnbFarm.tokenPriceVsQuote) : ZERO
+  const usdcEthPrice = usdcEthFarm.tokenPriceVsQuote ? new BigNumber(1).div(usdcEthFarm.tokenPriceVsQuote) : ZERO
+  const ovenUsdcPrice = ovenEthFarm.tokenPriceVsQuote ? usdcEthPrice.times(ovenEthFarm.tokenPriceVsQuote) : ZERO
 
-  return cakeBusdPrice
+  return ovenUsdcPrice
 }
 
 // Block
+
 export const useBlock = () => {
   return useSelector((state: State) => state.block)
 }
@@ -234,24 +193,24 @@ export const useInitialBlock = () => {
   return useSelector((state: State) => state.block.initialBlock)
 }
 
-// Collectibles
-export const useGetCollectibles = () => {
-  const { account } = useWeb3React()
-  const dispatch = useAppDispatch()
-  const { isInitialized, isLoading, data } = useSelector((state: State) => state.collectibles)
-  const identifiers = Object.keys(data)
+// // Collectibles
+// export const useGetCollectibles = () => {
+//   const { account } = useWeb3React()
+//   const dispatch = useAppDispatch()
+//   const { isInitialized, isLoading, data } = useSelector((state: State) => state.collectibles)
+//   const identifiers = Object.keys(data)
 
-  useEffect(() => {
-    // Fetch nfts only if we have not done so already
-    if (!isInitialized) {
-      dispatch(fetchWalletNfts(account))
-    }
-  }, [isInitialized, account, dispatch])
+//   useEffect(() => {
+//     // Fetch nfts only if we have not done so already
+//     if (!isInitialized) {
+//       dispatch(fetchWalletNfts(account))
+//     }
+//   }, [isInitialized, account, dispatch])
 
-  return {
-    isInitialized,
-    isLoading,
-    tokenIds: data,
-    nftsInWallet: Nfts.filter((nft) => identifiers.includes(nft.identifier)),
-  }
-}
+//   return {
+//     isInitialized,
+//     isLoading,
+//     tokenIds: data,
+//     nftsInWallet: Nfts.filter((nft) => identifiers.includes(nft.identifier)),
+//   }
+// }

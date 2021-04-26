@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom'
 import useI18n from 'hooks/useI18n'
 import BigNumber from 'bignumber.js'
 import { getFarmApr } from 'utils/apr'
-import { useFarms, usePriceCakeBusd, useGetApiPrices } from 'state/hooks'
+import { useFarms, usePriceOvenUsdc, useGetApiPrices } from 'state/hooks'
 import { getAddress } from 'utils/addressHelpers'
 
 const StyledFarmStakingCard = styled(Card)`
@@ -26,7 +26,7 @@ const EarnAPRCard = () => {
   const TranslateString = useI18n()
   const farmsLP = useFarms()
   const prices = useGetApiPrices()
-  const cakePrice = usePriceCakeBusd()
+  const ovenPrice = usePriceOvenUsdc()
 
   const highestApr = useMemo(() => {
     const aprs = farmsLP
@@ -36,14 +36,14 @@ const EarnAPRCard = () => {
         if (farm.lpTotalInQuoteToken && prices) {
           const quoteTokenPriceUsd = prices[getAddress(farm.quoteToken.address).toLowerCase()]
           const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
-          return getFarmApr(farm.poolWeight, cakePrice, totalLiquidity)
+          return getFarmApr(farm.poolWeight, ovenPrice, totalLiquidity)
         }
         return null
       })
 
     const maxApr = max(aprs)
     return maxApr?.toLocaleString('en-US', { maximumFractionDigits: 2 })
-  }, [cakePrice, farmsLP, prices])
+  }, [ovenPrice, farmsLP, prices])
 
   return (
     <StyledFarmStakingCard>

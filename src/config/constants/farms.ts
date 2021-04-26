@@ -5,7 +5,7 @@ const farms: FarmConfig[] = [
   //                    Structure Reference
   // {
   //   pid: 0,
-  //   lpSymbol: 'CAKE',
+  //   lpSymbol: 'OVEN',
   //   lpAddresses: {
   //     97: '0x9C21123D94b93361a29B2C2EFB3d5CD8B17e0A9e',
   //     56: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
@@ -15,12 +15,12 @@ const farms: FarmConfig[] = [
   // },
   // {
   //   pid: 139,
-  //   lpSymbol: 'CAKE-BNB LP',
+  //   lpSymbol: 'OVEN-BNB LP',
   //   lpAddresses: {
   //     97: '',
   //     56: '0xFB7E9FE9D13561AdA7131Fa746942a14F7dd4Cf6',
   //   },
-  //   token: tokens.cake,
+  //   token: tokens.OVEN,
   //   quoteToken: tokens.wbnb,
   // },
 

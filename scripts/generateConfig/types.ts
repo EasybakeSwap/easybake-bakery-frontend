@@ -1,5 +1,4 @@
 export enum SettingsType {
-  'IFO' = 'IFO',
   'POOL' = 'POOL',
   'FARM' = 'FARM',
 }

@@ -41,7 +41,7 @@ const CompoundModal: React.FC<DepositModalProps> = ({
           {TranslateString(462, 'Cancel')}
         </Button>
         <Button
-          id="compound-cake"
+          id="compound-OVEN"
           width="100%"
           disabled={pendingTx}
           onClick={async () => {

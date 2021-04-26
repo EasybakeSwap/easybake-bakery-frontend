@@ -1,31 +1,5 @@
-import { parseISO, format } from 'date-fns'
-import { Ifo, PoolConfig, FarmConfig } from 'config/constants/types'
+import { PoolConfig, FarmConfig } from 'config/constants/types'
 import { SettingsType } from './types'
-
-export const getIfos = (data) => {
-  const ifos: Ifo = data.map((ifo) => {
-    const lunchTime2 = parseISO(ifo.launch_datetime)
-    return {
-      id: ifo._id,
-      address: ifo.address,
-      isActive: ifo.is_active,
-      name: ifo.name,
-      subTitle: ifo?.sub_title,
-      description: ifo?.description,
-      launchDate: format(lunchTime2, 'yyyy-MM-dd'),
-      launchTime: format(lunchTime2, 'HH:mm:ss'),
-      saleAmount: ifo.sale_amount,
-      raiseAmount: ifo.raise_amount,
-      cakeToBurn: ifo.burn_amount,
-      projectSiteUrl: ifo.project_url,
-      currency: ifo.currency,
-      currencyAddress: ifo.currency_address,
-      tokenDecimals: ifo.decimals,
-      releaseBlockNumber: ifo.release_block,
-    }
-  })
-  return ifos
-}
 
 export const getPools = (data) => {
   const pools: PoolConfig = data.map((pool) => {
@@ -75,7 +49,6 @@ export const getFarms = (data) => {
 
 export const getFormattedData = (type: SettingsType, data) => {
   const handler = {
-    IFO: () => getIfos(data),
     POOL: () => getPools(data),
     FARM: () => getFarms(data),
   }

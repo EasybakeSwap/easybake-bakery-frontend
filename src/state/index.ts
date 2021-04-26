@@ -4,11 +4,9 @@ import farmsReducer from './farms'
 import toastsReducer from './toasts'
 import poolsReducer from './pools'
 import pricesReducer from './prices'
-import profileReducer from './profile'
-import teamsReducer from './teams'
-import achievementsReducer from './achievements'
+// import profileReducer from './profile'
 import blockReducer from './block'
-import collectiblesReducer from './collectibles'
+// import collectiblesReducer from './collectibles'
 
 const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
@@ -17,11 +15,9 @@ const store = configureStore({
     toasts: toastsReducer,
     pools: poolsReducer,
     prices: pricesReducer,
-    profile: profileReducer,
-    teams: teamsReducer,
-    achievements: achievementsReducer,
+    // profile: profileReducer,
     block: blockReducer,
-    collectibles: collectiblesReducer,
+    // collectibles: collectiblesReducer,
   },
 })
 
