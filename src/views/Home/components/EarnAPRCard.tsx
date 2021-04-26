@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Heading, Card, CardBody, Flex, ArrowForwardIcon, Skeleton } from '@pancakeswap-libs/uikit'
 import max from 'lodash/max'
 import { NavLink } from 'react-router-dom'
-import useI18n from 'hooks/useI18n'
 import BigNumber from 'bignumber.js'
 import { getFarmApr } from 'utils/apr'
 import { useFarms, usePriceOvenUsdc, useGetApiPrices } from 'state/hooks'
@@ -23,7 +22,6 @@ const CardMidContent = styled(Heading).attrs({ size: 'xl' })`
   line-height: 44px;
 `
 const EarnAPRCard = () => {
-  const TranslateString = useI18n()
   const farmsLP = useFarms()
   const prices = useGetApiPrices()
   const ovenPrice = usePriceOvenUsdc()
@@ -52,11 +50,7 @@ const EarnAPRCard = () => {
           Earn up to
         </Heading>
         <CardMidContent color="#7645d9">
-          {highestApr ? (
-            `${highestApr}% ${TranslateString(736, 'APR')}`
-          ) : (
-            <Skeleton animation="pulse" variant="rect" height="44px" />
-          )}
+          {highestApr ? `${highestApr}% ${'APR'}` : <Skeleton animation="pulse" variant="rect" height="44px" />}
         </CardMidContent>
         <Flex justifyContent="space-between">
           <Heading color="contrast" size="lg">

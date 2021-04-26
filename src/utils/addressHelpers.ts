@@ -1,6 +1,6 @@
 import addresses from 'config/constants/contracts'
-import tokens from 'config/constants/tokens'
 import { Address } from 'config/constants/types'
+// import tokens from 'config/constants/tokens'
 
 export const getAddress = (address: Address): string => {
   const mainNetChainId = 1
@@ -9,19 +9,19 @@ export const getAddress = (address: Address): string => {
 }
 
 export const getOvenAddress = () => {
-  return getAddress(tokens.oven.address)
+  return getAddress(addresses.oven)
 }
 export const getSugarAddress = () => {
-  return getAddress(tokens.sugar.address)
+  return getAddress(addresses.sugar)
+}
+export const getWethAddress = () => {
+  return getAddress(addresses.weth)
 }
 export const getMasterChefAddress = () => {
   return getAddress(addresses.masterChef)
 }
 export const getMulticallAddress = () => {
   return getAddress(addresses.multiCall)
-}
-export const getWethAddress = () => {
-  return getAddress(tokens.weth)
 }
 
 // export const getLotteryTicketAddress = () => {

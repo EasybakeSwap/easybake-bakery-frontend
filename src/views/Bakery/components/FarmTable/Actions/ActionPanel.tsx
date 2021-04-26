@@ -6,14 +6,14 @@ import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 
 import HarvestAction from './HarvestAction'
 import StakedAction from './StakedAction'
-import Apr, { AprProps } from '../Apr'
-import Multiplier, { MultiplierProps } from '../Multiplier'
-import Liquidity, { LiquidityProps } from '../Liquidity'
+// import Apr, { AprProps } from '../Apr'
+// import Multiplier, { MultiplierProps } from '../Multiplier'
+// import Liquidity, { LiquidityProps } from '../Liquidity'
 
 export interface ActionPanelProps {
-  apr: AprProps
-  multiplier: MultiplierProps
-  liquidity: LiquidityProps
+  // apr: AprProps
+  // multiplier: MultiplierProps
+  // liquidity: LiquidityProps
   details: FarmWithStakedValue
 }
 
@@ -61,22 +61,23 @@ const InfoContainer = styled.div`
   min-width: 200px;
 `
 
-const ValueContainer = styled.div`
-  display: block;
+// const ValueContainer = styled.div`
+//   display: block;
 
-  ${({ theme }) => theme.mediaQueries.lg} {
-    display: none;
-  }
-`
+//   ${({ theme }) => theme.mediaQueries.lg} {
+//     display: none;
+//   }
+// `
 
-const ValueWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 4px 0px;
-`
+// const ValueWrapper = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   margin: 4px 0px;
+// `
 
-const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details, apr, multiplier, liquidity }) => {
+// disabled: apr, multiplier, liquidity
+const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details }) => {
   const farm = details
 
   const isActive = farm.multiplier !== '0X'

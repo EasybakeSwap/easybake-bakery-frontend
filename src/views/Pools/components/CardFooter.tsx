@@ -6,7 +6,7 @@ import { ChevronDown, ChevronUp } from 'react-feather'
 import { Flex, MetamaskIcon } from '@pancakeswap-libs/uikit'
 import Balance from 'components/Balance'
 import { useBlock } from 'state/hooks'
-import { PoolCategory } from 'config/constants/types'
+// import { PoolCategory } from 'config/constants/types'
 import { registerToken } from 'utils/wallet'
 import { BASE_URL } from 'config'
 
@@ -20,7 +20,7 @@ interface Props {
   startBlock: number
   endBlock: number
   isFinished: boolean
-  poolCategory: PoolCategory
+  // poolCategory: PoolCategory
 }
 
 const StyledFooter = styled.div<{ isFinished: boolean }>`
@@ -82,7 +82,7 @@ const CardFooter: React.FC<Props> = ({
   isFinished,
   startBlock,
   endBlock,
-  poolCategory,
+  // poolCategory,
 }) => {
   const { currentBlock } = useBlock()
   const [isOpen, setIsOpen] = useState(false)

@@ -4,8 +4,8 @@ import { Flex, Heading, Image } from '@pancakeswap-libs/uikit' // disabled `Tag`
 
 export interface ExpandableSectionProps {
   lpLabel?: string
-  multiplier?: string
-  isCommunityFarm?: boolean
+  // multiplier?: string
+  // isCommunityFarm?: boolean
   farmImage?: string
   tokenSymbol?: string
 }
@@ -20,13 +20,8 @@ const Wrapper = styled(Flex)`
 //   margin-left: 4px;
 // `
 
-const CardHeading: React.FC<ExpandableSectionProps> = ({
-  lpLabel,
-  multiplier,
-  isCommunityFarm,
-  farmImage,
-  tokenSymbol,
-}) => {
+// disabled: multiplier, isCommunityFarm,
+const CardHeading: React.FC<ExpandableSectionProps> = ({ lpLabel, farmImage, tokenSymbol }) => {
   return (
     <Wrapper justifyContent="space-between" alignItems="center" mb="12px">
       <Image src={`/images/farms/${farmImage}.svg`} alt={tokenSymbol} width={64} height={64} />

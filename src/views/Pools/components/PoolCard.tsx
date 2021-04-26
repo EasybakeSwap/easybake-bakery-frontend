@@ -197,7 +197,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
         startBlock={startBlock}
         endBlock={endBlock}
         isFinished={isFinished}
-        poolCategory={poolCategory}
+        // poolCategory={poolCategory}
         tokenName={earningToken.symbol}
         tokenAddress={earningToken.address ? getAddress(earningToken.address) : ''}
         tokenDecimals={earningToken.decimals}

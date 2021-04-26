@@ -32,9 +32,9 @@ export const useTotalSupply = () => {
   const [totalSupply, setTotalSupply] = useState<BigNumber>()
 
   useEffect(() => {
-    async function fetchTotalSupply() {
-      const cakeContract = getOvenContract()
-      const supply = await cakeContract.methods.totalSupply().call()
+    const fetchTotalSupply = async () => {
+      const ovenContract = await getOvenContract()
+      const supply = await ovenContract.methods.totalSupply().call()
       setTotalSupply(new BigNumber(supply))
     }
 
@@ -51,7 +51,7 @@ export const useBurnedBalance = (tokenAddress: string) => {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      const contract = getErc20Contract(tokenAddress, web3)
+      const contract = await getErc20Contract(tokenAddress, web3)
       const res = await contract.methods.balanceOf('0x000000000000000000000000000000000000dEaD').call()
       setBalance(new BigNumber(res))
     }

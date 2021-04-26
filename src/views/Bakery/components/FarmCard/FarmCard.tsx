@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled, { keyframes } from 'styled-components'
-import { Flex, Text, Skeleton } from '@pancakeswap-libs/uikit'
+import { Flex, Text } from '@pancakeswap-libs/uikit' // disabled: Skeleton
 import { Farm } from 'state/types'
 import { provider as ProviderType } from 'web3-core'
-import useI18n from 'hooks/useI18n'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
@@ -90,9 +89,8 @@ interface FarmCardProps {
   account?: string
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, account }) => {
-  const TranslateString = useI18n()
-
+// disabled: ovenPrice
+const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, account }) => {
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
   // We assume the token name is coin pair + lp e.g. OVEN-BNB LP, LINK-BNB LP,
@@ -106,7 +104,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, account }
   const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('PANCAKE', '')
   const earnLabel = farm.dual ? farm.dual.earnLabel : 'OVEN'
 
-  const farmAPR = farm.apr && farm.apr.toLocaleString('en-US', { maximumFractionDigits: 2 })
+  // const farmAPR = farm.apr && farm.apr.toLocaleString('en-US', { maximumFractionDigits: 2 })
 
   const liquidityUrlPathParts = getLiquidityUrlPathParts({
     quoteTokenAddress: farm.quoteToken.address,
@@ -120,8 +118,8 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, account }
       {farm.token.symbol === 'OVEN' && <StyledCardAccent />}
       <CardHeading
         lpLabel={lpLabel}
-        multiplier={farm.multiplier}
-        isCommunityFarm={farm.isCommunity}
+        // multiplier={farm.multiplier}
+        // isCommunityFarm={farm.isCommunity}
         farmImage={farmImage}
         tokenSymbol={farm.token.symbol}
       />

@@ -45,12 +45,12 @@ export const getSousChefEthContract = (id: number, web3?: Web3) => {
   const abi = sousChefEth
   return getContract(abi, getAddress(config.contractAddress), web3)
 }
+export const getMasterchefContract = (web3?: Web3) => {
+  return getContract(masterChef, getMasterChefAddress(), web3)
+}
 export const getOvenContract = (web3?: Web3) => {
   return getContract(ovenAbi, getOvenAddress(), web3)
 }
 export const getSugarContract = (web3?: Web3) => {
   return getContract(sugarAbi, getSugarAddress(), web3)
-}
-export const getMasterchefContract = (web3?: Web3) => {
-  return getContract(masterChef, getMasterChefAddress(), web3)
 }
