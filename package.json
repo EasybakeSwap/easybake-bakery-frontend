@@ -13,12 +13,6 @@
     "format:write": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
     "generate:config": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/generateConfig"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn format:check",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -74,7 +68,6 @@
     "@types/jest": "^26.0.19",
     "@types/react-redux": "^7.1.16",
     "eslint": "^7.20.0",
-    "husky": "4.3.5",
     "prettier": "^2.1.2",
     "source-map-explorer": "^2.5.2",
     "ts-node": "^9.1.1"
