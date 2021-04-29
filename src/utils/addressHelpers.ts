@@ -1,6 +1,6 @@
 import addresses from 'config/constants/contracts'
 import { Address } from 'config/constants/types'
-// import tokens from 'config/constants/tokens'
+import tokens from 'config/constants/tokens'
 
 export const getAddress = (address: Address): string => {
   const mainNetChainId = 1
@@ -9,13 +9,13 @@ export const getAddress = (address: Address): string => {
 }
 
 export const getOvenAddress = () => {
-  return getAddress(addresses.oven)
+  return getAddress(tokens.oven.address)
 }
 export const getSugarAddress = () => {
-  return getAddress(addresses.sugar)
+  return getAddress(tokens.sugar.address)
 }
 export const getWethAddress = () => {
-  return getAddress(addresses.weth)
+  return getAddress(tokens.weth.address)
 }
 export const getMasterChefAddress = () => {
   return getAddress(addresses.masterChef)

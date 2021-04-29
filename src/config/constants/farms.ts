@@ -7,8 +7,8 @@ const farms: FarmConfig[] = [
   //   pid: 0,
   //   lpSymbol: 'OVEN',
   //   lpAddresses: {
-  //     97: '0x9C21123D94b93361a29B2C2EFB3d5CD8B17e0A9e',
-  //     56: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
+  //     4: '0x9C21123D94b93361a29B2C2EFB3d5CD8B17e0A9e',
+  //     1: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
   //   },
   //   token: tokens.syrup,
   //   quoteToken: tokens.wbnb,
@@ -43,6 +43,16 @@ const farms: FarmConfig[] = [
       1: '',
     },
     token: tokens.oven,
+    quoteToken: tokens.weth,
+  },
+  {
+    pid: 6,
+    lpSymbol: 'LAYER-ETH LP',
+    lpAddresses: {
+      4: '0xD4385654EF660BE49ac063F55cc045A4a8b7efFF',
+      1: '',
+    },
+    token: tokens.layer,
     quoteToken: tokens.weth,
   },
   {
@@ -83,16 +93,6 @@ const farms: FarmConfig[] = [
       1: '',
     },
     token: tokens.uni,
-    quoteToken: tokens.weth,
-  },
-  {
-    pid: 6,
-    lpSymbol: 'LAYER-ETH LP',
-    lpAddresses: {
-      4: '0xD4385654EF660BE49ac063F55cc045A4a8b7efFF',
-      1: '',
-    },
-    token: tokens.layer,
     quoteToken: tokens.weth,
   },
 ]

@@ -24,16 +24,16 @@ const StyledPage = styled(Container)`
 
 const PageMeta = () => {
   const { pathname } = useLocation()
-  const cakePriceUsd = usePriceOvenUsdc()
-  const cakePriceUsdDisplay = cakePriceUsd.eq(0)
+  const ovenPriceUsd = usePriceOvenUsdc()
+  const ovenPriceUsdDisplay = ovenPriceUsd.eq(0)
     ? ''
-    : `$${cakePriceUsd.toNumber().toLocaleString(undefined, {
+    : `$${ovenPriceUsd.toNumber().toLocaleString(undefined, {
         minimumFractionDigits: 3,
         maximumFractionDigits: 3,
       })}`
   const pageMeta = customMeta[pathname] || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
-  const pageTitle = cakePriceUsdDisplay ? [title, cakePriceUsdDisplay].join(' - ') : title
+  const pageTitle = ovenPriceUsdDisplay ? [title, ovenPriceUsdDisplay].join(' - ') : title
 
   return (
     <Helmet>

@@ -94,20 +94,14 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details }) => 
   return (
     <Container>
       <InfoContainer>
-        {isActive && (
-          <StakeContainer>
-            <StyledLinkExternal href={`https://swap.easybake.finance/#/add/${liquidityUrlPathParts}`}>
-              `Get ${lpLabel}`, {lpLabel}
-            </StyledLinkExternal>
-          </StakeContainer>
-        )}
         <Flex justifyContent="center">
-          <Text>Get LP Tokens:&nbsp;</Text>
+          <Text>Get LP Tokens for:&nbsp;</Text>
           <StyledLinkExternal href={lpAddress}>{lpLabel}</StyledLinkExternal>
         </Flex>
         <Flex justifyContent="center">
+        <Text>View {lpLabel} on&nbsp;</Text>
           <StyledLinkExternal href={etherscan} bold={false}>
-            View {lpLabel} on Etherscan
+            Etherscan
           </StyledLinkExternal>
         </Flex>
         <Flex justifyContent="center">

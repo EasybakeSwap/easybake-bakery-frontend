@@ -28,21 +28,26 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
   lpLabel,
   addLiquidityUrl,
 }) => {
-  const TranslateString = useI18n()
-
+  
   return (
     <Wrapper>
-      <Flex justifyContent="space-between">
-        <Text>{TranslateString(354, 'Total Liquidity')}:</Text>
+        {!removed && (
+          <Flex justifyContent="center">
+          <StyledLinkExternal href={addLiquidityUrl}>Get {lpLabel} Tokens</StyledLinkExternal>
+        </Flex>
+        )}
+        <Flex justifyContent="center">
+          <StyledLinkExternal href={etherscanAddress} bold={false}>
+          View Etherscan Contract
+          </StyledLinkExternal>
+        </Flex>
+        <Flex justifyContent="center">
+          <StyledLinkExternal href={infoAddress}>See Pair Info</StyledLinkExternal>
+        </Flex>
+      {/* <Flex justifyContent="space-between">
+        <Text>Total Liquidity:</Text>
         <Text>{totalValueFormatted}</Text>
-      </Flex>
-      {!removed && (
-        <StyledLinkExternal href={addLiquidityUrl}>
-          {TranslateString(999, `Get ${lpLabel}`, { name: lpLabel })}
-        </StyledLinkExternal>
-      )}
-      <StyledLinkExternal href={etherscanAddress}>{TranslateString(999, 'View Contract')}</StyledLinkExternal>
-      <StyledLinkExternal href={infoAddress}>{TranslateString(999, 'See Pair Info')}</StyledLinkExternal>
+      </Flex> */}
     </Wrapper>
   )
 }

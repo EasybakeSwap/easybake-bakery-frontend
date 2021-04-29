@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Heading, Text, BaseLayout } from '@pancakeswap-libs/uikit'
+import { BaseLayout } from '@pancakeswap-libs/uikit'
 import Page from 'components/layout/Page'
 import FarmStakingCard from 'views/Home/components/FarmStakingCard'
 // import OvenStats from 'views/Home/components/OvenStats'
@@ -9,26 +9,26 @@ import MediumCard from 'views/Home/components/MediumCard'
 import TelegramCard from 'views/Home/components/TelegramCard'
 import ForumCard from './components/ForumCard'
 
-const Hero = styled.div`
-  align-items: center;
-  background-image: url('/images/choco-cakes.png');
-  background-repeat: repeat;
-  background-position: top;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin: auto;
-  margin-bottom: 32px;
-  padding-top: 96px;
-  text-align: center;
+// const Hero = styled.div`
+//   align-items: center;
+//   background-image: url('/images/choco-cakes.png');
+//   background-repeat: repeat;
+//   background-position: top;
+//   display: flex;
+//   justify-content: center;
+//   flex-direction: column;
+//   margin: auto;
+//   margin-bottom: 32px;
+//   padding-top: 96px;
+//   text-align: center;
 
-  ${({ theme }) => theme.mediaQueries.lg} {
-    // background-image: url('/images/lilac.png');
-    background-position: center;
-    height: 165px;
-    padding-top: 0;
-  }
-`
+//   ${({ theme }) => theme.mediaQueries.lg} {
+//     // background-image: url('/images/lilac.png');
+//     background-position: center;
+//     height: 165px;
+//     padding-top: 0;
+//   }
+// `
 
 const Cards = styled(BaseLayout)`
   align-items: stretch;

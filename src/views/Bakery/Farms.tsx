@@ -235,7 +235,7 @@ const Farms: React.FC = () => {
     const { token, quoteToken } = farm
     const tokenAddress = token.address
     const quoteTokenAddress = quoteToken.address
-    const lpLabel = farm.lpSymbol && farm.lpSymbol.split(' ')[0].toUpperCase().replace('PANCAKE', '')
+    const lpLabel = farm.lpSymbol && farm.lpSymbol.split(' ')[0].toUpperCase().replace('EASYBAKE', '')
 
     const row: RowProps = {
       apr: {
@@ -323,11 +323,11 @@ const Farms: React.FC = () => {
   return (
     <>
       <PageHeader>
-        <Heading as="h1" size="xxl" color="secondary" mb="24px">
-          {TranslateString(674, 'Farms')}
+        <Heading as="h1" size="xxl" color="violet" mb="24px">
+          BAKERY
         </Heading>
         <Heading size="lg" color="text">
-          {TranslateString(999, 'Stake Liquidity Pool (LP) tokens to earn.')}
+          Bake your LP tokens to earn.
         </Heading>
       </PageHeader>
       <Page>
@@ -336,12 +336,12 @@ const Farms: React.FC = () => {
             <ToggleView viewMode={viewMode} onToggle={(mode: ViewMode) => setViewMode(mode)} />
             <ToggleWrapper>
               <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
-              <Text> {TranslateString(1116, 'Staked only')}</Text>
+              <Text>Staked only</Text>
             </ToggleWrapper>
             <FarmTabButtons hasStakeInFinishedFarms={stakedInactiveFarms.length > 0} />
           </ViewControls>
           <FilterContainer>
-            <LabelWrapper>
+            {/* <LabelWrapper>
               <Text>SORT BY</Text>
               <Select
                 options={[
@@ -368,16 +368,15 @@ const Farms: React.FC = () => {
                 ]}
                 onChange={handleSortOptionChange}
               />
-            </LabelWrapper>
+            </LabelWrapper> */}
             <LabelWrapper style={{ marginLeft: 16 }}>
-              <Text>SEARCH</Text>
               <SearchInput onChange={handleChangeQuery} />
             </LabelWrapper>
           </FilterContainer>
         </ControlContainer>
         {renderContent()}
         <div ref={loadMoreRef} />
-        <StyledImage src="/images/3dpan.png" alt="Pancake illustration" width={120} height={103} />
+        <StyledImage src="/images/OVEN.svg" alt="EasyBake illustration" width={120} height={103} />
       </Page>
     </>
   )

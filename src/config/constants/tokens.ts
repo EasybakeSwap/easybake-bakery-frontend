@@ -1,8 +1,10 @@
 const tokens = {
   weth: {
     symbol: 'WETH',
-    4: '0xc778417E063141139Fce010982780140Aa0cD5Ab',
-    1: '',
+    address: {
+      4: '0xc778417E063141139Fce010982780140Aa0cD5Ab',
+      1: '',
+    }
   },
   oven: {
     symbol: 'OVEN',
