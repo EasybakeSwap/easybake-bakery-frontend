@@ -2,41 +2,46 @@ import React from 'react'
 import { Text } from '@pancakeswap-libs/uikit'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
-import useI18n from 'hooks/useI18n'
 import useAllEarnings from 'hooks/useAllEarnings'
-import { usePriceOvenUsdc } from 'state/hooks'
+// import { usePriceOvenUsdc } from 'state/hooks'
 import styled from 'styled-components'
 import CardValue from './CardValue'
-import CardBusdValue from './CardBusdValue'
+// import CardBusdValue from './CardBusdValue'
 
 const Block = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: -8px;
 `
 
-const CakeHarvestBalance = () => {
-  const TranslateString = useI18n()
+const TextPosition = styled.div`
+  position: relative;
+  top: 5px;
+`
+
+const OvenHarvestBalance = () => {
   const { account } = useWeb3React()
   const allEarnings = useAllEarnings()
   const earningsSum = allEarnings.reduce((accum, earning) => {
     return accum + new BigNumber(earning).div(new BigNumber(10).pow(18)).toNumber()
   }, 0)
-  const cakePriceBusd = usePriceOvenUsdc()
-  const earningsBusd = new BigNumber(earningsSum).multipliedBy(cakePriceBusd).toNumber()
+  // const ovenPriceUsdc = usePriceOvenUsdc()
+  // const earningsUsdc = new BigNumber(earningsSum).multipliedBy(ovenPriceUsdc).toNumber()
 
   if (!account) {
     return (
-      <Text color="textDisabled" style={{ lineHeight: '76px' }}>
-        {TranslateString(298, 'Locked')}
-      </Text>
+      <TextPosition>
+        <Text color="textDisabled" style={{ lineHeight: '60px' }}>
+          Locked
+        </Text>
+      </TextPosition>
     )
   }
 
   return (
     <Block>
       <CardValue value={earningsSum} lineHeight="1.5" />
-      {!cakePriceBusd.eq(0) && <CardBusdValue value={earningsBusd} />}
+      {/* {!ovenPriceUsdc.eq(0) && <CardBusdValue value={earningsUsdc} />} */}
     </Block>
   )
 }
 
-export default CakeHarvestBalance
+export default OvenHarvestBalance

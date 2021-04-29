@@ -1,19 +1,18 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { Heading, Card, CardBody, Button } from '@pancakeswap-libs/uikit'
+import { Heading, Card, CardBody, Button, Flex } from '@pancakeswap-libs/uikit'
 import { useWeb3React } from '@web3-react/core'
-import useI18n from 'hooks/useI18n'
 import { useAllHarvest } from 'hooks/useHarvest'
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'
 import UnlockButton from 'components/UnlockButton'
-import CakeHarvestBalance from './CakeHarvestBalance'
-import CakeWalletBalance from './CakeWalletBalance'
+import OvenHarvestBalance from './OvenHarvestBalance'
+import CakeWalletBalance from './OvenWalletBalance'
 
 const StyledFarmStakingCard = styled(Card)`
-  background-image: url('/images/OVEN-bg.svg');
+  background-image: url('/images/lilac.png');
   background-repeat: no-repeat;
-  background-position: top right;
-  min-height: 376px;
+  background-position: center;
+  min-height: 180px;
 `
 
 const Block = styled.div`
@@ -36,7 +35,6 @@ const Actions = styled.div`
 const FarmedStakingCard = () => {
   const [pendingTx, setPendingTx] = useState(false)
   const { account } = useWeb3React()
-  const TranslateString = useI18n()
   const farmsWithBalance = useFarmsWithBalance()
   const balancesWithValue = farmsWithBalance.filter((balanceType) => balanceType.balance.toNumber() > 0)
 
@@ -53,21 +51,65 @@ const FarmedStakingCard = () => {
     }
   }, [onReward])
 
+  const addWatchOvenToken = useCallback(async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const provider = window.ethereum
+    if (provider) {
+      try {
+        // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+        const wasAdded = await provider.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              // Rinkeby address
+              address: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
+              symbol: 'OVEN',
+              decimals: '18',
+              // Need to fix Icon - might be due to testnet*
+              image: 'https://raw.githubusercontent.com/EasybakeSwap/easybake-bakery-frontend/prod/public/logo.png',
+            },
+          },
+        })
+
+        if (wasAdded) {
+          console.log('Token was added')
+        }
+      } catch (error) {
+        // TODO: find a way to handle when the user rejects transaction or it fails
+      }
+    }
+  }, [])
+
   return (
     <StyledFarmStakingCard>
       <CardBody>
-        <Heading size="xl" mb="24px">
-          {TranslateString(542, 'Farms & Staking')}
+      <Heading size="xl" mb="24px" style={{ textAlign: 'center' }}>
+          EasyBake $OVEN
         </Heading>
-        <CardImage src="/images/OVEN.svg" alt="OVEN logo" width={64} height={64} />
-        <Block>
-          <Label>{TranslateString(544, 'OVEN to Harvest')}:</Label>
-          <CakeHarvestBalance />
+        {/* <CardImage src="/images/OVEN.svg" alt="OVEN logo" width={64} height={64} /> */}
+        <Block style={{ textAlign: 'center' }}>
+          <OvenHarvestBalance />
+          <Label style={{ textAlign: 'center' }}>OVEN to Claim</Label>
         </Block>
-        <Block>
-          <Label>{TranslateString(546, 'OVEN in Wallet')}:</Label>
+        <Block style={{ textAlign: 'center' }}>
           <CakeWalletBalance />
+          <Label style={{ textAlign: 'center' }}>OVEN in Wallet</Label>
         </Block>
+        <br/>
+        <Flex justifyContent="center">
+          <Button scale="sm" onClick={addWatchOvenToken}>
+            Add Oven Token
+            <img
+              style={{ marginLeft: 8}}
+              width={20}
+              height={20}
+              src="/images/wallet/metamask.png"
+              alt=""
+            />
+          </Button>
+          </Flex>
         <Actions>
           {account ? (
             <Button
@@ -76,11 +118,7 @@ const FarmedStakingCard = () => {
               onClick={harvestAllFarms}
               width="100%"
             >
-              {pendingTx
-                ? TranslateString(548, 'Collecting OVEN')
-                : TranslateString(532, `Harvest all (${balancesWithValue.length})`, {
-                    count: balancesWithValue.length,
-                  })}
+              {pendingTx ? 'Collecting OVEN' : `CLAIM (${balancesWithValue.length})`}
             </Button>
           ) : (
             <UnlockButton width="100%" />

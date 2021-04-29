@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import orderBy from 'lodash/orderBy'
 import { Heading, Card, CardBody, Flex, ArrowForwardIcon } from '@pancakeswap-libs/uikit'
-import { NavLink } from 'react-router-dom'
 import pools from 'config/constants/pools'
 import { Pool } from 'state/types'
 
@@ -19,30 +18,25 @@ const StyledFarmStakingCard = styled(Card)`
 const CardMidContent = styled(Heading).attrs({ size: 'xl' })`
   line-height: 44px;
 `
-const EarnAssetCard = () => {
-  const activeNonCakePools = pools.filter((pool) => !pool.isFinished && !pool.earningToken.symbol.includes('OVEN'))
-  const latestPools: Pool[] = orderBy(activeNonCakePools, ['sortOrder', 'pid'], ['desc', 'desc']).slice(0, 3)
-  // Always include OVEN
-  const assets = ['OVEN', ...latestPools.map((pool) => pool.earningToken.symbol)].join(', ')
-
+const TelegramCard = () => {
   return (
     <StyledFarmStakingCard>
       <CardBody>
         <Heading color="contrast" size="lg">
-          Earn
+          Stay informed
         </Heading>
-        <CardMidContent color="invertedContrast">{assets}</CardMidContent>
+        <CardMidContent color="invertedContrast">DAILY</CardMidContent>
         <Flex justifyContent="space-between">
           <Heading color="contrast" size="lg">
-            in Pools
+            in our Telegram.
           </Heading>
-          <NavLink exact activeClassName="active" to="/syrup" id="pool-cta">
+          <a href = 'https://t.me/EasyBakeSwap' >
             <ArrowForwardIcon mt={30} color="primary" />
-          </NavLink>
+          </a>
         </Flex>
       </CardBody>
     </StyledFarmStakingCard>
   )
 }
 
-export default EarnAssetCard
+export default TelegramCard
