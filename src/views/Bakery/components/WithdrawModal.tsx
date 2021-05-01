@@ -43,7 +43,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
         value={val}
         max={fullBalance}
         symbol={tokenName}
-        inputTitle='Unstake'
+        inputTitle='Stop Baking'
       />
       <ModalActions>
         <Button variant="secondary" onClick={onDismiss} width="100%">

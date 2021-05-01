@@ -84,7 +84,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
       return (
         <ActionContainer>
           <ActionTitles>
-            <Title>BAKING </Title>
+            <Title>BAKED </Title>
             <Subtle>{lpSymbol} </Subtle>
           </ActionTitles>
           <ActionContent>
