@@ -21,7 +21,14 @@ const OvenHarvestBalance = () => {
   const { account } = useWeb3React()
   const allEarnings = useAllEarnings()
   const earningsSum = allEarnings.reduce((accum, earning) => {
-    return accum + new BigNumber(earning).div(new BigNumber(10).pow(18)).toNumber()
+    const amount = accum + new BigNumber(earning).div(new BigNumber(10).pow(18)).toNumber()
+    let displayedAmount = amount;
+
+    if(amount > 0 && amount < 0.001) {
+      displayedAmount = '<0.001'
+    }  
+    
+    return displayedAmount
   }, 0)
   // const ovenPriceUsdc = usePriceOvenUsdc()
   // const earningsUsdc = new BigNumber(earningsSum).multipliedBy(ovenPriceUsdc).toNumber()
@@ -38,7 +45,7 @@ const OvenHarvestBalance = () => {
 
   return (
     <Block>
-      <CardValue value={earningsSum} lineHeight="1.5" />
+      <CardValue value={earningsSum.toLocaleString() } lineHeight="1.5"/>
       {/* {!ovenPriceUsdc.eq(0) && <CardBusdValue value={earningsUsdc} />} */}
     </Block>
   )
