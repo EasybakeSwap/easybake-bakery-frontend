@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { HelpIcon, Text, useTooltip } from 'easybake-uikit'
-import useI18n from 'hooks/useI18n'
 import BigNumber from 'bignumber.js'
 
 const ReferenceElement = styled.div`
@@ -24,6 +23,10 @@ const LiquidityWrapper = styled.div`
   }
 `
 
+const DisabledText = styled.div`
+  color: ${({ theme }) => theme.colors.textDisabled};
+`
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -31,16 +34,15 @@ const Container = styled.div`
 
 const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
   const displayLiquidity = liquidity
-    ? `$${Number(liquidity).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
-    : '-'
-  const TranslateString = useI18n()
+    ? `${Number(liquidity).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+    : <DisabledText>-</DisabledText>
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
-    TranslateString(999, 'The total value of the funds in this farm’s liquidity pool'),
-    'top-end',
+    'The total value of the funds in this LP.',
+    'right',
     'hover',
     undefined,
     undefined,
-    [20, 10],
+    [-2, 10],
   )
 
   return (

@@ -8,7 +8,7 @@ const config: MenuEntry[] = [
   },
   {
     label: 'Bakery',
-    icon: 'TradeIcon', // *Make `BakeryIcon`
+    icon: 'BakeryIcon',
     href: '/bakery',
   },
   {

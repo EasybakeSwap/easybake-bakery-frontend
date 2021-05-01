@@ -47,7 +47,11 @@ export const Earned = styled.div`
   font-size: 20px;
   color: ${({ theme }) => theme.colors.text};
 `
-
+export const EarnedDisabled = styled.div`
+  font-weight: 600;
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.textDisabled};
+`
 export const Staked = styled.div`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.textSubtle};

@@ -70,7 +70,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
     return (
       <ActionContainer>
         <ActionTitles>
-          <Subtle>START FARMING</Subtle>
+          <Subtle>BEGIN BAKING</Subtle>
         </ActionTitles>
         <ActionContent>
           <UnlockButton width="100%" />
@@ -112,7 +112,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
         </ActionTitles>
         <ActionContent>
           <Button width="100%" onClick={onPresentDeposit} variant="secondary">
-            Stake LP
+            Bake LP
           </Button>
         </ActionContent>
       </ActionContainer>

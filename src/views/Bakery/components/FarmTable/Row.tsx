@@ -65,7 +65,6 @@ const FarmMobileCell = styled.td`
 const Row: React.FunctionComponent<RowProps> = (props) => {
   const { details } = props
   const [actionPanelToggled, setActionPanelToggled] = useState(false)
-  const TranslateString = useI18n()
 
   const toggleActionPanel = () => {
     setActionPanelToggled(!actionPanelToggled)
@@ -102,7 +101,7 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
                 return (
                   <td key={key}>
                     <CellInner>
-                      <CellLayout label={TranslateString(736, 'APR')}>
+                      <CellLayout label='APR'>
                         <Apr {...props.apr} hideButton={isMobile} />
                       </CellLayout>
                     </CellInner>
@@ -113,7 +112,7 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
                   <td key={key}>
                     <CellInner>
                       <CellLayout
-                        label={TranslateString(tableSchema[columnIndex].translationId, tableSchema[columnIndex].label)}
+                        label={(tableSchema[columnIndex].translationId, tableSchema[columnIndex].label)}
                       >
                         {React.createElement(cells[key], props[key])}
                       </CellLayout>
@@ -138,12 +137,12 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
           </tr>
           <tr>
             <EarnedMobileCell>
-              <CellLayout label={TranslateString(1072, 'Earned')}>
+              <CellLayout label='Earned'>
                 <Earned {...props.earned} />
               </CellLayout>
             </EarnedMobileCell>
             <AprMobileCell>
-              <CellLayout label={TranslateString(736, 'APR')}>
+              <CellLayout label='APR'>
                 <Apr {...props.apr} hideButton />
               </CellLayout>
             </AprMobileCell>

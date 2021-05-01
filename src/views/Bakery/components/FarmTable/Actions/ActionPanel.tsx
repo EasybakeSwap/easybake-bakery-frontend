@@ -87,25 +87,24 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details }) => 
     quoteTokenAddress: quoteToken.address,
     tokenAddress: token.address,
   })
+  const addLiquidityUrl = `https://swap.easybake.finance/#/add/${liquidityUrlPathParts}`
   const lpAddress = farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
-  const etherscan = `https://etherscan.com/address/${lpAddress}`
-  const info = `https://info.easybake.finance//pair/${lpAddress}`
+  const etherscanAddress = `https://etherscan.com/address/${lpAddress}`
+  const infoAddress = `https://info.easybake.finance//pair/${lpAddress}`
 
   return (
     <Container>
       <InfoContainer>
         <Flex justifyContent="center">
-          <Text>Get LP Tokens for:&nbsp;</Text>
-          <StyledLinkExternal href={lpAddress}>{lpLabel}</StyledLinkExternal>
+          <StyledLinkExternal href={addLiquidityUrl}>Get {lpLabel} Tokens</StyledLinkExternal>
         </Flex>
         <Flex justifyContent="center">
-        <Text>View {lpLabel} on&nbsp;</Text>
-          <StyledLinkExternal href={etherscan} bold={false}>
-            Etherscan
+          <StyledLinkExternal href={etherscanAddress} bold={false}>
+            View Etherscan Contract
           </StyledLinkExternal>
         </Flex>
         <Flex justifyContent="center">
-          <StyledLinkExternal href={info}>See Pair Info</StyledLinkExternal>
+          <StyledLinkExternal href={infoAddress}>See Pair Info</StyledLinkExternal>
         </Flex>
       </InfoContainer>
       {/* <ValueContainer>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { Button, Flex, Heading } from 'easybake-uikit'
-import useI18n from 'hooks/useI18n'
 import { useHarvest } from 'hooks/useHarvest'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { useWeb3React } from '@web3-react/core'
@@ -15,20 +14,29 @@ interface FarmCardActionsProps {
 
 const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
   const { account } = useWeb3React()
-  const TranslateString = useI18n()
   const [pendingTx, setPendingTx] = useState(false)
   const { onReward } = useHarvest(pid)
   const ovenPrice = usePriceOvenUsdc()
 
   const rawEarningsBalance = account ? getBalanceNumber(earnings) : 0
-  const displayBalance = rawEarningsBalance.toLocaleString()
-  const earningsBusd = rawEarningsBalance ? new BigNumber(rawEarningsBalance).multipliedBy(ovenPrice).toNumber() : 0
+  const earningsUsdc = rawEarningsBalance ? new BigNumber(rawEarningsBalance).multipliedBy(ovenPrice).toNumber() : 0
+  
+  let displayBalance;
+  if(rawEarningsBalance > 0 && rawEarningsBalance < 0.001) {
+    displayBalance = '<0.001'
+  } else { 
+    displayBalance = rawEarningsBalance.toLocaleString() 
+  }
+
+  if (!account) {
+    displayBalance = 'Unlock Wallet'
+  }
 
   return (
     <Flex mb="8px" justifyContent="space-between" alignItems="center">
       <Heading color={rawEarningsBalance === 0 ? 'textDisabled' : 'text'}>
         {displayBalance}
-        {earningsBusd > 0 && <CardBusdValue value={earningsBusd} />}
+        {earningsUsdc > 0 && <CardBusdValue value={earningsUsdc} />}
       </Heading>
       <Button
         disabled={rawEarningsBalance === 0 || pendingTx}
@@ -38,7 +46,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
           setPendingTx(false)
         }}
       >
-        {TranslateString(562, 'Harvest')}
+        Receive
       </Button>
     </Flex>
   )
