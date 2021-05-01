@@ -6,6 +6,12 @@ const StyledFarmStakingCard = styled(Card)`
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  transition: brightness 0.2s;
+  
+  &:hover {
+    filter: brightness(125%);
+    cursor: pointer;
+  }
 
   ${({ theme }) => theme.mediaQueries.lg} {
     margin: 0;
@@ -17,7 +23,7 @@ const CardMidContent = styled(Heading).attrs({ size: 'xl' })`
 `
 const ForumCard = () => {
   return (
-    <StyledFarmStakingCard>
+    <StyledFarmStakingCard onClick={() => window.open('https://forum.easybake.finance','_blank')}>
       <CardBody>
         <Heading color="contrast" size="lg">
           Help us bake up
@@ -29,9 +35,6 @@ const ForumCard = () => {
           <Heading color="contrast" size="lg">
             possibilities.
           </Heading>
-          <a href = 'https://forum.easybake.finance' >
-            <ArrowForwardIcon mt={30} color="primary" />
-          </a>
         </Flex>
       </CardBody>
     </StyledFarmStakingCard>

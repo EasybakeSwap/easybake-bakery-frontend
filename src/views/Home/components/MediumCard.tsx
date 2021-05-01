@@ -7,6 +7,12 @@ const StyledFarmStakingCard = styled(Card)`
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  transition: brightness 0.2s;
+  
+  &:hover {
+    filter: brightness(125%);
+    cursor: pointer;
+  }
 
   ${({ theme }) => theme.mediaQueries.lg} {
     margin: 0;
@@ -18,7 +24,7 @@ const CardMidContent = styled(Heading).attrs({ size: 'xl' })`
 `
 const MediumCard = () => {
   return (
-    <StyledFarmStakingCard>
+    <StyledFarmStakingCard onClick={() => window.open('https://easybake.medium.com','_blank')}>
       <CardBody>
         <Heading color="contrast" size="lg">
           Discover our
@@ -30,12 +36,6 @@ const MediumCard = () => {
           <Heading color="contrast" size="lg">
             in our Medium.
           </Heading>
-          <a href = 'https://easybake.medium.com' >
-            <ArrowForwardIcon mt={30} color="primary" />
-          </a>
-          {/* <NavLink exact activeClassName="active" to="/bakery" id="farm-apy-cta">
-            <ArrowForwardIcon mt={30} color="primary" />
-          </NavLink> */}
         </Flex>
       </CardBody>
     </StyledFarmStakingCard>

@@ -29,30 +29,21 @@ const TotalValueLockedCard = () => {
         <Heading size="md" mb="12px">
           Launch Details
         </Heading>
-        {data ? (
-          <>
-            <a href='https://view.monday.com/1095099231-236887ea96824ef7051147cef14a9f2a?r=use1'>
-              <Text color="textSubtle">Progress Tracker</Text>
-            </a>
+        <a href="https://view.monday.com/1095099231-236887ea96824ef7051147cef14a9f2a?r=use1">
+          <Text color="textSubtle">Progress Tracker</Text>
+        </a>
 
-            <a href='https://easybake.medium.com/introducing-easybake-finance-e8f704a36e41'>
-              <Text color="textSubtle">Introduction</Text>
-            </a>
-            
-            <a href='https://forum.easybake.finance/c/tokenomics/6'>
-              <Text color="textSubtle">Tokenomics</Text>
-            </a>
+        <a href="https://easybake.medium.com/introducing-easybake-finance-e8f704a36e41">
+          <Text color="textSubtle">Introduction</Text>
+        </a>
 
-            <a href='https://forum.easybake.finance'>
-              <Text color="textSubtle">Forum</Text>
-            </a>
+        <a href="https://forum.easybake.finance/c/tokenomics/6">
+          <Text color="textSubtle">Tokenomics</Text>
+        </a>
 
-          </>
-        ) : (
-          <>
-            <Skeleton height={66} />
-          </>
-        )}
+        <a href="https://forum.easybake.finance">
+          <Text color="textSubtle">Forum</Text>
+        </a>
       </CardBody>
     </StyledTotalValueLockedCard>
   )
