@@ -1,6 +1,6 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
-import { IconButton, useModal, CalculateIcon } from '@pancakeswap-libs/uikit'
+import { IconButton, useModal, CalculateIcon } from 'easybake-uikit'
 import ApyCalculatorModal from 'components/ApyCalculatorModal'
 import useI18n from 'hooks/useI18n'
 

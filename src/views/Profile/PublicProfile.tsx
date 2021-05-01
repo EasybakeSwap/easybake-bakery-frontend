@@ -15,7 +15,7 @@ import React from 'react'
 //   BlockIcon,
 //   VisibilityOn,
 //   VisibilityOff,
-// } from '@pancakeswap-libs/uikit'
+// } from 'easybake-uikit'
 // import useI18n from 'hooks/useI18n'
 // import { useProfile } from 'state/hooks'
 // import usePersistState from 'hooks/usePersistState'

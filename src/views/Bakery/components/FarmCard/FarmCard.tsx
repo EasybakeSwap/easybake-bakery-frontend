@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled, { keyframes } from 'styled-components'
-import { Flex, Text } from '@pancakeswap-libs/uikit' // disabled: Skeleton
+import { Flex, Text } from 'easybake-uikit' // disabled: Skeleton
 import { Farm } from 'state/types'
 import { provider as ProviderType } from 'web3-core'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'

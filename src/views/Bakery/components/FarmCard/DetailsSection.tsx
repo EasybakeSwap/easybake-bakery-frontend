@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, LinkExternal } from '@pancakeswap-libs/uikit'
+import { Flex, LinkExternal } from 'easybake-uikit'
 
 export interface ExpandableSectionProps {
   etherscanAddress?: string

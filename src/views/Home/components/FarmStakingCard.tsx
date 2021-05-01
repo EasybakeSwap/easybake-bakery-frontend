@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { Heading, Card, CardBody, Button, Flex } from '@pancakeswap-libs/uikit'
+import { Heading, Card, CardBody, Button, Flex } from 'easybake-uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useAllHarvest } from 'hooks/useHarvest'
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Image, Button } from '@pancakeswap-libs/uikit'
+import { Image, Button } from 'easybake-uikit'
 import Card from './Card'
 import CardTitle from './CardTitle'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { LinkExternal, Text, Flex } from '@pancakeswap-libs/uikit'
+import { LinkExternal, Text, Flex } from 'easybake-uikit'
 import { FarmWithStakedValue } from 'views/Bakery/components/FarmCard/FarmCard'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 

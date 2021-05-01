@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRouteMatch, Link } from 'react-router-dom'
-import { ButtonMenu, ButtonMenuItem, Toggle, Text, Flex, NotificationDot } from '@pancakeswap-libs/uikit'
+import { ButtonMenu, ButtonMenuItem, Toggle, Text, Flex, NotificationDot } from 'easybake-uikit'
 import useI18n from 'hooks/useI18n'
 
 const PoolTabButtons = ({ stakedOnly, setStakedOnly, hasStakeInFinishedPools }) => {

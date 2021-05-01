@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Heading, Image } from '@pancakeswap-libs/uikit' // disabled `Tag`
+import { Flex, Heading, Image } from 'easybake-uikit' // disabled `Tag`
 
 export interface ExpandableSectionProps {
   lpLabel?: string
