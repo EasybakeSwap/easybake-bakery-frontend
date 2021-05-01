@@ -129,7 +129,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           {account && harvest && !isOldSugar && (
             <HarvestButton
               disabled={!earnings.toNumber() || pendingTx}
-              text={pendingTx ? TranslateString(999, 'Collecting') : TranslateString(562, 'Harvest')}
+              text={pendingTx ? 'Collecting' : 'Collect'}
               onClick={async () => {
                 setPendingTx(true)
                 await onReward()
@@ -138,7 +138,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
             />
           )}
         </div>
-        <Label isFinished={isFinished && sousId !== 0} text={TranslateString(330, `${earningToken.symbol} earned`)} />
+        <Label isFinished={isFinished && sousId !== 0} text={`${earningToken.symbol} earned`} />
         <StyledCardActions>
           {!account && <UnlockButton />}
           {account &&
@@ -182,7 +182,7 @@ const PoolCard: React.FC<HarvestProps> = ({ pool }) => {
           )}
         </StyledDetails>
         <StyledDetails>
-          <div>{TranslateString(384, 'Your Stake')}:</div>
+          <div>Your Oven Contents:</div>
           <Balance
             fontSize="14px"
             isDisabled={isFinished}

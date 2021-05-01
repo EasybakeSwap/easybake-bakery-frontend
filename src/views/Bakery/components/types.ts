@@ -93,7 +93,7 @@ export const DesktopColumnSchema: ColumnsDefTypes[] = [
     name: 'multiplier',
     translationId: 999,
     sortable: true,
-    label: 'Multiplier',
+    label: 'Temperature',
   },
   {
     id: 6,

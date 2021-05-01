@@ -46,7 +46,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
           setPendingTx(false)
         }}
       >
-        Receive
+        Collect
       </Button>
     </Flex>
   )

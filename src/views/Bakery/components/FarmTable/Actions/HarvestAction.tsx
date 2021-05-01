@@ -47,8 +47,8 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
   return (
     <ActionContainer>
       <ActionTitles>
-        <Title>OVEN </Title>
-        <Subtle>EARNED</Subtle>
+        <Title>EARNED </Title>
+        <Subtle>OVEN </Subtle>
       </ActionTitles>
       <ActionContent>
       <Heading color={rawEarningsBalance === 0 ? 'textDisabled' : 'text'}>
@@ -64,7 +64,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
           }}
           ml="4px"
         >
-          Receive
+          Collect
         </Button>
       </ActionContent>
     </ActionContainer>

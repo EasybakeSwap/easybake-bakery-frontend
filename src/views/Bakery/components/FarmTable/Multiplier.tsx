@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { HelpIcon, useTooltip } from 'easybake-uikit'
-import useI18n from 'hooks/useI18n'
 
 const ReferenceElement = styled.div`
   display: inline-block;
@@ -28,18 +27,21 @@ const Container = styled.div`
   align-items: center;
 `
 
+const SubContainer = styled.div`
+  position: relative;
+  left: 3px;
+  display: flex;
+  align-items: center;
+`
+
 const Multiplier: React.FunctionComponent<MultiplierProps> = ({ multiplier }) => {
   const displayMultiplier = multiplier ? multiplier.toLowerCase() : '-'
-  const TranslateString = useI18n()
   const tooltipContent = (
     <div>
-      {TranslateString(999, 'The multiplier represents the amount of OVEN rewards each farm gets.')}
+      The temperature represents the amount of $OVEN rewards each oven gets.
       <br />
       <br />
-      {TranslateString(
-        999,
-        'For example, if a 1x farm was getting 1 OVEN per block, a 40x farm would be getting 40 OVEN per block.',
-      )}
+      For example, if a 1x oven was getting 1 $OVEN per block, a 40x oven would be getting 40 $OVEN per block.
     </div>
   )
   const { targetRef, tooltip, tooltipVisible } = useTooltip(tooltipContent, 'top-end', 'hover', undefined, undefined, [
@@ -49,10 +51,12 @@ const Multiplier: React.FunctionComponent<MultiplierProps> = ({ multiplier }) =>
 
   return (
     <Container>
-      <MultiplierWrapper>{displayMultiplier}</MultiplierWrapper>
-      <ReferenceElement ref={targetRef}>
-        <HelpIcon color="textSubtle" />
-      </ReferenceElement>
+      <SubContainer>
+        <MultiplierWrapper>{displayMultiplier}</MultiplierWrapper>
+        <ReferenceElement ref={targetRef}>
+          <HelpIcon color="textSubtle" />
+        </ReferenceElement>
+      </SubContainer>
       {tooltipVisible && tooltip}
     </Container>
   )

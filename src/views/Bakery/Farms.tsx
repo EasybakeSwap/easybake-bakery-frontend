@@ -144,7 +144,7 @@ const Farms: React.FC = () => {
         }
 
         const quoteTokenPriceUsd = prices[getAddress(farm.quoteToken.address).toLowerCase()]
-        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(quoteTokenPriceUsd)
+        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(47322) // times(quoteTokenPriceUsd)
         const apr = isActive ? getFarmApr(farm.poolWeight, ovenPrice, totalLiquidity) : 0
 
         return { ...farm, apr, liquidity: totalLiquidity }
@@ -334,7 +334,7 @@ const Farms: React.FC = () => {
             <ToggleView viewMode={viewMode} onToggle={(mode: ViewMode) => setViewMode(mode)} />
             <ToggleWrapper>
               <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
-              <Text>Staked only</Text>
+              <Text>Baking Only</Text>
             </ToggleWrapper>
             {/* <FarmTabButtons hasStakeInFinishedFarms={stakedInactiveFarms.length > 0} /> */}
           </ViewControls>

@@ -84,8 +84,8 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
       return (
         <ActionContainer>
           <ActionTitles>
-            <Title>{lpSymbol} </Title>
-            <Subtle>STAKE</Subtle>
+            <Title>BAKING </Title>
+            <Subtle>{lpSymbol} </Subtle>
           </ActionTitles>
           <ActionContent>
             <div>
@@ -107,8 +107,8 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
     return (
       <ActionContainer>
         <ActionTitles>
-          <Subtle>STAKE </Subtle>
-          <Title>{lpSymbol}</Title>
+          <Title>BAKE </Title>
+          <Subtle>{lpSymbol} </Subtle>
         </ActionTitles>
         <ActionContent>
           <Button width="100%" onClick={onPresentDeposit} variant="secondary">
@@ -122,7 +122,8 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
   return (
     <ActionContainer>
       <ActionTitles>
-        <Subtle>ENABLE FARM</Subtle>
+        <Title>ENABLE </Title>
+        <Subtle>OVEN</Subtle>
       </ActionTitles>
       <ActionContent>
         <Button width="100%" disabled={requestedApproval} onClick={handleApprove} variant="secondary">

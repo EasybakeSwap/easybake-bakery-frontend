@@ -103,7 +103,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
       {isBalanceZero && (
         <Flex justifyContent="center">
           <StyledErrorMessage fontSize="14px" color="failure">
-            No tokens to stake:{' '}
+            No tokens to bake:{' '}
             <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
               Get {symbol} Tokens
             </Link>
