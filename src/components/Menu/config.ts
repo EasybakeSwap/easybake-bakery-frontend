@@ -57,7 +57,6 @@ const config: MenuEntry[] = [
       {
         label: 'OvenToken.sol',
         href: 'https://rinkeby.etherscan.io/address/0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB#code', 
-        target: '_blank',
       },
       {
         label: 'SugarBar.sol',

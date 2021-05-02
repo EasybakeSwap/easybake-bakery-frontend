@@ -4,7 +4,7 @@ import { BaseLayout } from 'easybake-uikit'
 import Page from 'components/layout/Page'
 import FarmStakingCard from 'views/Home/components/FarmStakingCard'
 // import OvenStats from 'views/Home/components/OvenStats'
-import TotalValueLockedCard from 'views/Home/components/TotalValueLockedCard'
+import LaunchDetailsCard from 'views/Home/components/LaunchDetailsCard'
 import MediumCard from 'views/Home/components/MediumCard'
 import TelegramCard from 'views/Home/components/TelegramCard'
 import ForumCard from './components/ForumCard'
@@ -88,7 +88,7 @@ const Home: React.FC = () => {
         </CTACards>
         <Cards>
           {/* <OvenStats /> */}
-          <TotalValueLockedCard />
+          <LaunchDetailsCard />
         </Cards>
       </div>
     </Page>

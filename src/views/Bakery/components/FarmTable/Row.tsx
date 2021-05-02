@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { FarmWithStakedValue } from 'views/Bakery/components/FarmCard/FarmCard'
 import { useMatchBreakpoints } from 'easybake-uikit'
-import useI18n from 'hooks/useI18n'
 
 import Apr, { AprProps } from './Apr'
 import Farm, { FarmProps } from './Farm'
@@ -112,7 +111,7 @@ const Row: React.FunctionComponent<RowProps> = (props) => {
                   <td key={key}>
                     <CellInner>
                       <CellLayout
-                        label={(tableSchema[columnIndex].translationId, tableSchema[columnIndex].label)}
+                        label={(tableSchema[columnIndex], tableSchema[columnIndex].label)}
                       >
                         {React.createElement(cells[key], props[key])}
                       </CellLayout>

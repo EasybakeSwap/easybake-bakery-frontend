@@ -22,6 +22,13 @@ const MultiplierWrapper = styled.div`
   }
 `
 
+const Disabled = styled.div`
+  color: ${({ theme }) => theme.colors.textDisabled};
+`
+const Active = styled.div`
+  color: ${({ theme }) => theme.colors.text};
+`  
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -35,7 +42,7 @@ const SubContainer = styled.div`
 `
 
 const Multiplier: React.FunctionComponent<MultiplierProps> = ({ multiplier }) => {
-  const displayMultiplier = multiplier ? multiplier.toLowerCase() : '-'
+  const displayMultiplier = multiplier ? <Active>multiplier.toLowerCase()</Active> : <Disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</Disabled>
   const tooltipContent = (
     <div>
       The temperature represents the amount of $OVEN rewards each oven gets.

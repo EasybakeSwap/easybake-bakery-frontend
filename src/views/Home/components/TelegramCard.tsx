@@ -1,12 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Heading, Card, CardBody, Flex, ArrowForwardIcon } from 'easybake-uikit'
-
-// const [background, setBackground] = useState()
-
-// const setBrightness = (hoverColor) => {
-//   setBackground(hoverColor);
-// }
+import { Heading, Card, CardBody, Flex } from 'easybake-uikit'
 
 const StyledFarmStakingCard = styled(Card)`
   background: violet;

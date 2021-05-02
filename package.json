@@ -41,7 +41,7 @@
     "canvas-confetti": "^1.3.3",
     "chart.js": "^2.9.4",
     "date-fns": "^2.17.0",
-    "easybake-uikit": "^0.0.4",
+    "easybake-uikit": "^0.0.5",
     "ethers": "^5.0.31",
     "graphql": "^15.5.0",
     "graphql-request": "^3.4.0",

@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Card, CardBody, Heading, Skeleton, Text } from 'easybake-uikit'
-import useI18n from 'hooks/useI18n'
-import { useGetStats } from 'hooks/api'
+import { Card, CardBody, Heading, Text } from 'easybake-uikit'
 
 const StyledTotalValueLockedCard = styled(Card)`
   background-image: url('/images/lilac.png');
@@ -10,19 +8,7 @@ const StyledTotalValueLockedCard = styled(Card)`
   margin-right: auto;
 `
 
-const Row = styled.div`
-  align-items: center;
-  display: flex;
-  font-size: 14px;
-  justify-content: space-between;
-  margin-bottom: 8px;
-`
-
-const TotalValueLockedCard = () => {
-  const TranslateString = useI18n()
-  const data = useGetStats()
-  const tvl = data ? data.total_value_locked_all.toLocaleString('en-US', { maximumFractionDigits: 0 }) : null
-
+const LaunchDetailsCard = () => {
   return (
     <StyledTotalValueLockedCard style={{ textAlign: 'center' }}>
       <CardBody>
@@ -49,4 +35,4 @@ const TotalValueLockedCard = () => {
   )
 }
 
-export default TotalValueLockedCard
+export default LaunchDetailsCard

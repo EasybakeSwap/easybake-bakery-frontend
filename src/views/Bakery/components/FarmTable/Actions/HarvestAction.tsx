@@ -48,7 +48,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
     <ActionContainer>
       <ActionTitles>
         <Title>EARNED </Title>
-        <Subtle>OVEN </Subtle>
+        <Subtle>OVEN</Subtle>
       </ActionTitles>
       <ActionContent>
       <Heading color={rawEarningsBalance === 0 ? 'textDisabled' : 'text'}>
