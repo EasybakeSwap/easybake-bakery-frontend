@@ -19,9 +19,9 @@ const Block = styled.div`
   margin-bottom: 16px;
 `
 
-const CardImage = styled.img`
-  margin-bottom: 16px;
-`
+// const CardImage = styled.img`
+//   margin-bottom: 16px;
+// `
 
 const Label = styled.div`
   color: ${({ theme }) => theme.colors.textSubtle};
@@ -58,24 +58,24 @@ const FarmedStakingCard = () => {
     if (provider) {
       try {
         // wasAdded is a boolean. Like any RPC method, an error may be thrown.
-        const wasAdded = await provider.request({
-          method: 'wallet_watchAsset',
-          params: {
-            type: 'ERC20',
-            options: {
-              // Rinkeby address
-              address: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
-              symbol: 'OVEN',
-              decimals: '18',
-              // Need to fix Icon - might be due to testnet*
-              image: 'https://raw.githubusercontent.com/EasybakeSwap/easybake-bakery-frontend/prod/public/logo.png',
-            },
-          },
-        })
+        // const wasAdded = await provider.request({
+        //   method: 'wallet_watchAsset',
+        //   params: {
+        //     type: 'ERC20',
+        //     options: {
+        //       // Rinkeby address
+        //       address: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
+        //       symbol: 'OVEN',
+        //       decimals: '18',
+        //       // Need to fix Icon - might be due to testnet*
+        //       image: 'https://raw.githubusercontent.com/EasybakeSwap/easybake-bakery-frontend/prod/public/logo.png',
+        //     },
+        //   },
+        // })
 
-        if (wasAdded) {
-          console.log('Token was added')
-        }
+        // if (wasAdded) {
+        //   console.log('Token was added')
+        // }
       } catch (error) {
         // TODO: find a way to handle when the user rejects transaction or it fails
       }
