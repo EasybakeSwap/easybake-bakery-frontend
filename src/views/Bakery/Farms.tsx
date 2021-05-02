@@ -15,7 +15,7 @@ import { Farm } from 'state/types'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { getFarmApr } from 'utils/apr'
 import { orderBy } from 'lodash'
-import { getAddress } from 'utils/addressHelpers'
+// import { getAddress } from 'utils/addressHelpers'
 import PageHeader from 'components/PageHeader'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import Table from './components/FarmTable/FarmTable'
@@ -24,7 +24,7 @@ import SearchInput from './components/SearchInput'
 import { RowProps } from './components/FarmTable/Row'
 import ToggleView from './components/ToggleView/ToggleView'
 import { DesktopColumnSchema, ViewMode } from './components/types'
-import Select, { OptionProps } from './components/Select/Select'
+// import { OptionProps } from './components/Select/Select'
 
 const ControlContainer = styled.div`
   display: flex;
@@ -108,7 +108,7 @@ const Farms: React.FC = () => {
   const [query, setQuery] = useState('')
   const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, 'pancake_farm_view')
   const { account } = useWeb3React()
-  const [sortOption, setSortOption] = useState('hot')
+  const [sortOption] = useState('hot')
   const prices = useGetApiPrices()
 
   const dispatch = useAppDispatch()
@@ -143,7 +143,7 @@ const Farms: React.FC = () => {
           return farm
         }
 
-        const quoteTokenPriceUsd = prices[getAddress(farm.quoteToken.address).toLowerCase()]
+        // const quoteTokenPriceUsd = prices[getAddress(farm.quoteToken.address).toLowerCase()]
         const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(47322) // times(quoteTokenPriceUsd)
         const apr = isActive ? getFarmApr(farm.poolWeight, ovenPrice, totalLiquidity) : 0
 
@@ -314,9 +314,9 @@ const Farms: React.FC = () => {
     )
   }
 
-  const handleSortOptionChange = (option: OptionProps): void => {
-    setSortOption(option.value)
-  }
+  // const handleSortOptionChange = (option: OptionProps): void => {
+  //   setSortOption(option.value)
+  // }
 
   return (
     <>

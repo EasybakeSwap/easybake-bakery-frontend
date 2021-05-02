@@ -31,7 +31,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
   const [pendingTx, setPendingTx] = useState(false)
   const { onReward } = useHarvest(pid)
 
-  const { countUp, update } = useCountUp({
+  const { update } = useCountUp({
     start: 0,
     end: earningsBusd,
     duration: 1,

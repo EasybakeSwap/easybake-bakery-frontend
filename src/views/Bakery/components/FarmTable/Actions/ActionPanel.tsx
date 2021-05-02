@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { LinkExternal, Text, Flex } from 'easybake-uikit'
+import { LinkExternal, Flex } from 'easybake-uikit'
 import { FarmWithStakedValue } from 'views/Bakery/components/FarmCard/FarmCard'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 
@@ -34,16 +34,16 @@ const StyledLinkExternal = styled(LinkExternal)`
   font-weight: 400;
 `
 
-const StakeContainer = styled.div`
-  color: ${({ theme }) => theme.colors.text};
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
+// const StakeContainer = styled.div`
+//   color: ${({ theme }) => theme.colors.text};
+//   align-items: center;
+//   display: flex;
+//   justify-content: space-between;
 
-  ${({ theme }) => theme.mediaQueries.sm} {
-    justify-content: flex-start;
-  }
-`
+//   ${({ theme }) => theme.mediaQueries.sm} {
+//     justify-content: flex-start;
+//   }
+// `
 
 const ActionContainer = styled.div`
   display: flex;
@@ -80,7 +80,7 @@ const InfoContainer = styled.div`
 const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details }) => {
   const farm = details
 
-  const isActive = farm.multiplier !== '0X'
+  // const isActive = farm.multiplier !== '0X'
   const { quoteToken, token } = farm
   const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('EASYBAKE', '')
   const liquidityUrlPathParts = getLiquidityUrlPathParts({

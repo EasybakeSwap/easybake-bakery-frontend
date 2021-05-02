@@ -23,7 +23,7 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
   etherscanAddress,
   infoAddress,
   removed,
-  totalValueFormatted,
+  // totalValueFormatted,
   lpLabel,
   addLiquidityUrl,
 }) => {
