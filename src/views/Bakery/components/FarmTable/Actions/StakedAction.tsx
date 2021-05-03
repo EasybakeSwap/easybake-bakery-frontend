@@ -41,8 +41,8 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
 
   const displayBalance = useCallback(() => {
     const stakedBalanceNumber = getBalanceNumber(stakedBalance)
-    if (stakedBalanceNumber > 0 && stakedBalanceNumber < 0.0001) {
-      return getFullDisplayBalance(stakedBalance).toLocaleString()
+    if (stakedBalanceNumber > 0 && stakedBalanceNumber < 0.001) {
+      return '<0.001'
     }
     return stakedBalanceNumber.toLocaleString()
   }, [stakedBalance])
