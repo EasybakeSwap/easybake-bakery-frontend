@@ -9,7 +9,7 @@ import { useApprove } from 'hooks/useApprove'
 import { getErc20Contract } from 'utils/contractHelpers'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
-import { getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
+import { getBalanceNumber } from 'utils/formatBalance'
 import useStake from 'hooks/useStake'
 import useUnstake from 'hooks/useUnstake'
 import useWeb3 from 'hooks/useWeb3'
@@ -20,6 +20,9 @@ import { ActionContainer, ActionTitles, ActionContent, Earned, Title, Subtle } f
 
 const IconButtonWrapper = styled.div`
   display: flex;
+  svg {
+    width: 25px;
+  }
 `
 
 const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, lpAddresses, quoteToken, token }) => {
@@ -92,11 +95,11 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
               <Earned>{displayBalance()}</Earned>
             </div>
             <IconButtonWrapper>
-              <IconButton variant="secondary" onClick={onPresentWithdraw} mr="6px">
-                <MinusIcon color="primary" width="14px" />
+              <IconButton variant="primary" onClick={onPresentDeposit} mr="6px">
+                <AddIcon color="white" width="14px" />
               </IconButton>
-              <IconButton variant="secondary" onClick={onPresentDeposit}>
-                <AddIcon color="primary" width="14px" />
+              <IconButton variant="primary" onClick={onPresentWithdraw}>
+                <MinusIcon color="white" width="14px" />
               </IconButton>
             </IconButtonWrapper>
           </ActionContent>
