@@ -42,7 +42,7 @@ const SubContainer = styled.div`
 `
 
 const Multiplier: React.FunctionComponent<MultiplierProps> = ({ multiplier }) => {
-  const displayMultiplier = multiplier ? <Active>multiplier.toLowerCase()</Active> : <Disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</Disabled>
+  const displayMultiplier = multiplier ? <Active>{multiplier.toLowerCase()}</Active> : <Disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</Disabled>
   const tooltipContent = (
     <div>
       The temperature represents the amount of $OVEN rewards each oven gets.
