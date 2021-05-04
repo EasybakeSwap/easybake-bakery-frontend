@@ -72,7 +72,7 @@ const config: MenuEntry[] = [
       },
       {
         label: 'EasyBakeFactory.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x77e43eEA4e7d475676d1af631A641C12BEE4dcE3#code',
+        href: 'https://rinkeby.etherscan.io/address/0x304D0A26A248bd6ED59e7665EA8303a15Ae6d9d8#code',
       },
       {
         label: 'EasyBakeRouter02.sol',

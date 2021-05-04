@@ -15,7 +15,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
   const rawEarningsBalance = account ? getBalanceNumber(userData.earnings) : 0
   // const ovenPrice = usePriceOvenUsdc()
   // const earnings = null
-  const earningsBusd = 1
+  const earningsUsdc = 1
   let displayBalance;
   if(rawEarningsBalance > 0 && rawEarningsBalance < 0.001) {
     displayBalance = '<0.001'
@@ -33,7 +33,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
 
   const { update } = useCountUp({
     start: 0,
-    end: earningsBusd,
+    end: earningsUsdc,
     duration: 1,
     separator: ',',
     decimals: 3,
@@ -41,8 +41,8 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
   const updateValue = useRef(update)
 
   useEffect(() => {
-    updateValue.current(earningsBusd)
-  }, [earningsBusd, updateValue])
+    updateValue.current(earningsUsdc)
+  }, [earningsUsdc, updateValue])
 
   return (
     <ActionContainer>
