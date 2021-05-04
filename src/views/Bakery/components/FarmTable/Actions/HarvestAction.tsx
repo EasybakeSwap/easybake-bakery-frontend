@@ -14,7 +14,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
   const { account } = useWeb3React()
   const rawEarningsBalance = account ? getBalanceNumber(userData.earnings) : 0
   // const ovenPrice = usePriceOvenUsdc()
-  const earnings = null
+  // const earnings = null
   const earningsBusd = 1
   let displayBalance;
   if(rawEarningsBalance > 0 && rawEarningsBalance < 0.001) {
@@ -56,7 +56,7 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
           {/* {countUp > 0 && <Staked>~{countUp}USD</Staked>} */}
         </Heading>
         <Button
-          disabled={!earnings || pendingTx || !account}
+          disabled={rawEarningsBalance === 0 || pendingTx || !account}
           onClick={async () => {
             setPendingTx(true)
             await onReward()

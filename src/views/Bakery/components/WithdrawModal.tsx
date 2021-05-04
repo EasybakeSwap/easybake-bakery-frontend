@@ -46,9 +46,6 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
         inputTitle='Stop Baking'
       />
       <ModalActions>
-        <Button variant="secondary" onClick={onDismiss} width="100%">
-          Cancel
-        </Button>
         <Button
           disabled={pendingTx || !valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
           onClick={async () => {
@@ -59,7 +56,10 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
           }}
           width="100%"
         >
-          {pendingTx ? 'Pending Confirmation' : 'Confirm'}
+          {pendingTx ? 'Pending' : 'Confirm'}
+        </Button>
+        <Button variant="secondary" onClick={onDismiss} width="100%">
+          Cancel
         </Button>
       </ModalActions>
     </Modal>

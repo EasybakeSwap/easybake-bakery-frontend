@@ -51,7 +51,7 @@ const config: MenuEntry[] = [
     ],
   },
   {
-    label: 'Contracts (Rinkeby)',
+    label: 'Contracts',
     icon: 'ContractsIcon',
     items: [
       {

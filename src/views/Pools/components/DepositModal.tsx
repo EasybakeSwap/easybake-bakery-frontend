@@ -62,7 +62,7 @@ const DepositModal: React.FC<DepositModalProps> = ({
             onDismiss()
           }}
         >
-          {pendingTx ? TranslateString(488, 'Pending Confirmation') : TranslateString(464, 'Confirm')}
+          {pendingTx ? 'Pending' : 'Confirm'}
         </Button>
       </ModalActions>
     </Modal>

@@ -58,24 +58,23 @@ const FarmedStakingCard = () => {
     if (provider) {
       try {
         // wasAdded is a boolean. Like any RPC method, an error may be thrown.
-        // const wasAdded = await provider.request({
-        //   method: 'wallet_watchAsset',
-        //   params: {
-        //     type: 'ERC20',
-        //     options: {
-        //       // Rinkeby address
-        //       address: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
-        //       symbol: 'OVEN',
-        //       decimals: '18',
-        //       // Need to fix Icon - might be due to testnet*
-        //       image: 'https://raw.githubusercontent.com/EasybakeSwap/easybake-bakery-frontend/prod/public/logo.png',
-        //     },
-        //   },
-        // })
+        const wasAdded = await provider.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              // Rinkeby address
+              address: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
+              symbol: 'OVEN',
+              decimals: '18',
+              image: 'https://easybake.finance/favicon.ico',
+            },
+          },
+        })
 
-        // if (wasAdded) {
-        //   console.log('Token was added')
-        // }
+        if (wasAdded) {
+          // TODO: alert added 
+        }
       } catch (error) {
         // TODO: find a way to handle when the user rejects transaction or it fails
       }
@@ -105,7 +104,7 @@ const FarmedStakingCard = () => {
               style={{ marginLeft: 8}}
               width={20}
               height={20}
-              src="/images/wallet/metamask.png"
+              src="/images/farms/oven-eth.svg"
               alt=""
             />
           </Button>

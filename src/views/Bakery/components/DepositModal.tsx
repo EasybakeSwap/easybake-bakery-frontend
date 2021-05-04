@@ -48,9 +48,6 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
         inputTitle='Bake'
       />
       <ModalActions>
-        <Button variant="secondary" onClick={onDismiss} width="100%">
-          Cancel
-        </Button>
         <Button
           width="100%"
           disabled={pendingTx || !valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
@@ -61,7 +58,10 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
             onDismiss()
           }}
         >
-          {pendingTx ? 'Pending Confirmation' : 'Confirm'}
+          {pendingTx ? 'Pending' : 'Confirm'}
+        </Button>
+        <Button variant="secondary" onClick={onDismiss} width="100%">
+          Cancel
         </Button>
       </ModalActions>
       <LinkExternal href={addLiquidityUrl} style={{ alignSelf: 'center' }}>
