@@ -13,7 +13,7 @@
     ],
     "name": "aggregate",
     "outputs": [
-      { "internalType": "uint256F", "name": "blockNumber", "type": "uint256" },
+      { "internalType": "uint256", "name": "blockNumber", "type": "uint256" },
       { "internalType": "bytes[]", "name": "returnData", "type": "bytes[]" }
     ],
     "stateMutability": "nonpayable",

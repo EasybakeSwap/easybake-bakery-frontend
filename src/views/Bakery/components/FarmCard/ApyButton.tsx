@@ -2,7 +2,6 @@ import React from 'react'
 import BigNumber from 'bignumber.js'
 import { IconButton, useModal, CalculateIcon } from 'easybake-uikit'
 import ApyCalculatorModal from 'components/ApyCalculatorModal'
-import useI18n from 'hooks/useI18n'
 
 export interface ApyButtonProps {
   lpLabel?: string
@@ -12,10 +11,9 @@ export interface ApyButtonProps {
 }
 
 const ApyButton: React.FC<ApyButtonProps> = ({ lpLabel, ovenPrice, apr, addLiquidityUrl }) => {
-  const TranslateString = useI18n()
   const [onPresentApyModal] = useModal(
     <ApyCalculatorModal
-      linkLabel={`${TranslateString(999, 'Get')} ${lpLabel}`}
+      linkLabel={`Get ${lpLabel}`}
       tokenPrice={ovenPrice.toNumber()}
       apr={apr}
       linkHref={addLiquidityUrl}

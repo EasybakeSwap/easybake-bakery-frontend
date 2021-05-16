@@ -106,7 +106,7 @@ const Farms: React.FC = () => {
   const farmsLP = useFarms()
   const ovenPrice = usePriceOvenUsdc()
   const [query, setQuery] = useState('')
-  const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, 'pancake_farm_view')
+  const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, 'easybake_farm_view')
   const { account } = useWeb3React()
   const [sortOption] = useState('hot')
   const prices = useGetApiPrices()
@@ -144,7 +144,7 @@ const Farms: React.FC = () => {
         }
 
         // const quoteTokenPriceUsd = prices[getAddress(farm.quoteToken.address).toLowerCase()]
-        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(47322) // times(quoteTokenPriceUsd)
+        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(1) // times(quoteTokenPriceUsd)
         const apr = isActive ? getFarmApr(farm.poolWeight, ovenPrice, totalLiquidity) : 0
 
         return { ...farm, apr, liquidity: totalLiquidity }
@@ -325,7 +325,7 @@ const Farms: React.FC = () => {
           BAKERY
         </Heading>
         <Heading size="lg" color="text">
-          Bake your LP tokens to earn.
+          Bake your DOUGH LP tokens to earn OVEN.
         </Heading>
       </PageHeader>
       <Page>

@@ -19,18 +19,21 @@ const Amount = styled.span<{ earned: number }>`
 const Earned: React.FunctionComponent<EarnedProps> = ({ earnings }) => {
   const { account } = useWeb3React()
   const amountEarned = account ? earnings : null
-  
-  let dispayedAmountEarned;
-  if(amountEarned > 0 && amountEarned < 0.001) {
+
+  let dispayedAmountEarned
+  if (amountEarned > 0 && amountEarned < 0.001) {
     dispayedAmountEarned = '<0.001'
   } else if (amountEarned === null) {
     dispayedAmountEarned = 'Unlock Wallet'
-  }
-  else { 
-    dispayedAmountEarned = amountEarned.toLocaleString() 
+  } else {
+    dispayedAmountEarned = amountEarned.toLocaleString()
   }
 
-  return amountEarned ? <Amount earned={amountEarned}>{dispayedAmountEarned}</Amount> : <Amount earned={null}>{dispayedAmountEarned}</Amount>
+  return amountEarned ? (
+    <Amount earned={amountEarned}>{dispayedAmountEarned}</Amount>
+  ) : (
+    <Amount earned={null}>{dispayedAmountEarned}</Amount>
+  )
 }
 
 export default Earned

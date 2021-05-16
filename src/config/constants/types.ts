@@ -44,7 +44,7 @@ export interface PoolConfig {
   stakingLimit?: number
   contractAddress: Address
   poolCategory: PoolCategory
-  tokenPerBlock: string
+  tokenPerSecond: string
   sortOrder?: number
   harvest?: boolean
   isFinished?: boolean

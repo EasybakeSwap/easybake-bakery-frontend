@@ -26,6 +26,11 @@ export const customMeta: { [key: string]: PageMeta } = {
     description: 'Bake LP tokens to earn OVEN.',
     image: '',
   },
+  '/pools': {
+    title: 'EasyBake | Refinery',
+    description: 'Turn up the temperature of your tokens to earn OVEN.',
+    image: '',
+  },
     '/competition': {
       title: 'EasyBake | Cook Off',
       description: 'EasyBake :D',

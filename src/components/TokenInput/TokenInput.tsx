@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Button, Flex, Text, Input, InputProps } from 'easybake-uikit'
-import useI18n from 'hooks/useI18n'
 
 interface TokenInputProps extends InputProps {
   max: number | string
@@ -11,29 +10,24 @@ interface TokenInputProps extends InputProps {
 }
 
 const TokenInput: React.FC<TokenInputProps> = ({ max, symbol, onChange, onSelectMax, value }) => {
-  const TranslateString = useI18n()
-
   return (
     <Box>
       <Flex justifyContent="flex-end" minHeight="21px" mb="8px">
         <Text color="primary" fontSize="14px">
-          {max.toLocaleString()} {symbol} {TranslateString(526, 'Available')}
+          {max.toLocaleString()} {symbol} Available
         </Text>
       </Flex>
       <Flex alignItems="center">
         <Input onChange={onChange} placeholder="0" value={value} />
-        <Flex alignItems="center">
-          <Text bold color="primary" textTransform="uppercase" mx="8px">
-            {symbol}
-          </Text>
-          <div>
-            <Button scale="sm" onClick={onSelectMax}>
-              {TranslateString(452, 'Max')}
-            </Button>
-          </div>
+        <Flex alignItems="center" marginLeft='20px'>
+          <Button scale="sm" onClick={onSelectMax}>
+            Max
+          </Button>
         </Flex>
       </Flex>
     </Box>
+
+    
   )
 }
 

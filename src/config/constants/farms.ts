@@ -24,42 +24,32 @@ const farms: FarmConfig[] = [
   //   quoteToken: tokens.wbnb,
   // },
 
-  
+  // Need to update to LP tokens, current they are tokens
   {
     pid: 0,
     lpSymbol: 'OVEN',
     lpAddresses: {
-      4: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
+      4: '0x1f981839FBBc0E0c713d9D808F6C86cB9904A45B',
       1: '',
     },
     token: tokens.sugar,
     quoteToken: tokens.weth,
   },
   {
-    pid: 5,
+    pid: 1,
     lpSymbol: 'OVEN-ETH LP',
     lpAddresses: {
-      4: '0xC23F0b56D9E167A5EdA5c57f5772037fdbb6e0Af',
+      4: '0x5e2d0cb65162f2ebce962b67844caa94b705b157',
       1: '',
     },
     token: tokens.oven,
     quoteToken: tokens.weth,
   },
   {
-    pid: 6,
-    lpSymbol: 'LAYER-ETH LP',
-    lpAddresses: {
-      4: '0xD4385654EF660BE49ac063F55cc045A4a8b7efFF',
-      1: '',
-    },
-    token: tokens.layer,
-    quoteToken: tokens.weth,
-  },
-  {
     pid: 2,
     lpSymbol: 'USDC-ETH LP',
     lpAddresses: {
-      4: '0x78AB2e85EAf22Dc7B6981E54432e17521BdadC23',
+      4: '0xbB37B7d16db4b74eA6c72663883BE15181d132C3',
       1: '',
     },
     token: tokens.usdc,
@@ -67,34 +57,44 @@ const farms: FarmConfig[] = [
   },
   {
     pid: 3,
+    lpSymbol: 'LAYER-ETH LP',
+    lpAddresses: {
+      4: '0x4A942AA0174D9D927814782e2F696A1598Cc7A07',
+      1: '',
+    },
+    token: tokens.layer,
+    quoteToken: tokens.weth,
+  },
+  {
+    pid: 4,
     lpSymbol: 'DAI-ETH LP',
     lpAddresses: {
-      4: '0x03E6c12eF405AC3F642B9184eDed8E1322de1a9e',
+      4: '0x3f91d24F1a71283AB93A6baAE388b1B4445e66A6',
       1: '',
     },
     token: tokens.dai,
     quoteToken: tokens.weth,
   },
   {
-    pid: 4,
+    pid: 5,
     lpSymbol: 'LINK-ETH LP',
     lpAddresses: {
-      4: '0x0d1e5112B7Bf0595837f6e19A8233e8b918Ef3aA',
+      4: '0x136D9B4E3DeC9192ef367efd3d3c91fa32D20cFd',
       1: '',
     },
     token: tokens.link,
     quoteToken: tokens.weth,
   },
-  {
-    pid: 1,
-    lpSymbol: 'UNI-ETH LP',
-    lpAddresses: {
-      4: '0x4E99615101cCBB83A462dC4DE2bc1362EF1365e5',
-      1: '',
-    },
-    token: tokens.uni,
-    quoteToken: tokens.weth,
-  },
+  // {
+  //   pid: 6,
+  //   lpSymbol: 'UNI-ETH LP',
+  //   lpAddresses: {
+  //     4: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',
+  //     1: '',
+  //   },
+  //   token: tokens.uni,
+  //   quoteToken: tokens.weth,
+  // },
 ]
 
 export default farms

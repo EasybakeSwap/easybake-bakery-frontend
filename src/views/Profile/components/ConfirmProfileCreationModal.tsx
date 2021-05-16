@@ -3,7 +3,7 @@ import React from 'react'
 // import { useAppDispatch } from 'state'
 // import BigNumber from 'bignumber.js'
 // import useI18n from 'hooks/useI18n'
-// import { useOven } from 'hooks/useContract' // removed `useProfile`
+// import { useOvenContract } from 'hooks/useContract' // removed `useProfile`
 // import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 // // import { fetchProfile } from 'state/profile'
 // import { useToast } from 'state/hooks'
@@ -33,7 +33,7 @@ import React from 'react'
 //   // const profileContract = useProfile()
 //   const dispatch = useAppDispatch()
 //   const { toastSuccess } = useToast()
-//   const ovenContract = useOven()
+//   const ovenContract = useOvenContract()
 
 //   const {
 //     isApproving,

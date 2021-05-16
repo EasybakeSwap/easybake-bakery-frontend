@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 // import { Button, Flex, Text, InjectedModalProps } from 'easybake-uikit'
 // import { getFullDisplayBalance } from 'utils/formatBalance'
 // import { getPancakeProfileAddress } from 'utils/addressHelpers'
-// import { useOven } from 'hooks/useContract'
+// import { useOvenContract } from 'hooks/useContract'
 // import useI18n from 'hooks/useI18n'
 // import useGetProfileCosts from 'hooks/useGetProfileCosts'
 // import useHasCakeBalance from 'hooks/useHasCakeBalance'
@@ -48,7 +48,7 @@ import React, { useEffect, useState } from 'react'
 //   const hasMinimumCakeRequired = useHasCakeBalance(minimumCakeRequired)
 //   const TranslateString = useI18n()
 //   const { account } = useWeb3React()
-//   const cakeContract = useOven()
+//   const cakeContract = useOvenContract()
 //   const cost = profile.isActive ? numberCakeToUpdate : numberCakeToReactivate
 
 //   /**

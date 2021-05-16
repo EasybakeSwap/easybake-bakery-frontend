@@ -49,8 +49,8 @@ const TooltipContent = ({ blockNumber }) => (
     <Text color="body" mb="10px" fontWeight="600">
       Block {blockNumber}
     </Text>
-    <Link external href={`https://bscscan.com/block/${blockNumber}`}>
-      View on BscScan
+    <Link external href={`https://etherscan.com/block/${blockNumber}`}>
+      View on Etherscan
     </Link>
   </>
 )
@@ -65,7 +65,7 @@ const Wrapper: React.FC<TimerProps> = ({
   HeadingTextComponent = DefaultHeadingTextComponent,
   BodyTextComponent = DefaultBodyTextComponent,
 }) => {
-  const { targetRef, tooltip, tooltipVisible } = useTooltip(<TooltipContent blockNumber={blockNumber} />, 'bottom')
+  const { targetRef, tooltip, tooltipVisible } = useTooltip(<TooltipContent blockNumber={blockNumber} />, {placement: 'bottom'},)
   const shouldDisplayTooltip = showTooltip && tooltipVisible
   return (
     <Flex alignItems="flex-end" position="relative">

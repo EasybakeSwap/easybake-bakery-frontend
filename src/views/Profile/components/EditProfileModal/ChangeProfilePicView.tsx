@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 // import { fetchProfile } from 'state/profile'
 // import { getAddressByType } from 'utils/collectibles'
 // import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
-// import { useERC721, useProfile as useProfileContract } from 'hooks/useContract'
+// import { useERC721Contract, useProfile as useProfileContract } from 'hooks/useContract'
 // import { getPancakeProfileAddress } from 'utils/addressHelpers'
 // import SelectionCard from '../SelectionCard'
 // import ApproveConfirmButtons from '../ApproveConfirmButtons'
@@ -23,7 +23,7 @@ import React, { useState } from 'react'
 //   const { isLoading, tokenIds, nftsInWallet } = useGetCollectibles()
 //   const dispatch = useAppDispatch()
 //   const { profile } = useProfile()
-//   const contract = useERC721(selectedNft.nftAddress)
+//   const contract = useERC721Contract(selectedNft.nftAddress)
 //   const profileContract = useProfileContract()
 //   const { account } = useWeb3React()
 //   const { toastSuccess } = useToast()

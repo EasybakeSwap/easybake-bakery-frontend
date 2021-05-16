@@ -16,7 +16,7 @@ export const getPools = (data) => {
       poolCategory: pool.category,
       projectLink: pool.project_url,
       harvest: pool.harvest,
-      tokenPerBlock: pool.token_per_block,
+      tokenPerSecond: pool.token_per_second,
       sortOrder: pool.ranking,
       isFinished: pool.is_finished,
       tokenDecimals: pool?.token?.decimals,

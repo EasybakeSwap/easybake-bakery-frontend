@@ -9,17 +9,19 @@ import {
   getOvenAddress,
   getSugarAddress,
   getMasterChefAddress,
+  getOvenVaultAddress,
 } from 'utils/addressHelpers'
 
 // ABI
-import ovenAbi from 'config/abi/oven.json'
-import sugarAbi from 'config/abi/sugar.json'
 import erc20Abi from 'config/abi/erc20.json'
 import erc721Abi from 'config/abi/erc721.json'
-import masterChef from 'config/abi/masterchef.json'
-import sousChef from 'config/abi/sousChef.json'
-import sousChefEth from 'config/abi/sousChefEth.json'
-import uniV2LpAbi from 'config/abi/uni_v2_lp.json'
+import ovenAbi from 'config/abi/oven.json' // v2 (Chain: Ethereum)
+import sugarAbi from 'config/abi/sugar.json' // v2 (Chain: Ethereum)
+import masterChef from 'config/abi/masterchef.json' // v2 (Chain: Ethereum)
+import sousChef from 'config/abi/sousChef.json' // v2 (Chain: Ethereum)
+import sousChefEth from 'config/abi/sousChefEth.json' // v1 ? not used
+import easybakeV2LpAbi from 'config/abi/easybake_v2_lp.json' // v2 (Chain: Ethereum)
+import ovenVaultAbi from 'config/abi/ovenVault.json' // v2 (Chain: Ethereum)
 
 
 const getContract = (abi: any, address: string, web3?: Web3) => {
@@ -33,7 +35,7 @@ export const getErc721Contract = (address: string, web3?: Web3) => {
   return getContract(erc721Abi, address, web3)
 }
 export const getLpContract = (address: string, web3?: Web3) => {
-  return getContract(uniV2LpAbi, address, web3)
+  return getContract(easybakeV2LpAbi, address, web3)
 }
 export const getSouschefContract = (id: number, web3?: Web3) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
@@ -53,4 +55,7 @@ export const getOvenContract = (web3?: Web3) => {
 }
 export const getSugarContract = (web3?: Web3) => {
   return getContract(sugarAbi, getSugarAddress(), web3)
+}
+export const getOvenVaultContract = (web3?: Web3) => {
+  return getContract(ovenVaultAbi, getOvenVaultAddress(), web3)
 }

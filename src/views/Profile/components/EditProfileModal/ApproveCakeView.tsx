@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // import { useWeb3React } from '@web3-react/core'
 // import { AutoRenewIcon, Button, Flex, InjectedModalProps, Text } from 'easybake-uikit'
 // import useI18n from 'hooks/useI18n'
-// import { useOven } from 'hooks/useContract'
+// import { useOvenContract } from 'hooks/useContract'
 // // import { useProfile, useToast } from 'state/hooks'
 // // import { getPancakeProfileAddress } from 'utils/addressHelpers'
 // import { getFullDisplayBalance } from 'utils/formatBalance'
@@ -19,7 +19,7 @@ import React, { useState } from 'react'
 //   const TranslateString = useI18n()
 //   const { account } = useWeb3React()
 //   const { numberCakeToUpdate, numberCakeToReactivate } = useGetProfileCosts()
-//   const cakeContract = useOven()
+//   const cakeContract = useOvenContract()
 //   const { toastError } = useToast()
 //   const cost = profile.isActive ? numberCakeToUpdate : numberCakeToReactivate
 

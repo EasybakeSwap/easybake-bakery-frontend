@@ -7,7 +7,7 @@ import React, { useContext, useState } from 'react'
 // import { getPancakeProfileAddress } from 'utils/addressHelpers'
 // import useI18n from 'hooks/useI18n'
 // import { useGetCollectibles, useToast } from 'state/hooks'
-// import { useERC721 } from 'hooks/useContract'
+// import { useERC721Contract } from 'hooks/useContract'
 // import SelectionCard from '../components/SelectionCard'
 // import NextStepButton from '../components/NextStepButton'
 // import { ProfileCreationContext } from './contexts/ProfileCreationProvider'
@@ -26,7 +26,7 @@ import React, { useContext, useState } from 'react'
 //   const { selectedNft, actions } = useContext(ProfileCreationContext)
 //   const TranslateString = useI18n()
 //   const { isLoading, nftsInWallet, tokenIds } = useGetCollectibles()
-//   const contract = useERC721(selectedNft.nftAddress)
+//   const contract = useERC721Contract(selectedNft.nftAddress)
 //   const { account } = useWeb3React()
 //   const { toastError } = useToast()
 

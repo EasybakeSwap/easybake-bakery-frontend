@@ -4,13 +4,13 @@ import { Contract } from 'web3-eth-contract'
 import { useAppDispatch } from 'state'
 import { updateUserAllowance, fetchFarmUserDataAsync } from 'state/actions'
 import { approve } from 'utils/callHelpers'
-import { useMasterchef, useSousChef } from './useContract'
+import { useMasterchefContract, useSousChefContract } from './useContract'
 
 // Approve a Farm
 export const useApprove = (lpContract: Contract) => {
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterchefContract()
 
   const handleApprove = useCallback(async () => {
     try {
@@ -29,7 +29,7 @@ export const useApprove = (lpContract: Contract) => {
 export const useSousApprove = (lpContract: Contract, sousId) => {
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const sousChefContract = useSousChef(sousId)
+  const sousChefContract = useSousChefContract(sousId)
 
   const handleApprove = useCallback(async () => {
     try {

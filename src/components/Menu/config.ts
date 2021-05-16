@@ -27,11 +27,11 @@ const config: MenuEntry[] = [
     //   },
     // ],
   },
-  // {
-  //   label: 'Pools',
-  //   icon: 'PoolIcon',
-  //   href: '/pools',
-  // },
+  {
+    label: 'Refinery',
+    icon: 'PoolIcon',
+    href: '/pools',
+  },
   {
     label: 'Analytics',
     icon: 'InfoIcon',
@@ -56,15 +56,15 @@ const config: MenuEntry[] = [
     items: [
       {
         label: 'OvenToken.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB#code', 
+        href: 'https://rinkeby.etherscan.io/address/0x7c5A89684a014a950121A6A899f34f11C6c67C10#code', 
       },
       {
         label: 'SugarBar.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x248Dc87bf9e0d4a499d38E76152ee38527C4eA89#code',
+        href: 'https://rinkeby.etherscan.io/address/0xafDb74296868e348EB22b0Fc72Ef614319348b02#code',
       },
       {
         label: 'MasterChef.sol',
-        href: 'https://rinkeby.etherscan.io/address/0xBA60c36f2B23E1F4Ef7bBa10F897340060c62339#code',
+        href: 'https://rinkeby.etherscan.io/address/0x5e31d5017E7aB64Fe6d415314aA84355aCB41857#code',
       },
       {
         label: 'Multicall.sol',
@@ -77,7 +77,15 @@ const config: MenuEntry[] = [
       {
         label: 'EasyBakeRouter02.sol',
         href: 'https://rinkeby.etherscan.io/address/0x6eb6f7F41714B74Dc13415f11F5B5a29dd9214D2#code',
-      }
+      },
+      {
+        label: 'OvenVault.sol',
+        href: 'https://rinkeby.etherscan.io/address/0xA53AD43e62dDB1E348512376Ba362E37ff896D25#code',
+      },
+      {
+        label: 'SousChef.sol',
+        href: 'https://rinkeby.etherscan.io/address/0x3e3a729b17183b70a4784942f5159f83d1f083ef#code',
+      },
     ],
   },
   {

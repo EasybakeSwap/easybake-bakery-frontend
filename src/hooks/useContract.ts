@@ -8,6 +8,7 @@ import {
   getLpContract,
   getMasterchefContract,
   getSouschefContract,
+  getOvenVaultContract,
 } from 'utils/contractHelpers'
 
 /**
@@ -22,29 +23,33 @@ export const useERC20 = (address: string) => {
 /**
  * @see https://docs.openzeppelin.com/contracts/3.x/api/token/erc721
  */
-export const useERC721 = (address: string) => {
+export const useERC721Contract = (address: string) => {
   const web3 = useWeb3()
   return useMemo(() => getErc721Contract(address, web3), [address, web3])
 }
-export const useOven = () => {
+export const useOvenContract = () => {
   const web3 = useWeb3()
   return useMemo(() => getOvenContract(web3), [web3])
 }
-export const useSugar = () => {
+export const useSugarContract = () => {
   const web3 = useWeb3()
   return useMemo(() => getSugarContract(web3), [web3])
 }
-export const useMasterchef = () => {
+export const useMasterchefContract = () => {
   const web3 = useWeb3()
   return useMemo(() => getMasterchefContract(web3), [web3])
 }
-export const useLp = (id) => {
+export const useLpContract = (id) => {
   const web3 = useWeb3()
   return useMemo(() => getLpContract(id, web3), [id, web3])
 }
-export const useSousChef = (id) => {
+export const useSousChefContract = (id) => {
   const web3 = useWeb3()
   return useMemo(() => getSouschefContract(id, web3), [id, web3])
+}
+export const useOvenVaultContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getOvenVaultContract(web3), [web3])
 }
 // export const useProfile = () => {
 //   const web3 = useWeb3()

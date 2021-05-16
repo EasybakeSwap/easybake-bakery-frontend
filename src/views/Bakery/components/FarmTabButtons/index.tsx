@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRouteMatch, Link } from 'react-router-dom'
 import { ButtonMenu, ButtonMenuItem, NotificationDot } from 'easybake-uikit'
-import useI18n from 'hooks/useI18n'
 
 interface FarmTabButtonsProps {
   hasStakeInFinishedFarms: boolean
@@ -10,17 +9,16 @@ interface FarmTabButtonsProps {
 
 const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms }) => {
   const { url, isExact } = useRouteMatch()
-  const TranslateString = useI18n()
 
   return (
     <Wrapper>
       <ButtonMenu activeIndex={isExact ? 0 : 1} scale="sm" variant="subtle">
         <ButtonMenuItem as={Link} to={`${url}`}>
-          {TranslateString(1198, 'Live')}
+          Live
         </ButtonMenuItem>
         <NotificationDot show={hasStakeInFinishedFarms}>
           <ButtonMenuItem as={Link} to={`${url}/history`}>
-            {TranslateString(388, 'Finished')}
+            Finished
           </ButtonMenuItem>
         </NotificationDot>
       </ButtonMenu>

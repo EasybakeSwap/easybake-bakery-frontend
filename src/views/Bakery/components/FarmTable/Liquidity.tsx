@@ -36,14 +36,10 @@ const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
   const displayLiquidity = liquidity
     ? `$${Number(liquidity).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
     : <DisabledText>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</DisabledText>
-  const { targetRef, tooltip, tooltipVisible } = useTooltip(
-    'The total value of the funds in this LP.',
-    'right',
-    'hover',
-    undefined,
-    undefined,
-    [-2, 10],
-  )
+    const { targetRef, tooltip, tooltipVisible } = useTooltip(
+      'The total value of the funds in this farm’s liquidity pool',
+      { placement: 'top-end', tooltipOffset: [20, 10] },
+    )
 
   return (
     <Container>

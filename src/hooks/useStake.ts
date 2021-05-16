@@ -2,13 +2,13 @@ import { useCallback } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state'
 import { fetchFarmUserDataAsync, updateUserStakedBalance, updateUserBalance } from 'state/actions'
-import { stake, sousStake, sousStakeBnb } from 'utils/callHelpers'
-import { useMasterchef, useSousChef } from './useContract'
+import { stake, sousStake } from 'utils/callHelpers'
+import { useMasterchefContract, useSousChefContract } from './useContract'
 
 const useStake = (pid: number) => {
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterchefContract()
 
   const handleStake = useCallback(
     async (amount: string) => {
@@ -22,25 +22,23 @@ const useStake = (pid: number) => {
   return { onStake: handleStake }
 }
 
-export const useSousStake = (sousId, isUsingBnb = false) => {
+export const useSousStake = (sousId) => {
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const masterChefContract = useMasterchef()
-  const sousChefContract = useSousChef(sousId)
+  const masterChefContract = useMasterchefContract()
+  const sousChefContract = useSousChefContract(sousId)
 
   const handleStake = useCallback(
     async (amount: string, decimals: number) => {
       if (sousId === 0) {
         await stake(masterChefContract, 0, amount, account)
-      } else if (isUsingBnb) {
-        await sousStakeBnb(sousChefContract, amount, account)
       } else {
         await sousStake(sousChefContract, amount, decimals, account)
       }
       dispatch(updateUserStakedBalance(sousId, account))
       dispatch(updateUserBalance(sousId, account))
     },
-    [account, dispatch, isUsingBnb, masterChefContract, sousChefContract, sousId],
+    [account, dispatch, masterChefContract, sousChefContract, sousId],
   )
 
   return { onStake: handleStake }
