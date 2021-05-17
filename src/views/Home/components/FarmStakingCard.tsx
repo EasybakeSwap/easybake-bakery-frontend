@@ -51,6 +51,7 @@ const FarmedStakingCard = () => {
     }
   }, [onReward])
 
+  /* Prompts the OVEN token suggestion in MetaMask */
   const addWatchOvenToken = useCallback(async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -64,7 +65,7 @@ const FarmedStakingCard = () => {
             type: 'ERC20',
             options: {
               // Rinkeby address
-              address: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
+              address: '0x1f981839fbbc0e0c713d9d808f6c86cb9904a45b', // v2
               symbol: 'OVEN',
               decimals: '18',
               image: 'https://easybake.finance/favicon.ico',

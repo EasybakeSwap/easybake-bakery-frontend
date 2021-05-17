@@ -56,15 +56,15 @@ const config: MenuEntry[] = [
     items: [
       {
         label: 'OvenToken.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x7c5A89684a014a950121A6A899f34f11C6c67C10#code', 
+        href: 'https://rinkeby.etherscan.io/address/0x1f981839fbbc0e0c713d9d808f6c86cb9904a45b#code', 
       },
       {
         label: 'SugarBar.sol',
-        href: 'https://rinkeby.etherscan.io/address/0xafDb74296868e348EB22b0Fc72Ef614319348b02#code',
+        href: 'https://rinkeby.etherscan.io/address/0x96b99c5e145f54d2d0187ee6abd682d7d3139a6e#code',
       },
       {
         label: 'MasterChef.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x5e31d5017E7aB64Fe6d415314aA84355aCB41857#code',
+        href: 'https://rinkeby.etherscan.io/address/0xB4c466002a1b972eE104203852166E80F9471Ec3#code',
       },
       {
         label: 'Multicall.sol',
@@ -80,11 +80,11 @@ const config: MenuEntry[] = [
       },
       {
         label: 'OvenVault.sol',
-        href: 'https://rinkeby.etherscan.io/address/0xA53AD43e62dDB1E348512376Ba362E37ff896D25#code',
+        href: 'https://rinkeby.etherscan.io/address/0x25ae90075E2DA21210f55cC69D29B94878d4eea8#code',
       },
       {
         label: 'SousChef.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x3e3a729b17183b70a4784942f5159f83d1f083ef#code',
+        href: 'https://rinkeby.etherscan.io/address/0x3e3a729b17183B70a4784942f5159f83D1f083eF#code',
       },
     ],
   },
