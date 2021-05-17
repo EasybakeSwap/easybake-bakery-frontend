@@ -56,35 +56,35 @@ const config: MenuEntry[] = [
     items: [
       {
         label: 'OvenToken.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x1f981839fbbc0e0c713d9d808f6c86cb9904a45b#code', 
+        href: 'https://rinkeby.etherscan.io/address/0x1f981839fbbc0e0c713d9d808f6c86cb9904a45b#code', // v2
       },
       {
         label: 'SugarBar.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x96b99c5e145f54d2d0187ee6abd682d7d3139a6e#code',
+        href: 'https://rinkeby.etherscan.io/address/0x96b99c5e145f54d2d0187ee6abd682d7d3139a6e#code', // v2
       },
       {
         label: 'MasterChef.sol',
-        href: 'https://rinkeby.etherscan.io/address/0xB4c466002a1b972eE104203852166E80F9471Ec3#code',
+        href: 'https://rinkeby.etherscan.io/address/0xB4c466002a1b972eE104203852166E80F9471Ec3#code', // v2
       },
       {
         label: 'Multicall.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x1605d633e30f430d54162232571475c620c69da5#code',
+        href: 'https://rinkeby.etherscan.io/address/0x1605d633e30f430d54162232571475c620c69da5#code', 
       },
       {
         label: 'EasyBakeFactory.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x304D0A26A248bd6ED59e7665EA8303a15Ae6d9d8#code',
+        href: 'https://rinkeby.etherscan.io/address/0x77e43eea4e7d475676d1af631a641c12bee4dce3#code', // v2
       },
       {
         label: 'EasyBakeRouter02.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x6eb6f7F41714B74Dc13415f11F5B5a29dd9214D2#code',
+        href: 'https://rinkeby.etherscan.io/address/0x6eb6f7F41714B74Dc13415f11F5B5a29dd9214D2#code', // v2
       },
       {
         label: 'OvenVault.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x25ae90075E2DA21210f55cC69D29B94878d4eea8#code',
+        href: 'https://rinkeby.etherscan.io/address/0x25ae90075E2DA21210f55cC69D29B94878d4eea8#code', // NEEDS FIXING
       },
       {
         label: 'SousChef.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x3e3a729b17183B70a4784942f5159f83D1f083eF#code',
+        href: 'https://rinkeby.etherscan.io/address/0x3e3a729b17183B70a4784942f5159f83D1f083eF#code', // v2
       },
     ],
   },
