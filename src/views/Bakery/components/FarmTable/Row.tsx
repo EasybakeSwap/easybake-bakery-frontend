@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 import { FarmWithStakedValue } from 'views/Bakery/components/FarmCard/FarmCard'
 import { useMatchBreakpoints } from 'easybake-uikit'
 
@@ -31,12 +31,22 @@ const cells = {
   liquidity: Liquidity,
 }
 
+const Load = keyframes`{
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}`;
+
 const CellInner = styled.div`
   padding: 24px 0px;
   display: flex;
   width: 100%;
   align-items: center;
   padding-right: 8px;
+  animation: ${Load} 300ms ease-in forwards;
 
   ${({ theme }) => theme.mediaQueries.xl} {
     padding-right: 32px;
@@ -46,6 +56,7 @@ const CellInner = styled.div`
 const StyledTr = styled.tr`
   cursor: pointer;
   border-bottom: 2px solid ${({ theme }) => theme.colors.borderColor};
+  animation: ${Load} 300ms ease-in forwards;
 `
 
 const EarnedMobileCell = styled.td`

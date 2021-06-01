@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 import { useTable, Button, ChevronUpIcon, ColumnType } from 'easybake-uikit'
 
 import Row, { RowProps } from './Row'
@@ -10,12 +10,22 @@ export interface ITableProps {
   sortColumn?: string
 }
 
+const Load = keyframes`{
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}`;
+
 const Container = styled.div`
   filter: ${({ theme }) => theme.card.dropShadow};
   width: 100%;
   background: ${({ theme }) => theme.card.background};
   border-radius: 16px;
   margin: 16px 0px;
+  animation: ${Load} 300ms ease-in forwards;
 `
 
 const TableWrapper = styled.div`
