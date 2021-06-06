@@ -55,8 +55,13 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
           isDisabled={!valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
           onClick={async () => {
             setPendingTx(true)
-            await onConfirm(val)
-            setPendingTx(false)
+            try {
+              await onConfirm(val)
+            } catch (error) {
+              // TODO: find a way to handle when the user rejects transaction or it fails
+            } finally {
+              setPendingTx(false)
+            }
           }}
         />
         

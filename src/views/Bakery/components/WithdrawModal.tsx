@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Button, Modal } from 'easybake-uikit'
+import { IcingButtonLG } from 'components/IcingButton/sizes/LG'
 import ModalActions from 'components/ModalActions'
 import ModalInput from 'components/ModalInput'
 import { getFullDisplayBalance } from 'utils/formatBalance'
@@ -46,18 +47,21 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
         inputTitle='Stop Baking DOUGH'
       />
       <ModalActions>
-        <Button
-          disabled={pendingTx || !valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
+      <IcingButtonLG
+          btnName='Confirm'
+          isLoading={pendingTx}
+          isDisabled={!valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
           onClick={async () => {
             setPendingTx(true)
-            await onConfirm(val)
-            setPendingTx(false)
-            onDismiss()
+            try {
+              await onConfirm(val)
+            } catch (error) {
+              // TODO: find a way to handle when the user rejects transaction or it fails
+            } finally {
+              setPendingTx(false)
+            }
           }}
-          width="100%"
-        >
-          {pendingTx ? 'Pending' : 'Confirm'}
-        </Button>
+        />
         <Button variant="secondary" onClick={onDismiss} width="100%">
           Cancel
         </Button>

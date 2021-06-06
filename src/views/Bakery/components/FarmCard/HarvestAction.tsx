@@ -46,8 +46,13 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
           isDisabled={rawEarningsBalance === 0 || !account}
           onClick={async () => {
             setPendingTx(true)
-            await onReward()
-            setPendingTx(false)
+            try {
+              await onReward()
+            } catch (error) {
+              // TODO: find a way to handle when the user rejects transaction or it fails
+            } finally {
+              setPendingTx(false)
+            }
           }}
         />
       </Flex>

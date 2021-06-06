@@ -62,8 +62,13 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
             isDisabled={rawEarningsBalance === 0 || !account}
             onClick={async () => {
               setPendingTx(true)
+            try {
               await onReward()
+            } catch (error) {
+              // TODO: find a way to handle when the user rejects transaction or it fails
+            } finally {
               setPendingTx(false)
+            }
             }}
           />
       </ActionContent>
