@@ -7,17 +7,12 @@ const config: MenuEntry[] = [
     href: '/',
   },
   {
-    label: 'Bakery',
-    icon: 'BakeryIcon',
-    href: '/bakery',
-  },
-  {
     label: 'Swap',
     icon: 'TradeIcon',
     // should be /swap
     href: 'https://swap.easybake.finance/#/swap',
     // items: [
-    //   {
+      //   {
     //     label: 'Swap Tokens',
     //     href: 'https://swap.easybake.finance/#/swap',
     //   },
@@ -26,6 +21,11 @@ const config: MenuEntry[] = [
     //     href: 'https://swap.easybake.finance/add/#/add/eth',
     //   },
     // ],
+  },
+  {
+    label: 'Bakery',
+    icon: 'BakeryIcon',
+    href: '/bakery',
   },
   {
     label: 'Refinery',
@@ -56,36 +56,24 @@ const config: MenuEntry[] = [
     items: [
       {
         label: 'OvenToken.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x1f981839fbbc0e0c713d9d808f6c86cb9904a45b#code', // v2
+        href: 'https://rinkeby.etherscan.io/address/0x6be759Bd2808b869b821AE5d8184e2eFfe5eF396/#code', 
       },
       {
         label: 'SugarBar.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x96b99c5e145f54d2d0187ee6abd682d7d3139a6e#code', // v2
+        href: 'https://rinkeby.etherscan.io/address/0x86b7d8c27afd403d8cde19758be643c11ade4be8/#code',
       },
       {
         label: 'MasterChef.sol',
-        href: 'https://rinkeby.etherscan.io/address/0xB4c466002a1b972eE104203852166E80F9471Ec3#code', // v2
-      },
-      {
-        label: 'Multicall.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x1605d633e30f430d54162232571475c620c69da5#code', 
+        href: 'https://rinkeby.etherscan.io/address/#code',
       },
       {
         label: 'EasyBakeFactory.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x77e43eea4e7d475676d1af631a641c12bee4dce3#code', // v2
+        href: 'https://rinkeby.etherscan.io/address/0x2664b895b5d484de76c621c4bf320f42c2cfe00d#code',
       },
       {
-        label: 'EasyBakeRouter02.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x6eb6f7F41714B74Dc13415f11F5B5a29dd9214D2#code', // v2
-      },
-      {
-        label: 'OvenVault.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x25ae90075E2DA21210f55cC69D29B94878d4eea8#code', // NEEDS FIXING
-      },
-      {
-        label: 'SousChef.sol',
-        href: 'https://rinkeby.etherscan.io/address/0x3e3a729b17183B70a4784942f5159f83D1f083eF#code', // v2
-      },
+        label: 'EasyBakeRouter.sol',
+        href: 'https://rinkeby.etherscan.io/address/0x01cc4ae463325689ea73a4dc9ee8c6583e8a68b7#code',
+      }
     ],
   },
   {

@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { provider as ProviderType } from 'web3-core'
 import { getAddress } from 'utils/addressHelpers'
 import { getErc20Contract } from 'utils/contractHelpers'
-import { Button, Flex, Text } from 'easybake-uikit'
+import { Flex, Text } from 'easybake-uikit'
+import { BaseButtonLG } from 'components/IcingButton/sizes/LG'
 import { Farm } from 'state/types'
 import { useFarmFromSymbol, useFarmUser } from 'state/hooks'
 import useWeb3 from 'hooks/useWeb3'
@@ -59,9 +60,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
         addLiquidityUrl={addLiquidityUrl}
       />
     ) : (
-      <Button mt="8px" width="100%" disabled={requestedApproval} onClick={handleApprove}>
-        Approve Contract
-      </Button>
+        <BaseButtonLG btnName='Approve Contract' scale="100%" isDisabled={requestedApproval} onClick={handleApprove} />
     )
   }
 
@@ -85,7 +84,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
           {lpName}
         </Text>
       </Flex>
-      {!account ? <UnlockButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
+      {!account ? <UnlockButton scale="100%" /> : renderApprovalOrStakeButton()}
     </Action>
   )
 }

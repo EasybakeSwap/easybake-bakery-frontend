@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { Button, useModal, IconButton, AddIcon, MinusIcon } from 'easybake-uikit'
+import { useModal, Flex } from 'easybake-uikit'
+import { BaseButtonXS } from 'components/IcingButton/sizes/XS'
+import { BaseButtonLG } from 'components/IcingButton/sizes/LG'
 import UnlockButton from 'components/UnlockButton'
 import { useWeb3React } from '@web3-react/core'
 import { useFarmUser } from 'state/hooks'
@@ -76,7 +78,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
           <Subtle>BEGIN BAKING</Subtle>
         </ActionTitles>
         <ActionContent>
-          <UnlockButton width="100%" />
+          <UnlockButton scale="100%" />
         </ActionContent>
       </ActionContainer>
     )
@@ -95,12 +97,10 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
               <Earned>{displayBalance()}</Earned>
             </div>
             <IconButtonWrapper>
-              <IconButton variant="primary" onClick={onPresentDeposit} mr="6px">
-                <AddIcon color="white" width="14px" />
-              </IconButton>
-              <IconButton variant="primary" onClick={onPresentWithdraw}>
-                <MinusIcon color="white" width="14px" />
-              </IconButton>
+              <Flex paddingRight="8px">
+                <BaseButtonXS btnName="+" onClick={onPresentDeposit} />
+              </Flex>
+              <BaseButtonXS btnName="-" onClick={onPresentWithdraw} />
             </IconButtonWrapper>
           </ActionContent>
         </ActionContainer>
@@ -114,9 +114,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
           <Subtle>{lpSymbol} </Subtle>
         </ActionTitles>
         <ActionContent>
-          <Button width="100%" onClick={onPresentDeposit} variant="secondary">
-            Bake LP
-          </Button>
+          <BaseButtonLG scale="100%" btnName="Bake LP" onClick={onPresentDeposit} />
         </ActionContent>
       </ActionContainer>
     )
@@ -129,9 +127,7 @@ const Staked: React.FunctionComponent<FarmWithStakedValue> = ({ pid, lpSymbol, l
         <Subtle>OVEN</Subtle>
       </ActionTitles>
       <ActionContent>
-        <Button width="100%" disabled={requestedApproval} onClick={handleApprove} variant="secondary">
-          Enable
-        </Button>
+        <BaseButtonLG scale="100%" btnName="Enable" isLoading={requestedApproval} onClick={handleApprove} />
       </ActionContent>
     </ActionContainer>
   )

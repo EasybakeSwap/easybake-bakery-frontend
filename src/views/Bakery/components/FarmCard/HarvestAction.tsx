@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
-import { Button, Flex, Heading } from 'easybake-uikit'
+import { Flex, Heading } from 'easybake-uikit'
+import { IcingButtonSM } from 'components/IcingButton/sizes/SM'
 import { useHarvest } from 'hooks/useHarvest'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { useWeb3React } from '@web3-react/core'
@@ -38,16 +39,18 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
         {displayBalance}
         {/* {earningsUsdc > 0 && <CardBusdValue value={earningsUsdc} />} */}
       </Heading>
-      <Button
-        disabled={rawEarningsBalance === 0 || pendingTx || !account}
-        onClick={async () => {
-          setPendingTx(true)
-          await onReward()
-          setPendingTx(false)
-        }}
-      >
-        Collect
-      </Button>
+      <Flex justifyContent="right">
+        <IcingButtonSM
+          btnName='Collect'
+          isLoading={pendingTx}
+          isDisabled={rawEarningsBalance === 0 || !account}
+          onClick={async () => {
+            setPendingTx(true)
+            await onReward()
+            setPendingTx(false)
+          }}
+        />
+      </Flex>
     </Flex>
   )
 }

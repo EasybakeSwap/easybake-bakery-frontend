@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { Heading, Card, CardBody, Button, Flex } from 'easybake-uikit'
+import { Heading, Card, CardBody, Flex } from 'easybake-uikit'
+import { IcingButtonLG, BaseButtonLG } from 'components/IcingButton/sizes/LG'
 import { useWeb3React } from '@web3-react/core'
 import { useAllHarvest } from 'hooks/useHarvest'
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'
@@ -99,29 +100,31 @@ const FarmedStakingCard = () => {
         </Block>
         <br/>
         <Flex justifyContent="center">
-          <Button scale="sm" onClick={addWatchOvenToken}>
-            Add Oven Token
+          <BaseButtonLG btnName='Add Oven Token' onClick={addWatchOvenToken}>
+            {/* Add Oven Token
             <img
               style={{ marginLeft: 8}}
               width={20}
               height={20}
               src="/images/farms/oven-eth.svg"
               alt=""
-            />
-          </Button>
+            /> */}
+          </BaseButtonLG>
           </Flex>
         <Actions>
           {account ? (
-            <Button
-              id="harvest-all"
-              disabled={balancesWithValue.length <= 0 || pendingTx}
-              onClick={harvestAllFarms}
-              width="100%"
-            >
-              {pendingTx ? 'Collecting OVEN' : `CLAIM (${balancesWithValue.length})`}
-            </Button>
+            <Flex justifyContent="center">
+              <IcingButtonLG 
+                btnName={`Claim all (${balancesWithValue.length})`}
+                isLoading={pendingTx}
+                isDisabled={balancesWithValue.length <= 0}
+                onClick={harvestAllFarms}
+              />
+            </Flex>
           ) : (
-            <UnlockButton width="100%" />
+            <Flex justifyContent="center">
+              <UnlockButton scale="12.5rem"/>
+            </Flex>
           )}
         </Actions>
       </CardBody>

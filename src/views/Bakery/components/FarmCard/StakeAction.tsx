@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
-import { Button, Flex, Heading, IconButton, AddIcon, MinusIcon, useModal } from 'easybake-uikit'
+import { Flex, Heading, useModal } from 'easybake-uikit'
+import { BaseButtonXS } from 'components/IcingButton/sizes/XS'
+import { IcingButtonSM } from 'components/IcingButton/sizes/SM'
 import useStake from 'hooks/useStake'
 import useUnstake from 'hooks/useUnstake'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -50,15 +52,16 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
 
   const renderStakingButtons = () => {
     return stakedBalance.eq(0) ? (
-      <Button variant='primary' onClick={onPresentDeposit}>Bake LP</Button>
+      <IcingButtonSM
+          btnName='Bake LP'
+          onClick={onPresentDeposit}
+        />
     ) : (
       <IconButtonWrapper>
-        <IconButton variant="primary" onClick={onPresentDeposit} mr="6px">
-          <AddIcon color="white" width="14px" />
-        </IconButton>
-        <IconButton variant="primary" onClick={onPresentWithdraw} >
-          <MinusIcon color="white" width="14px" />
-        </IconButton>
+         <Flex paddingRight='8px'>
+          <BaseButtonXS btnName='+' onClick={onPresentDeposit} />
+        </Flex>
+        <BaseButtonXS btnName='-' onClick={onPresentWithdraw} />
       </IconButtonWrapper>
     )
   }

@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Button, Modal, LinkExternal } from 'easybake-uikit'
+import { IcingButtonLG } from 'components/IcingButton/sizes/LG'
 import ModalActions from 'components/ModalActions'
 import ModalInput from 'components/ModalInput'
 import { getFullDisplayBalance } from 'utils/formatBalance'
@@ -48,18 +49,17 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
         inputTitle='Bake'
       />
       <ModalActions>
-        <Button
-          width="100%"
-          disabled={pendingTx || !valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
+        <IcingButtonLG
+          btnName='Confirm'
+          isLoading={pendingTx}
+          isDisabled={!valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
           onClick={async () => {
             setPendingTx(true)
             await onConfirm(val)
             setPendingTx(false)
-            onDismiss()
           }}
-        >
-          {pendingTx ? 'Pending' : 'Confirm'}
-        </Button>
+        />
+        
         <Button variant="secondary" onClick={onDismiss} width="100%">
           Cancel
         </Button>

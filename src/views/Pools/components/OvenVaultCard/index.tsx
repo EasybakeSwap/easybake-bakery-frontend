@@ -95,7 +95,7 @@ const OvenVaultCard: React.FC<OvenVaultProps> = ({ pool, showStakedOnly }) => {
                 <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>
                   Start earning
                 </Text>
-                <UnlockButton />
+                <UnlockButton scale="100%" />
               </>
             )}
           </Flex>

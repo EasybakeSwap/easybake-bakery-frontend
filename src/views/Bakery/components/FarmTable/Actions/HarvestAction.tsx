@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
-import { Button, Heading } from 'easybake-uikit'
+import { Heading, Flex } from 'easybake-uikit'
+import { IcingButtonSM } from 'components/IcingButton/sizes/SM'
 // import BigNumber from 'bignumber.js'
 import { FarmWithStakedValue } from 'views/Bakery/components/FarmCard/FarmCard'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -55,17 +56,16 @@ const HarvestAction: React.FunctionComponent<FarmWithStakedValue> = ({ pid, user
           {displayBalance}
           {/* {countUp > 0 && <Staked>~{countUp}USD</Staked>} */}
         </Heading>
-        <Button
-          disabled={rawEarningsBalance === 0 || pendingTx || !account}
-          onClick={async () => {
-            setPendingTx(true)
-            await onReward()
-            setPendingTx(false)
-          }}
-          ml="4px"
-        >
-          Collect
-        </Button>
+          <IcingButtonSM
+            btnName='Collect'
+            isLoading={pendingTx}
+            isDisabled={rawEarningsBalance === 0 || !account}
+            onClick={async () => {
+              setPendingTx(true)
+              await onReward()
+              setPendingTx(false)
+            }}
+          />
       </ActionContent>
     </ActionContainer>
   )

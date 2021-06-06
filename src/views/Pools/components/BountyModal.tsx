@@ -105,7 +105,7 @@ const BountyModal: React.FC<BountyModalProps> = ({
           Confirm
         </Button>
       ) : (
-        <UnlockButton mb="28px" />
+        <UnlockButton scale="100%" />
       )}
       {/* <Flex justifyContent="center" alignItems="center">
         <Text fontSize="16px" bold color="textSubtle" mr="4px">

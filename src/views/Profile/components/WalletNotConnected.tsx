@@ -11,7 +11,7 @@ const WalletNotConnected = () => {
       <Text as="p" mb="16px">
         Please connect your wallet to continue
       </Text>
-      <UnlockButton />
+      <UnlockButton scale="100%" />
     </div>
   )
 }

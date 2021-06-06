@@ -24,7 +24,7 @@ const farms: FarmConfig[] = [
   //   quoteToken: tokens.wbnb,
   // },
 
-  // Need to update to LP tokens, current they are tokens
+  // FIX ** Needs updating
   {
     pid: 0,
     lpSymbol: 'OVEN',
