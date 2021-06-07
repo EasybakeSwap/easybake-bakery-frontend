@@ -1,6 +1,6 @@
 export default {
   masterChef: {
-    4: '0xB4c466002a1b972eE104203852166E80F9471Ec3', // FIX ** Needs updating
+    4: '0x34C0C9D040E7C51fF72eC3E0E8F9E4495d99107E', // 7/6/2021
     1: '',
   },
   sousChef: {

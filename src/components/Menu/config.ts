@@ -64,7 +64,7 @@ const config: MenuEntry[] = [
       },
       {
         label: 'MasterChef.sol',
-        href: 'https://rinkeby.etherscan.io/address/#code',
+        href: 'https://rinkeby.etherscan.io/address/0x34C0C9D040E7C51fF72eC3E0E8F9E4495d99107E/#code',
       },
       {
         label: 'EasyBakeFactory.sol',
