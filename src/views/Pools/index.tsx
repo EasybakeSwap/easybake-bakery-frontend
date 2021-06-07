@@ -11,7 +11,7 @@ import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
 import PageHeader from 'components/PageHeader'
 import PoolCard from './components/PoolCard'
-import OvenVaultCard from './components/OvenVaultCard'
+// import OvenVaultCard from './components/OvenVaultCard'
 import PoolTabButtons from './components/PoolTabButtons'
 // import BountyCard from './components/BountyCard'
 
@@ -37,7 +37,7 @@ const Pools: React.FC = () => {
   const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0
 
   // This pool is passed explicitly to the oven vault
-  const ovenPoolData = useMemo(() => openPools.find((pool) => pool.sousId === 0), [openPools])
+  // const ovenPoolData = useMemo(() => openPools.find((pool) => pool.sousId === 0), [openPools])
 
   return (
     <>
@@ -68,7 +68,7 @@ const Pools: React.FC = () => {
         <FlexLayout>
           <Route exact path={`${path}`}>
             <>
-              <OvenVaultCard pool={ovenPoolData} showStakedOnly={stakedOnly} />
+              {/* <OvenVaultCard pool={ovenPoolData} showStakedOnly={stakedOnly} /> */}
               {stakedOnly
                 ? orderBy(stakedOnlyOpenPools, ['sortOrder']).map((pool) => (
                     <PoolCard key={pool.sousId} pool={pool} account={account} />

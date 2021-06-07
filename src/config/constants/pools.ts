@@ -9,7 +9,7 @@ const pools: PoolConfig[] = [
     stakingToken: tokens.oven,
     earningToken: tokens.oven,
     contractAddress: {
-      4: '0x3e3a729b17183B70a4784942f5159f83D1f083eF', // Sous Chef
+      4: '0x34C0C9D040E7C51fF72eC3E0E8F9E4495d99107E', // Masterchef // June 7th, 2021
       1: '',
     },
     poolCategory: PoolCategory.CORE,

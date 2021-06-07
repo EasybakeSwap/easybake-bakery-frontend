@@ -17,7 +17,7 @@ const farms: FarmConfig[] = [
     pid: 1,
     lpSymbol: 'OVEN-ETH LP',
     lpAddresses: {
-      4: '0xF673c52c0d9866c556Be70fB13F30576D73e8f8e', // June 7 xx
+      4: '0xF673c52c0d9866c556Be70fB13F30576D73e8f8e', // June 7th 2021
       1: '',
     },
     token: tokens.oven,
@@ -27,7 +27,7 @@ const farms: FarmConfig[] = [
     pid: 4,
     lpSymbol: 'USDC-ETH LP',
     lpAddresses: {
-      4: '0xe172AD4BA8238201A7b4158b7F8FE08E79d16678', // June 7 xx
+      4: '0xe172AD4BA8238201A7b4158b7F8FE08E79d16678', // June 7th 2021
       1: '',
     },
     token: tokens.usdc,
@@ -37,7 +37,7 @@ const farms: FarmConfig[] = [
     pid: 5,
     lpSymbol: 'LAYER-ETH LP',
     lpAddresses: {
-      4: '0x99cDC4A1d5A60b622f11eB45D38c8e419C6231F8', // June 7 xx
+      4: '0x99cDC4A1d5A60b622f11eB45D38c8e419C6231F8', // June 7th 2021
       1: '',
     },
     token: tokens.layer,
@@ -47,7 +47,7 @@ const farms: FarmConfig[] = [
     pid: 6,
     lpSymbol: 'DAI-ETH LP',
     lpAddresses: {
-      4: '0x76b9D0b38AA74131C90B24fAe9C73Db5514D6D08', // June 7 xx
+      4: '0x76b9D0b38AA74131C90B24fAe9C73Db5514D6D08', // June 7th, 2021
       1: '',
     },
     token: tokens.dai,
@@ -57,7 +57,7 @@ const farms: FarmConfig[] = [
     pid: 7,
     lpSymbol: 'LINK-ETH LP',
     lpAddresses: {
-      4: '0x55DEEB8905017a283CF9cd6A45E8d1c06b94a49C', // June 7 xx
+      4: '0x55DEEB8905017a283CF9cd6A45E8d1c06b94a49C', // June 7th, 2021
       1: '',
     },
     token: tokens.link,

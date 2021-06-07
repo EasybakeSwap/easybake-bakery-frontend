@@ -9,14 +9,14 @@ const tokens = {
   oven: {
     symbol: 'OVEN',
     address: {
-      4: '0x6be759Bd2808b869b821AE5d8184e2eFfe5eF396', // 6/6/21
+      4: '0x6be759Bd2808b869b821AE5d8184e2eFfe5eF396', // June 6th 2021
       1: '',
     },
   },
   sugar: {
     symbol: 'SUGAR',
     address: {
-      4: '0x86b7d8c27afd403d8cde19758be643c11ade4be8', // 6/6/21
+      4: '0x86b7d8c27afd403d8cde19758be643c11ade4be8', // June 6th 2021
       1: '',
     },
   },
