@@ -175,7 +175,7 @@ export const useGetApiPrice = (address: string) => {
 export const usePriceOvenUsdc = (): BigNumber => {
   const ZERO = new BigNumber(0)
   const ovenEthFarm = useFarmFromPid(1)
-  const usdcEthFarm = useFarmFromPid(2)
+  const usdcEthFarm = useFarmFromPid(4)
 
   const usdcEthPrice = usdcEthFarm.tokenPriceVsQuote ? new BigNumber(1).div(usdcEthFarm.tokenPriceVsQuote) : ZERO
   const ovenUsdcPrice = ovenEthFarm.tokenPriceVsQuote ? usdcEthPrice.times(ovenEthFarm.tokenPriceVsQuote) : ZERO

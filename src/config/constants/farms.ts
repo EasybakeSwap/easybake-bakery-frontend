@@ -2,84 +2,62 @@ import tokens from './tokens'
 import { FarmConfig } from './types'
 
 const farms: FarmConfig[] = [
-  //                    Structure Reference
+  // FIX ** Needs updating
   // {
   //   pid: 0,
   //   lpSymbol: 'OVEN',
   //   lpAddresses: {
-  //     4: '0x9C21123D94b93361a29B2C2EFB3d5CD8B17e0A9e',
-  //     1: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
+  //     4: '0x1f981839FBBc0E0c713d9D808F6C86cB9904A45B',
+  //     1: '',
   //   },
-  //   token: tokens.syrup,
-  //   quoteToken: tokens.wbnb,
+  //   token: tokens.sugar,
+  //   quoteToken: tokens.weth,
   // },
-  // {
-  //   pid: 139,
-  //   lpSymbol: 'OVEN-BNB LP',
-  //   lpAddresses: {
-  //     97: '',
-  //     56: '0xFB7E9FE9D13561AdA7131Fa746942a14F7dd4Cf6',
-  //   },
-  //   token: tokens.OVEN,
-  //   quoteToken: tokens.wbnb,
-  // },
-
-  // FIX ** Needs updating
-  {
-    pid: 0,
-    lpSymbol: 'OVEN',
-    lpAddresses: {
-      4: '0x1f981839FBBc0E0c713d9D808F6C86cB9904A45B',
-      1: '',
-    },
-    token: tokens.sugar,
-    quoteToken: tokens.weth,
-  },
   {
     pid: 1,
     lpSymbol: 'OVEN-ETH LP',
     lpAddresses: {
-      4: '0x5e2d0cb65162f2ebce962b67844caa94b705b157',
+      4: '0xF673c52c0d9866c556Be70fB13F30576D73e8f8e', // June 7 xx
       1: '',
     },
     token: tokens.oven,
     quoteToken: tokens.weth,
   },
   {
-    pid: 2,
+    pid: 4,
     lpSymbol: 'USDC-ETH LP',
     lpAddresses: {
-      4: '0xbB37B7d16db4b74eA6c72663883BE15181d132C3',
+      4: '0xe172AD4BA8238201A7b4158b7F8FE08E79d16678', // June 7 xx
       1: '',
     },
     token: tokens.usdc,
     quoteToken: tokens.weth,
   },
   {
-    pid: 3,
+    pid: 5,
     lpSymbol: 'LAYER-ETH LP',
     lpAddresses: {
-      4: '0x4A942AA0174D9D927814782e2F696A1598Cc7A07',
+      4: '0x99cDC4A1d5A60b622f11eB45D38c8e419C6231F8', // June 7 xx
       1: '',
     },
     token: tokens.layer,
     quoteToken: tokens.weth,
   },
   {
-    pid: 4,
+    pid: 6,
     lpSymbol: 'DAI-ETH LP',
     lpAddresses: {
-      4: '0x3f91d24F1a71283AB93A6baAE388b1B4445e66A6',
+      4: '0x76b9D0b38AA74131C90B24fAe9C73Db5514D6D08', // June 7 xx
       1: '',
     },
     token: tokens.dai,
     quoteToken: tokens.weth,
   },
   {
-    pid: 5,
+    pid: 7,
     lpSymbol: 'LINK-ETH LP',
     lpAddresses: {
-      4: '0x136D9B4E3DeC9192ef367efd3d3c91fa32D20cFd',
+      4: '0x55DEEB8905017a283CF9cd6A45E8d1c06b94a49C', // June 7 xx
       1: '',
     },
     token: tokens.link,

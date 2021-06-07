@@ -13,7 +13,7 @@ import PageHeader from 'components/PageHeader'
 import PoolCard from './components/PoolCard'
 import OvenVaultCard from './components/OvenVaultCard'
 import PoolTabButtons from './components/PoolTabButtons'
-import BountyCard from './components/BountyCard'
+// import BountyCard from './components/BountyCard'
 
 const Pools: React.FC = () => {
   const { path } = useRouteMatch()
@@ -55,7 +55,7 @@ const Pools: React.FC = () => {
             </Heading>
           </Flex>
           <Flex height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
-            <BountyCard />
+            {/* <BountyCard /> */}
           </Flex>
         </Flex>
       </PageHeader>
