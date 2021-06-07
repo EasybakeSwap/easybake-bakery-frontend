@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useCallback, useState } from 'react'
+import React, { createContext, useCallback, useState } from 'react'
 import { kebabCase } from 'lodash'
 import { Toast, toastTypes } from 'easybake-uikit'
 import { ToastContextApi } from './types'
@@ -9,7 +9,7 @@ export const ToastsProvider: React.FC = ({ children }) => {
   const [toasts, setToasts] = useState<ToastContextApi['toasts']>([])
 
   const toast = useCallback(
-    ({ title, description, type }: Omit<Toast, 'id'>) => {
+    ({ title, type }: Omit<Toast, 'id'>) => {
       setToasts((prevToasts) => {
         const id = kebabCase(title)
 
@@ -20,7 +20,6 @@ export const ToastsProvider: React.FC = ({ children }) => {
           {
             id,
             title,
-            description,
             type,
           },
           ...currentToasts,
@@ -30,16 +29,16 @@ export const ToastsProvider: React.FC = ({ children }) => {
     [setToasts],
   )
 
-  const toastError = (title: string, description?: ReactNode) => {
+  const toastError = (title: string) => {
     return toast({ title, type: toastTypes.DANGER })
   }
-  const toastInfo = (title: string, description?: ReactNode) => {
+  const toastInfo = (title: string) => {
     return toast({ title, type: toastTypes.INFO })
   }
-  const toastSuccess = (title: string, description?: ReactNode) => {
+  const toastSuccess = (title: string) => {
     return toast({ title, type: toastTypes.SUCCESS })
   }
-  const toastWarning = (title: string, description?: ReactNode) => {
+  const toastWarning = (title: string) => {
     return toast({ title, type: toastTypes.WARNING })
   }
   const clear = () => setToasts([])

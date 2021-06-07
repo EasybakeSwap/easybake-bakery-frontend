@@ -11,7 +11,7 @@ import {
 } from '@web3-react/walletconnect-connector'
 import { ConnectorNames, connectorLocalStorageKey } from 'easybake-uikit'
 import { connectorsByName } from 'utils/web3React'
-import { setupNetwork } from 'utils/wallet'
+import { setupNetwork } from 'utils/wallet' 
 import { useToast } from 'state/hooks'
 // import { profileClear } from 'state/profile'
 // import { useAppDispatch } from 'state'
@@ -21,7 +21,7 @@ const useAuth = () => {
   const { activate, deactivate } = useWeb3React()
   const { toastError } = useToast()
 
-  const login = useCallback((connectorID: ConnectorNames) => {
+  const login = useCallback((connectorID: ConnectorNames) => { 
     const connector = connectorsByName[connectorID]
     if (connector) {
       activate(connector, async (error: Error) => {

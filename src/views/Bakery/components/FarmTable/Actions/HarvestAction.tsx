@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
-import { Heading, Flex } from 'easybake-uikit'
+import { Heading } from 'easybake-uikit'
 import { IcingButtonSM } from 'components/IcingButton/sizes/SM'
 // import BigNumber from 'bignumber.js'
 import { FarmWithStakedValue } from 'views/Bakery/components/FarmCard/FarmCard'

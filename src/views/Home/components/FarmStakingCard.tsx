@@ -66,7 +66,7 @@ const FarmedStakingCard = () => {
             type: 'ERC20',
             options: {
               // Rinkeby address
-              address: '0x1f981839fbbc0e0c713d9d808f6c86cb9904a45b', // v2
+              address: '0x6be759Bd2808b869b821AE5d8184e2eFfe5eF396', // June 7th 2021
               symbol: 'OVEN',
               decimals: '18',
               image: 'https://easybake.finance/favicon.ico',

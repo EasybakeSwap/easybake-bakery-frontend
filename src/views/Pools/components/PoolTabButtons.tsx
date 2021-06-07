@@ -7,8 +7,7 @@ import {
   Toggle,
   Text,
   Flex,
-  NotificationDot,
-  Link as UiKitLink,
+  NotificationDot
 } from 'easybake-uikit' // disabled: Button, HelpIcon,
 
 // const ButtonText = styled(Text)`
