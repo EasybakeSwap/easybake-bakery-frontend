@@ -1,12 +1,10 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled, { keyframes } from 'styled-components'
-import { Flex, Text, Skeleton } from 'easybakeswap-uikit' // UPDATE
-import { communityFarms } from 'config/constants'
+import { Flex, Text } from 'easybake-uikit' // disabled: Skeleton
 import { Farm } from 'state/types'
-import { provider } from 'web3-core'
+import { provider as ProviderType } from 'web3-core'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
-import { QuoteToken } from 'config/constants/types'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import DetailsSection from './DetailsSection'
@@ -15,7 +13,8 @@ import CardActionsContainer from './CardActionsContainer'
 // import ApyButton from './ApyButton'
 
 export interface FarmWithStakedValue extends Farm {
-  apy?: BigNumber
+  apr?: number
+  liquidity?: BigNumber
 }
 
 const RainbowLight = keyframes`
@@ -47,7 +46,7 @@ const StyledCardAccent = styled.div`
   );
   background-size: 300% 300%;
   animation: ${RainbowLight} 2s linear infinite;
-  border-radius: 16px;
+  border-radius: 32px;
   filter: blur(6px);
   position: absolute;
   top: -2px;
@@ -86,75 +85,64 @@ interface FarmCardProps {
   farm: FarmWithStakedValue
   removed: boolean
   ovenPrice?: BigNumber
-  ethPrice?: BigNumber
-  ethereum?: provider
+  provider?: ProviderType
   account?: string
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, ethPrice, ethereum, account }) => {
-
+// disabled: ovenPrice
+const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, account }) => {
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
-  const isCommunityFarm = communityFarms.includes(farm.tokenSymbol)
-  // We assume the token name is coin pair + lp e.g. OVEN-ETH LP, LINK-ETH LP,
-  // NAR-OVEN LP. The images should be oven-eth.svg, link-eth.svg, nar-oven.svg
+  // We assume the token name is coin pair + lp e.g. OVEN-BNB LP, LINK-BNB LP,
+  // NAR-OVEN LP. The images should be OVEN-bnb.svg, link-bnb.svg, nar-OVEN.svg
   const farmImage = farm.lpSymbol.split(' ')[0].toLocaleLowerCase()
 
-  const totalValue: BigNumber = useMemo(() => {
-    if (!farm.lpTotalInQuoteToken) {
-      return null
-    }
-    if (farm.quoteTokenSymbol === QuoteToken.OVEN) {
-      return ovenPrice.times(farm.lpTotalInQuoteToken)
-    }
-    if (farm.quoteTokenSymbol === QuoteToken.WETH) {
-      return ethPrice.times(farm.lpTotalInQuoteToken)
-    }
-    return farm.lpTotalInQuoteToken
-  }, [ovenPrice, ethPrice, farm.lpTotalInQuoteToken, farm.quoteTokenSymbol])
-
-  const totalValueFormated = totalValue
-    ? `$${Number(totalValue).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+  const totalValueFormatted = farm.liquidity
+    ? `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
     : '-'
 
-  const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('-OVEN', '')
+  const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('EASYBAKE', '')
   const earnLabel = farm.dual ? farm.dual.earnLabel : 'OVEN'
-  const farmAPY = farm.apy && farm.apy.times(new BigNumber(100)).toNumber().toLocaleString('en-US').slice(0, -1)
 
-  const { quoteTokenAdresses, quoteTokenSymbol, tokenAddresses } = farm
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAdresses, quoteTokenSymbol, tokenAddresses })
+  // const farmAPR = farm.apr && farm.apr.toLocaleString('en-US', { maximumFractionDigits: 2 })
+
+  const liquidityUrlPathParts = getLiquidityUrlPathParts({
+    quoteTokenAddress: farm.quoteToken.address,
+    tokenAddress: farm.token.address,
+  })
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
+  const lpAddress = farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
 
   return (
     <FCard>
-      {farm.tokenSymbol === 'OVEN' && <StyledCardAccent />}
+      {farm.token.symbol === 'OVEN' && <StyledCardAccent />}
       <CardHeading
         lpLabel={lpLabel}
-        multiplier={farm.multiplier}
-        isCommunityFarm={isCommunityFarm}
+        // multiplier={farm.multiplier}
+        // isCommunityFarm={farm.isCommunity}
         farmImage={farmImage}
-        tokenSymbol={farm.tokenSymbol}
+        tokenSymbol={farm.token.symbol}
       />
-      {/* {!removed && (
+      {!removed && (
         <Flex justifyContent="space-between" alignItems="center">
-          <Text>APR</Text>
-          <Text bold style={{ display: 'flex', alignItems: 'center' }}>
-            {farm.apy ? (
+          {/* <Text>APR:</Text> */}
+          {/* <Text bold style={{ display: 'flex', alignItems: 'center' }}>
+            {farm.apr ? (
               <>
-                <ApyButton lpLabel={lpLabel} addLiquidityUrl={addLiquidityUrl} ovenPrice={ovenPrice} apy={farm.apy} />
-                {farmAPY}%
+                <ApyButton lpLabel={lpLabel} addLiquidityUrl={addLiquidityUrl} ovenPrice={ovenPrice} apr={farm.apr} />
+                {farmAPR}%
               </>
             ) : (
               <Skeleton height={24} width={80} />
             )}
-          </Text>
+          </Text> */}
         </Flex>
-      )} */}
+      )}
       <Flex justifyContent="space-between">
         <Text>Earn:</Text>
         <Text bold>{earnLabel}</Text>
       </Flex>
-      <CardActionsContainer farm={farm} ethereum={ethereum} account={account} addLiquidityUrl={addLiquidityUrl} />
+      <CardActionsContainer farm={farm} account={account} addLiquidityUrl={addLiquidityUrl} />
       <Divider />
       <ExpandableSectionButton
         onClick={() => setShowExpandableSection(!showExpandableSection)}
@@ -163,8 +151,9 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, ethPrice,
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          ercScanAddress={`https://rinkeby.etherscan.io/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]}`}
-          totalValueFormated={totalValueFormated}
+          etherscanAddress={`https://etherscan.com/address/${farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]}`}
+          infoAddress={`https://info.easybake.finance/pair/${lpAddress}`}
+          totalValueFormatted={totalValueFormatted}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}
         />

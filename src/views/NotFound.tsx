@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Heading, Text /* LogoIcon */ } from 'easybakeswap-uikit' // UPDATE
+import { Button, Heading, Text, LogoIcon } from 'easybake-uikit'
 import Page from 'components/layout/Page'
 
 const StyledNotFound = styled.div`
@@ -15,11 +15,11 @@ const NotFound = () => {
   return (
     <Page>
       <StyledNotFound>
-        {/* <LogoIcon width="64px" mb="8px" /> */}
+        <LogoIcon width="64px" mb="8px" />
         <Heading size="xxl">404</Heading>
-        <Text mb="16px">{'Oops, page not found.'}</Text>
-        <Button as="a" href="/" size="sm">
-          {'Back Home'}
+        <Text mb="16px">Oops, page not found.</Text>
+        <Button as="a" href="/" scale="sm">
+          Back Home
         </Button>
       </StyledNotFound>
     </Page>

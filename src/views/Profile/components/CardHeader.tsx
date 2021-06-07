@@ -1,5 +1,5 @@
 import styled, { DefaultTheme } from 'styled-components'
-import { CardHeader as UIKitCardHeader } from 'easybakeswap-uikit'
+import { CardHeader as UIKitCardHeader } from 'easybake-uikit'
 
 const getBackground = (theme: DefaultTheme) => {
   if (theme.isDark) {

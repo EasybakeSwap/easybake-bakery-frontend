@@ -1,33 +1,29 @@
 import React from 'react'
-import { ModalProvider } from 'easybakeswap-uikit' // UPDATE
-import { UseWalletProvider } from '@binance-chain/bsc-use-wallet' // UPDATE
+import { ModalProvider } from 'easybake-uikit'
+import { Web3ReactProvider } from '@web3-react/core'
+import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
-import getRpcUrl from 'utils/getRpcUrl'
+import { getLibrary } from 'utils/web3React'
+import { LanguageContextProvider } from 'contexts/Localisation/languageContext'
 import { ThemeContextProvider } from 'contexts/ThemeContext'
-import { BlockContextProvider } from 'contexts/BlockContext'
 import { RefreshContextProvider } from 'contexts/RefreshContext'
 import store from 'state'
 
 const Providers: React.FC = ({ children }) => {
-  const rpcUrl = getRpcUrl()
-
   return (
-    <Provider store={store}>
-      <ThemeContextProvider>
-          <UseWalletProvider
-            chainId={parseInt(process.env.REACT_APP_CHAIN_ID)}
-            connectors={{
-              walletconnect: { rpcUrl },
-            }}
-          >
-            <BlockContextProvider>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <Provider store={store}>
+        <HelmetProvider>
+          <ThemeContextProvider>
+            <LanguageContextProvider>
               <RefreshContextProvider>
                 <ModalProvider>{children}</ModalProvider>
               </RefreshContextProvider>
-            </BlockContextProvider>
-          </UseWalletProvider>
-      </ThemeContextProvider>
-    </Provider>
+            </LanguageContextProvider>
+          </ThemeContextProvider>
+        </HelmetProvider>
+      </Provider>
+    </Web3ReactProvider>
   )
 }
 

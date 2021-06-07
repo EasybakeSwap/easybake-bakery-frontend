@@ -1,18 +1,17 @@
 import React from 'react'
-import { Heading, Text } from 'easybakeswap-uikit'
+import { Heading, Text } from 'easybake-uikit'
 import UnlockButton from 'components/UnlockButton'
 
 const WalletNotConnected = () => {
-
   return (
     <div>
       <Heading size="xl" mb="8px">
-        Whoopsies!
+        Oops!
       </Heading>
-      <Text>
-      { 'Please connect your wallet to continue' }
+      <Text as="p" mb="16px">
+        Please connect your wallet to continue
       </Text>
-      <UnlockButton />
+      <UnlockButton scale="100%" />
     </div>
   )
 }

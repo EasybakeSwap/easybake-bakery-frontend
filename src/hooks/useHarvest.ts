@@ -1,14 +1,14 @@
 import { useCallback } from 'react'
-import { useWallet } from '@binance-chain/bsc-use-wallet'
-import { useDispatch } from 'react-redux'
-import { fetchFarmUserDataAsync, updateUserBalance, updateUserPendingReward } from '../state/actions'
-import { soushHarvest, soushHarvestEth, harvest } from '../utils/callHelpers'
-import { useMasterchef, useSousChef } from './useContract'
+import { useWeb3React } from '@web3-react/core'
+import { useAppDispatch } from 'state'
+import { fetchFarmUserDataAsync, updateUserBalance, updateUserPendingReward } from 'state/actions'
+import { sousHarvet, harvest } from 'utils/callHelpers'
+import { useMasterchefContract, useSousChefContract } from './useContract'
 
 export const useHarvest = (farmPid: number) => {
-  const dispatch = useDispatch()
-  const { account } = useWallet()
-  const masterChefContract = useMasterchef()
+  const dispatch = useAppDispatch()
+  const { account } = useWeb3React()
+  const masterChefContract = useMasterchefContract()
 
   const handleHarvest = useCallback(async () => {
     const txHash = await harvest(masterChefContract, farmPid, account)
@@ -20,8 +20,8 @@ export const useHarvest = (farmPid: number) => {
 }
 
 export const useAllHarvest = (farmPids: number[]) => {
-  const { account } = useWallet()
-  const masterChefContract = useMasterchef()
+  const { account } = useWeb3React()
+  const masterChefContract = useMasterchefContract()
 
   const handleHarvest = useCallback(async () => {
     const harvestPromises = farmPids.reduce((accum, pid) => {
@@ -34,23 +34,21 @@ export const useAllHarvest = (farmPids: number[]) => {
   return { onReward: handleHarvest }
 }
 
-export const useSousHarvest = (sousId, isUsingEth = false) => {
-  const dispatch = useDispatch()
-  const { account } = useWallet()
-  const sousChefContract = useSousChef(sousId)
-  const masterChefContract = useMasterchef()
+export const useSousHarvest = (sousId) => {
+  const dispatch = useAppDispatch()
+  const { account } = useWeb3React()
+  const sousChefContract = useSousChefContract(sousId)
+  const masterChefContract = useMasterchefContract()
 
   const handleHarvest = useCallback(async () => {
     if (sousId === 0) {
       await harvest(masterChefContract, 0, account)
-    } else if (isUsingEth) {
-      await soushHarvestEth(sousChefContract, account)
     } else {
-      await soushHarvest(sousChefContract, account)
+      await sousHarvet(sousChefContract, account)
     }
     dispatch(updateUserPendingReward(sousId, account))
     dispatch(updateUserBalance(sousId, account))
-  }, [account, dispatch, isUsingEth, masterChefContract, sousChefContract, sousId])
+  }, [account, dispatch, masterChefContract, sousChefContract, sousId])
 
   return { onReward: handleHarvest }
 }

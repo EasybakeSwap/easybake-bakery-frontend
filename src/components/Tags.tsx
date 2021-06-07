@@ -1,22 +1,22 @@
 import React from 'react'
-// import { Tag, VerifiedIcon, CommunityIcon, BinanceIcon } from 'easybakeswap-uikit'
+import { Tag, RefreshIcon, AutoRenewIcon } from 'easybake-uikit'
 
-// // const CoreTag = () => (
-// //   <Tag variant="secondary" outline startIcon={<VerifiedIcon />}>
-// //     Core
-// //   </Tag>
-// // )
+const DualTag = (props) => (
+  <Tag variant="textSubtle" outline {...props}>
+    Dual
+  </Tag>
+)
 
-// const CommunityTag = () => (
-//   <Tag variant="textSubtle" outline startIcon={<CommunityIcon />}>
-//     Community
-//   </Tag>
-// )
+const ManualPoolTag = (props) => (
+  <Tag variant="secondary" outline startIcon={<RefreshIcon width="18px" color="secondary" mr="4px" />} {...props}>
+    Manual
+  </Tag>
+)
 
-// const EthereumTag = () => (
-//   <Tag variant="binance" outline startIcon={<BinanceIcon />}>
-//     Ethereum
-//   </Tag>
-// )
+const CompoundingPoolTag = (props) => (
+  <Tag variant="success" outline startIcon={<AutoRenewIcon width="18px" color="success" mr="4px" />} {...props}>
+    Auto
+  </Tag>
+)
 
-// export { CoreTag, CommunityTag, EthereumTag }
+export { DualTag, ManualPoolTag, CompoundingPoolTag }

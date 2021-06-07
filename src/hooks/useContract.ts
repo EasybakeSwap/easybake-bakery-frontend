@@ -1,54 +1,57 @@
-import { useEffect, useState } from 'react'
-import { AbiItem } from 'web3-utils'
-import { ContractOptions } from 'web3-eth-contract'
+import { useMemo } from 'react'
 import useWeb3 from 'hooks/useWeb3'
 import {
-  getAddress,
-  getMasterChefAddress,
-  getOvenAddress,
-} from 'utils/addressHelpers'
-import { poolsConfig } from 'config/constants'
-import { PoolCategory } from 'config/constants/types'
-import erc20 from 'config/abi/erc20.json'
-import masterChef from 'config/abi/masterchef.json'
-import sousChef from 'config/abi/sousChef.json'
-import sousChefEth from 'config/abi/sousChefEth.json'
-
-const useContract = (abi: AbiItem, address: string, contractOptions?: ContractOptions) => {
-  const web3 = useWeb3()
-  const [contract, setContract] = useState(new web3.eth.Contract(abi, address, contractOptions))
-
-  useEffect(() => {
-    setContract(new web3.eth.Contract(abi, address, contractOptions))
-  }, [abi, address, contractOptions, web3])
-
-  return contract
-}
+  getOvenContract,
+  getSugarContract,
+  getErc20Contract,
+  getErc721Contract,
+  getLpContract,
+  getMasterchefContract,
+  getSouschefContract,
+  getOvenVaultContract,
+} from 'utils/contractHelpers'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
  */
 
-
 export const useERC20 = (address: string) => {
-  const erc20Abi = (erc20 as unknown) as AbiItem
-  return useContract(erc20Abi, address)
+  const web3 = useWeb3()
+  return useMemo(() => getErc20Contract(address, web3), [address, web3])
 }
 
-export const useOven = () => {
-  return useERC20(getOvenAddress())
+/**
+ * @see https://docs.openzeppelin.com/contracts/3.x/api/token/erc721
+ */
+export const useERC721Contract = (address: string) => {
+  const web3 = useWeb3()
+  return useMemo(() => getErc721Contract(address, web3), [address, web3])
 }
-
-export const useMasterchef = () => {
-  const abi = (masterChef as unknown) as AbiItem
-  return useContract(abi, getMasterChefAddress())
+export const useOvenContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getOvenContract(web3), [web3])
 }
-
-export const useSousChef = (id) => {
-  const config = poolsConfig.find((pool) => pool.sousId === id)
-  const rawAbi = config.poolCategory === PoolCategory.ETH ? sousChefEth : sousChef
-  const abi = (rawAbi as unknown) as AbiItem
-  return useContract(abi, getAddress(config.contractAddress))
+export const useSugarContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getSugarContract(web3), [web3])
 }
-
-export default useContract
+export const useMasterchefContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getMasterchefContract(web3), [web3])
+}
+export const useLpContract = (id) => {
+  const web3 = useWeb3()
+  return useMemo(() => getLpContract(id, web3), [id, web3])
+}
+export const useSousChefContract = (id) => {
+  const web3 = useWeb3()
+  return useMemo(() => getSouschefContract(id, web3), [id, web3])
+}
+export const useOvenVaultContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getOvenVaultContract(web3), [web3])
+}
+// export const useProfile = () => {
+//   const web3 = useWeb3()
+//   return useMemo(() => getProfileContract(web3), [web3])
+// }

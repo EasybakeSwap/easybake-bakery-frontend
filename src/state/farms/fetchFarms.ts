@@ -8,46 +8,46 @@ import farmsConfig from 'config/constants/farms'
 const fetchFarms = async () => {
   const data = await Promise.all(
     farmsConfig.map(async (farmConfig) => {
-      const lpAdress = getAddress(farmConfig.lpAddresses)
+      const lpAddress = getAddress(farmConfig.lpAddresses)
       const calls = [
         // Balance of token in the LP contract
         {
-          address: getAddress(farmConfig.tokenAddresses),
+          address: getAddress(farmConfig.token.address),
           name: 'balanceOf',
-          params: [lpAdress],
+          params: [lpAddress],
         },
         // Balance of quote token on LP contract
         {
-          address: getAddress(farmConfig.quoteTokenAdresses),
+          address: getAddress(farmConfig.quoteToken.address),
           name: 'balanceOf',
-          params: [lpAdress],
+          params: [lpAddress],
         },
         // Balance of LP tokens in the master chef contract
         {
-          address: lpAdress,
+          address: lpAddress,
           name: 'balanceOf',
           params: [getMasterChefAddress()],
         },
         // Total supply of LP tokens
         {
-          address: lpAdress,
+          address: lpAddress,
           name: 'totalSupply',
         },
         // Token decimals
         {
-          address: getAddress(farmConfig.tokenAddresses),
+          address: getAddress(farmConfig.token.address),
           name: 'decimals',
         },
         // Quote token decimals
         {
-          address: getAddress(farmConfig.quoteTokenAdresses),
+          address: getAddress(farmConfig.quoteToken.address),
           name: 'decimals',
         },
       ]
 
       const [
         tokenBalanceLP,
-        quoteTokenBlanceLP,
+        quoteTokenBalanceLP,
         lpTokenBalanceMC,
         lpTotalSupply,
         tokenDecimals,
@@ -58,14 +58,14 @@ const fetchFarms = async () => {
       const lpTokenRatio = new BigNumber(lpTokenBalanceMC).div(new BigNumber(lpTotalSupply))
 
       // Total value in staking in quote token value
-      const lpTotalInQuoteToken = new BigNumber(quoteTokenBlanceLP)
+      const lpTotalInQuoteToken = new BigNumber(quoteTokenBalanceLP)
         .div(new BigNumber(10).pow(18))
         .times(new BigNumber(2))
         .times(lpTokenRatio)
 
       // Amount of token in the LP that are considered staking (i.e amount of token * lp ratio)
       const tokenAmount = new BigNumber(tokenBalanceLP).div(new BigNumber(10).pow(tokenDecimals)).times(lpTokenRatio)
-      const quoteTokenAmount = new BigNumber(quoteTokenBlanceLP)
+      const quoteTokenAmount = new BigNumber(quoteTokenBalanceLP)
         .div(new BigNumber(10).pow(quoteTokenDecimals))
         .times(lpTokenRatio)
 
@@ -88,10 +88,11 @@ const fetchFarms = async () => {
         ...farmConfig,
         tokenAmount: tokenAmount.toJSON(),
         quoteTokenAmount: quoteTokenAmount.toJSON(),
+        lpTotalSupply: new BigNumber(lpTotalSupply).toJSON(),
         lpTotalInQuoteToken: lpTotalInQuoteToken.toJSON(),
         tokenPriceVsQuote: quoteTokenAmount.div(tokenAmount).toJSON(),
         poolWeight: poolWeight.toJSON(),
-        multiplier: `${allocPoint.div(100).toString()}X`,
+        multiplier: `${allocPoint.div(100).toString()}X`, // makes multiplier single digits
       }
     }),
   )

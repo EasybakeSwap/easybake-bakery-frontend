@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React, { useCallback, useMemo, useState } from 'react'
-import { Button, Modal, LinkExternal } from 'easybakeswap-uikit'
+import { Button, Modal, LinkExternal } from 'easybake-uikit'
+import { IcingButtonLG } from 'components/IcingButton/sizes/LG'
 import ModalActions from 'components/ModalActions'
 import ModalInput from 'components/ModalInput'
 import { getFullDisplayBalance } from 'utils/formatBalance'
@@ -20,9 +21,14 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
     return getFullDisplayBalance(max)
   }, [max])
 
+  const valNumber = new BigNumber(val)
+  const fullBalanceNumber = new BigNumber(fullBalance)
+
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
-      setVal(e.currentTarget.value)
+      if (e.currentTarget.validity.valid) {
+        setVal(e.currentTarget.value.replace(/,/g, '.'))
+      }
     },
     [setVal],
   )
@@ -32,7 +38,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   }, [fullBalance, setVal])
 
   return (
-    <Modal title={'Stake'} onDismiss={onDismiss}>
+    <Modal title='Bake DOUGH LP Tokens' onDismiss={onDismiss}>
       <ModalInput
         value={val}
         onSelectMax={handleSelectMax}
@@ -40,27 +46,31 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
         max={fullBalance}
         symbol={tokenName}
         addLiquidityUrl={addLiquidityUrl}
-        inputTitle={'Stake'}
+        inputTitle='Bake'
       />
       <ModalActions>
-        <Button variant="secondary" onClick={onDismiss} fullWidth>
-          {'Cancel'}
-        </Button>
-        <Button
-          fullWidth
-          disabled={pendingTx || fullBalance === '0' || val === '0'}
+        <IcingButtonLG
+          btnName='Confirm'
+          isLoading={pendingTx}
+          isDisabled={!valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
           onClick={async () => {
             setPendingTx(true)
-            await onConfirm(val)
-            setPendingTx(false)
-            onDismiss()
+            try {
+              await onConfirm(val)
+            } catch (error) {
+              // TODO: find a way to handle when the user rejects transaction or it fails
+            } finally {
+              setPendingTx(false)
+            }
           }}
-        >
-          {pendingTx ? 'Pending Confirmation' : 'Confirm'}
+        />
+        
+        <Button variant="secondary" onClick={onDismiss} width="100%">
+          Cancel
         </Button>
       </ModalActions>
       <LinkExternal href={addLiquidityUrl} style={{ alignSelf: 'center' }}>
-        Get {tokenName}
+        Get {tokenName} Tokens
       </LinkExternal>
     </Modal>
   )

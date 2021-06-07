@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
-import { Button, Flex, Heading, IconButton, AddIcon, MinusIcon, useModal } from 'easybakeswap-uikit'
+import { Flex, Heading, useModal } from 'easybake-uikit'
+import { BaseButtonXS } from 'components/IcingButton/sizes/XS'
+import { IcingButtonSM } from 'components/IcingButton/sizes/SM'
 import useStake from 'hooks/useStake'
 import useUnstake from 'hooks/useUnstake'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -19,7 +21,7 @@ interface FarmCardActionsProps {
 const IconButtonWrapper = styled.div`
   display: flex;
   svg {
-    width: 20px;
+    width: 25px;
   }
 `
 
@@ -33,12 +35,13 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   const { onStake } = useStake(pid)
   const { onUnstake } = useUnstake(pid)
 
-  const rawStakedBalance = getBalanceNumber(stakedBalance)
-
-  let displayBalance = rawStakedBalance.toLocaleString()
-  if (rawStakedBalance < 0.001 && rawStakedBalance !== 0) { 
-    displayBalance = '<0.001'.toLocaleString()
-  }
+  const displayBalance = useCallback(() => {
+    const stakedBalanceNumber = getBalanceNumber(stakedBalance)
+    if (stakedBalanceNumber > 0 && stakedBalanceNumber < 0.001) {
+      return '<0.001'
+    }
+    return stakedBalanceNumber.toLocaleString()
+  }, [stakedBalance])
 
   const [onPresentDeposit] = useModal(
     <DepositModal max={tokenBalance} onConfirm={onStake} tokenName={tokenName} addLiquidityUrl={addLiquidityUrl} />,
@@ -48,23 +51,24 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   )
 
   const renderStakingButtons = () => {
-    return rawStakedBalance === 0 ? (
-      <Button onClick={onPresentDeposit}>{'Stake LP'}</Button>
+    return stakedBalance.eq(0) ? (
+      <IcingButtonSM
+          btnName='Bake LP'
+          onClick={onPresentDeposit}
+        />
     ) : (
       <IconButtonWrapper>
-        <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
-          <MinusIcon color="primary" />
-        </IconButton>
-        <IconButton variant="tertiary" onClick={onPresentDeposit}>
-          <AddIcon color="primary" />
-        </IconButton>
+         <Flex paddingRight='8px'>
+          <BaseButtonXS btnName='+' onClick={onPresentDeposit} />
+        </Flex>
+        <BaseButtonXS btnName='-' onClick={onPresentWithdraw} />
       </IconButtonWrapper>
     )
   }
 
   return (
     <Flex justifyContent="space-between" alignItems="center">
-      <Heading color={rawStakedBalance === 0 ? 'textDisabled' : 'text'}>{displayBalance}</Heading>
+      <Heading color={stakedBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance()}</Heading>
       {renderStakingButtons()}
     </Flex>
   )

@@ -1,45 +1,44 @@
 import React from 'react'
-// import styled from 'styled-components'
-// import { useRouteMatch, Link } from 'react-router-dom'
-// import { ButtonMenu, ButtonMenuItem, Text, Toggle } from 'easybakeswap-uikit'
+import styled from 'styled-components'
+import { useRouteMatch, Link } from 'react-router-dom'
+import { ButtonMenu, ButtonMenuItem, NotificationDot } from 'easybake-uikit'
 
-// const FarmTabButtons = ({ stakedOnly, setStakedOnly }) => {
-//   const { url, isExact } = useRouteMatch()
+interface FarmTabButtonsProps {
+  hasStakeInFinishedFarms: boolean
+}
 
-//   return (
-//     <Wrapper>
-//       <ToggleWrapper>
-//         <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} />
-//         <Text>Staked</Text>
-//       </ToggleWrapper>
-//       <ButtonMenu activeIndex={isExact ? 0 : 1} size="sm" variant="subtle">
-//         <ButtonMenuItem as={Link} to={`${url}`}>
-//           Active
-//         </ButtonMenuItem>
-//         <ButtonMenuItem as={Link} to={`${url}/history`}>
-//           Inactive
-//         </ButtonMenuItem>
-//       </ButtonMenu>
-//     </Wrapper>
-//   )
-// }
+const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms }) => {
+  const { url, isExact } = useRouteMatch()
 
-// export default FarmTabButtons
+  return (
+    <Wrapper>
+      <ButtonMenu activeIndex={isExact ? 0 : 1} scale="sm" variant="subtle">
+        <ButtonMenuItem as={Link} to={`${url}`}>
+          Live
+        </ButtonMenuItem>
+        <NotificationDot show={hasStakeInFinishedFarms}>
+          <ButtonMenuItem as={Link} to={`${url}/history`}>
+            Finished
+          </ButtonMenuItem>
+        </NotificationDot>
+      </ButtonMenu>
+    </Wrapper>
+  )
+}
 
-// const Wrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-bottom: 32px;
-// `
+export default FarmTabButtons
 
-// const ToggleWrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-right: 32px;
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-//   ${Text} {
-//     margin-left: 8px;
-//   }
-// `
+  a {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    margin-left: 16px;
+  }
+`

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Button, Input, InputProps, Flex, Link } from 'easybakeswap-uikit'
+import { Text, Button, Input, InputProps, Flex, Link } from 'easybake-uikit'
 
 interface ModalInputProps {
   max: string
@@ -66,32 +66,49 @@ const ModalInput: React.FC<ModalInputProps> = ({
 }) => {
   const isBalanceZero = max === '0' || !max
 
-  const displayBalance = isBalanceZero ? '0' : parseFloat(max).toFixed(4)
+  const displayBalance = (balance: string) => {
+    if (isBalanceZero) {
+      return '0'
+    }
+    const balanceNumber = Number(balance)
+    if (balanceNumber > 0 && balanceNumber < 0.001) {
+      return '<0.001'
+    }
+    return balanceNumber.toLocaleString()
+  }
 
   return (
     <div style={{ position: 'relative' }}>
       <StyledTokenInput isWarning={isBalanceZero}>
         <Flex justifyContent="space-between" pl="16px">
           <Text fontSize="14px">{inputTitle}</Text>
-          <Text fontSize="14px">
-          Balance: {displayBalance}
-          </Text>
+          <Text fontSize="14px">Balance: {displayBalance(max)}</Text>
         </Flex>
         <Flex alignItems="flex-end" justifyContent="space-around">
-          <StyledInput onChange={onChange} placeholder="0" value={value} />
-          <Button size="sm" onClick={onSelectMax} mr="8px">
+          <StyledInput
+            pattern="^[0-9]*[.,]?[0-9]*$"
+            inputMode="decimal"
+            step="any"
+            min="0"
+            onChange={onChange}
+            placeholder="0"
+            value={value}
+          />
+          <Button scale="sm" onClick={onSelectMax} mr="8px">
             Max
           </Button>
           <Text fontSize="16px">{symbol}</Text>
         </Flex>
       </StyledTokenInput>
       {isBalanceZero && (
-        <StyledErrorMessage fontSize="14px" color="failure">
-          No tokens to stake:{' '}
-          <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
-            get {symbol}
-          </Link>
-        </StyledErrorMessage>
+        <Flex justifyContent="center">
+          <StyledErrorMessage fontSize="14px" color="failure">
+            No tokens to bake:{' '}
+            <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
+              Get {symbol} Tokens
+            </Link>
+          </StyledErrorMessage>
+        </Flex>
       )}
     </div>
   )

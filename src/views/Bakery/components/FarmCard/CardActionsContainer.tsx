@@ -1,14 +1,15 @@
-import React, { useMemo, useState, useCallback } from 'react'
-import BigNumber from 'bignumber.js'
+import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { provider } from 'web3-core'
-import { getContract } from 'utils/erc20'
+import { provider as ProviderType } from 'web3-core'
 import { getAddress } from 'utils/addressHelpers'
-import { Button, Flex, Text } from 'easybakeswap-uikit'
+import { getErc20Contract } from 'utils/contractHelpers'
+import { Flex, Text } from 'easybake-uikit'
+import { BaseButtonLG } from 'components/IcingButton/sizes/LG'
 import { Farm } from 'state/types'
 import { useFarmFromSymbol, useFarmUser } from 'state/hooks'
-import UnlockButton from 'components/UnlockButton'
+import useWeb3 from 'hooks/useWeb3'
 import { useApprove } from 'hooks/useApprove'
+import UnlockButton from 'components/UnlockButton'
 import StakeAction from './StakeAction'
 import HarvestAction from './HarvestAction'
 
@@ -16,27 +17,26 @@ const Action = styled.div`
   padding-top: 16px;
 `
 export interface FarmWithStakedValue extends Farm {
-  apy?: BigNumber
+  apr?: number
 }
 
 interface FarmCardActionsProps {
   farm: FarmWithStakedValue
-  ethereum?: provider
+  provider?: ProviderType
   account?: string
   addLiquidityUrl?: string
 }
 
-const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account, addLiquidityUrl }) => {
+const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidityUrl }) => {
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { pid, lpAddresses } = useFarmFromSymbol(farm.lpSymbol)
   const { allowance, tokenBalance, stakedBalance, earnings } = useFarmUser(pid)
   const lpAddress = getAddress(lpAddresses)
   const lpName = farm.lpSymbol.toUpperCase()
   const isApproved = account && allowance && allowance.isGreaterThan(0)
+  const web3 = useWeb3()
 
-  const lpContract = useMemo(() => {
-    return getContract(ethereum as provider, lpAddress)
-  }, [ethereum, lpAddress])
+  const lpContract = getErc20Contract(lpAddress, web3)
 
   const { onApprove } = useApprove(lpContract)
 
@@ -60,9 +60,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account, 
         addLiquidityUrl={addLiquidityUrl}
       />
     ) : (
-      <Button mt="8px" fullWidth disabled={requestedApproval} onClick={handleApprove}>
-        Approve Contract
-      </Button>
+        <BaseButtonLG btnName='Approve Contract' scale="100%" isDisabled={requestedApproval} onClick={handleApprove} />
     )
   }
 
@@ -71,22 +69,22 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, ethereum, account, 
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
           {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
-          OVEN
+          Earned
         </Text>
         <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-          Earned
+          OVEN
         </Text>
       </Flex>
       <HarvestAction earnings={earnings} pid={pid} />
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
-          {lpName}
+          Baked
         </Text>
         <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-          Staked
+          {lpName}
         </Text>
       </Flex>
-      {!account ? <UnlockButton mt="8px" fullWidth /> : renderApprovalOrStakeButton()}
+      {!account ? <UnlockButton scale="100%" /> : renderApprovalOrStakeButton()}
     </Action>
   )
 }

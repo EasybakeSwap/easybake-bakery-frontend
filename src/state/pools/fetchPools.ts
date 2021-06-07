@@ -2,47 +2,46 @@ import poolsConfig from 'config/constants/pools'
 import sousChefABI from 'config/abi/sousChef.json'
 import ovenABI from 'config/abi/oven.json'
 import wethABI from 'config/abi/weth.json'
-import { QuoteToken } from 'config/constants/types'
 import multicall from 'utils/multicall'
 import { getAddress, getWethAddress } from 'utils/addressHelpers'
 import BigNumber from 'bignumber.js'
 
-export const fetchPoolsBlockLimits = async () => {
+export const fetchPoolsTimeLimits = async () => {
   const poolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0)
-  const callsStartBlock = poolsWithEnd.map((poolConfig) => {
+  const callsStartTime = poolsWithEnd.map((poolConfig) => {
     return {
       address: getAddress(poolConfig.contractAddress),
-      name: 'startBlock',
+      name: 'startTime',
     }
   })
-  const callsEndBlock = poolsWithEnd.map((poolConfig) => {
+  const callsEndTime = poolsWithEnd.map((poolConfig) => {
     return {
       address: getAddress(poolConfig.contractAddress),
-      name: 'bonusEndBlock',
+      name: 'bonusEndTime',
     }
   })
 
-  const starts = await multicall(sousChefABI, callsStartBlock)
-  const ends = await multicall(sousChefABI, callsEndBlock)
+  const starts = await multicall(sousChefABI, callsStartTime)
+  const ends = await multicall(sousChefABI, callsEndTime)
 
-  return poolsWithEnd.map((ovenPoolConfig, index) => {
-    const startBlock = starts[index]
-    const endBlock = ends[index]
+  return poolsWithEnd.map((cakePoolConfig, index) => {
+    const startTime = starts[index]
+    const endTime = ends[index]
     return {
-      sousId: ovenPoolConfig.sousId,
-      startBlock: new BigNumber(startBlock).toJSON(),
-      endBlock: new BigNumber(endBlock).toJSON(),
+      sousId: cakePoolConfig.sousId,
+      startTime: new BigNumber(startTime).toJSON(),
+      endTime: new BigNumber(endTime).toJSON(),
     }
   })
 }
 
-export const fetchPoolsTotalStatking = async () => {
-  const nonEthPools = poolsConfig.filter((p) => p.stakingTokenName !== QuoteToken.WETH)
-  const ethPool = poolsConfig.filter((p) => p.stakingTokenName === QuoteToken.WETH)
+export const fetchPoolsTotalStaking = async () => {
+  const nonEthPools = poolsConfig.filter((p) => p.stakingToken.symbol !== 'ETH')
+  const ethPool = poolsConfig.filter((p) => p.stakingToken.symbol === 'ETH')
 
   const callsNonEthPools = nonEthPools.map((poolConfig) => {
     return {
-      address: poolConfig.stakingTokenAddress,
+      address: getAddress(poolConfig.stakingToken.address),
       name: 'balanceOf',
       params: [getAddress(poolConfig.contractAddress)],
     }

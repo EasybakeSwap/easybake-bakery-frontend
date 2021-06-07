@@ -1,11 +1,22 @@
-import { Toast } from 'easybakeswap-uikit'
+import { Toast } from 'easybake-uikit'
 import BigNumber from 'bignumber.js'
-import { CampaignType, FarmConfig, PoolConfig, Nft, Team } from 'config/constants/types'
+import { FarmConfig, Nft, PoolConfig } from 'config/constants/types'
+
+export type TranslatableText =
+  | string
+  | {
+      id: number
+      fallback: string
+      data?: {
+        [key: string]: string | number
+      }
+    }
 
 export interface Farm extends FarmConfig {
   tokenAmount?: BigNumber
   quoteTokenAmount?: BigNumber
   lpTotalInQuoteToken?: BigNumber
+  lpTotalSupply?: BigNumber
   tokenPriceVsQuote?: BigNumber
   poolWeight?: BigNumber
   userData?: {
@@ -28,28 +39,6 @@ export interface Pool extends PoolConfig {
   }
 }
 
-// Slices states
-
-export interface ToastsState {
-  data: Toast[]
-}
-
-export interface FarmsState {
-  data: Farm[]
-}
-
-export interface PoolsState {
-  data: Pool[]
-}
-
-// Global state
-
-export interface State {
-  farms: FarmsState
-  toasts: ToastsState
-  pools: PoolsState
-}
-
 export interface Profile {
   userId: number
   points: number
@@ -59,7 +48,6 @@ export interface Profile {
   isActive: boolean
   username: string
   nft?: Nft
-  team: Team
   hasRegistered: boolean
 }
 
@@ -84,36 +72,55 @@ export interface ProfileState {
   data: Profile
 }
 
-export type TeamResponse = {
-  0: string
-  1: string
-  2: string
-  3: string
-  4: boolean
+// API Price State
+export interface PriceApiList {
+  /* eslint-disable camelcase */
+  [key: string]: {
+    name: string
+    symbol: string
+    price: string
+    price_BNB: string
+  }
 }
 
-export type TeamsById = {
-  [key: string]: Team
+export interface PriceApiListThunk {
+  /* eslint-disable camelcase */
+  [key: string]: number
 }
 
-export interface TeamsState {
+export interface PriceApiResponse {
+  /* eslint-disable camelcase */
+  updated_at: string
+  data: PriceApiList
+}
+
+export interface PriceApiThunk {
+  /* eslint-disable camelcase */
+  updated_at: string
+  data: PriceApiListThunk
+}
+
+export interface PriceState {
+  isLoading: boolean
+  lastUpdated: string
+  data: PriceApiListThunk
+}
+
+// Block
+
+export interface BlockState {
+  currentBlock: number
+  initialBlock: number
+}
+
+// Collectibles
+
+export interface CollectiblesState {
   isInitialized: boolean
   isLoading: boolean
-  data: TeamsById
-}
-
-export interface Achievement {
-  id: string
-  type: CampaignType
-  address: string
-  title: string
-  description?: string
-  badge: string
-  points: number
-}
-
-export interface AchievementState {
-  data: Achievement[]
+  data: {
+    [key: string]: number[]
+  }
 }
 
 // Global state
@@ -121,8 +128,9 @@ export interface AchievementState {
 export interface State {
   farms: FarmsState
   toasts: ToastsState
+  prices: PriceState
   pools: PoolsState
   profile: ProfileState
-  teams: TeamsState
-  achievements: AchievementState
+  block: BlockState
+  collectibles: CollectiblesState
 }

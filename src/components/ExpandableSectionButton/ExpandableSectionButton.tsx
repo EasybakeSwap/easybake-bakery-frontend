@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ChevronDownIcon, ChevronUpIcon, Text } from 'easybakeswap-uikit' // UPDATE
+import { ChevronDownIcon, ChevronUpIcon, Text } from 'easybake-uikit'
 
 export interface ExpandableSectionButtonProps {
   onClick?: () => void

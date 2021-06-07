@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Spinner } from 'easybakeswap-uikit' // UPDATE
+import { Spinner } from 'easybake-uikit'
 import Page from './layout/Page'
 
 const Wrapper = styled(Page)`

@@ -1,15 +1,14 @@
 import React from 'react'
-import { Button, useWalletModal } from 'easybakeswap-uikit'
-import { useWallet } from '@binance-chain/bsc-use-wallet'
+import { useWalletModal } from 'easybake-uikit'
+import { BaseButtonLG } from 'components/IcingButton/sizes/LG'
+import useAuth from 'hooks/useAuth'
 
-const UnlockButton = (props) => {
-  const { connect, reset } = useWallet()
-  const { onPresentConnectModal } = useWalletModal(connect, reset)
+const UnlockButton = ({scale}) => {
+  const { login, logout } = useAuth()
+  const { onPresentConnectModal } = useWalletModal(login, logout)
 
   return (
-    <Button onClick={onPresentConnectModal} {...props}>
-      Unlock Wallet
-    </Button>
+    <BaseButtonLG btnName='Unlock Wallet' scale={scale} onClick={onPresentConnectModal} />
   )
 }
 

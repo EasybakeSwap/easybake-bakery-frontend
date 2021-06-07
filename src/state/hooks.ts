@@ -1,28 +1,46 @@
 import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { kebabCase } from 'lodash'
-import { useWallet } from '@binance-chain/bsc-use-wallet'
-import { Toast, toastTypes } from 'easybakeswap-uikit'
-import { useSelector, useDispatch } from 'react-redux'
-import useRefresh from '../hooks/useRefresh'
+// import { useWeb3React } from '@web3-react/core'
+import { Toast, toastTypes } from 'easybake-uikit'
+import { useSelector } from 'react-redux'
+import { useAppDispatch } from 'state'
+// import Nfts from 'config/constants/nfts'
+import { getWeb3NoAccount } from 'utils/web3'
+import { getAddress } from 'utils/addressHelpers'
+import { getBalanceNumber } from 'utils/formatBalance'
+import useRefresh from 'hooks/useRefresh'
 import {
   fetchFarmsPublicDataAsync,
+  fetchPoolsPublicDataAsync,
   fetchPoolsUserDataAsync,
   push as pushToast,
   remove as removeToast,
   clear as clearToast,
+  setBlock,
 } from './actions'
-import { State, Farm, Pool, ProfileState } from './types'
-import { fetchProfile } from './profile'
-
-const ZERO = new BigNumber(0)
+import { State, Farm, Pool, PriceState } from './types' // disabled `ProfileState`
+import { fetchPrices } from './prices'
+// import { fetchProfile } from './profile'
+// import { fetchWalletNfts } from './collectibles'
 
 export const useFetchPublicData = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { slowRefresh } = useRefresh()
   useEffect(() => {
     dispatch(fetchFarmsPublicDataAsync())
+    dispatch(fetchPoolsPublicDataAsync())
   }, [dispatch, slowRefresh])
+
+  useEffect(() => {
+    const web3 = getWeb3NoAccount()
+    const interval = setInterval(async () => {
+      const blockNumber = await web3.eth.getBlockNumber()
+      dispatch(setBlock(blockNumber))
+    }, 6000)
+
+    return () => clearInterval(interval)
+  }, [dispatch])
 }
 
 // Farms
@@ -53,11 +71,20 @@ export const useFarmUser = (pid) => {
   }
 }
 
+export const useLpTokenPrice = (symbol: string) => {
+  const farm = useFarmFromSymbol(symbol)
+  const tokenPriceInUsd = useGetApiPrice(getAddress(farm.token.address))
+
+  return farm.lpTotalSupply && farm.lpTotalInQuoteToken
+    ? new BigNumber(getBalanceNumber(farm.lpTotalSupply)).div(farm.lpTotalInQuoteToken).times(tokenPriceInUsd).times(2)
+    : new BigNumber(0)
+}
+
 // Pools
 
 export const usePools = (account): Pool[] => {
   const { fastRefresh } = useRefresh()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   useEffect(() => {
     if (account) {
       dispatch(fetchPoolsUserDataAsync(account))
@@ -73,29 +100,10 @@ export const usePoolFromPid = (sousId): Pool => {
   return pool
 }
 
-// Prices
-
-export const usePriceEthUsdc = (): BigNumber => {
-  const pid = 2 // USDC-ETH LP
-  const farm = useFarmFromPid(pid)
-  return farm.tokenPriceVsQuote ? new BigNumber(1).div(farm.tokenPriceVsQuote) : ZERO
-}
-
-export const usePriceOvenUsdc = (): BigNumber => {
-  const pid = 5 // OVEN-ETH LP
-  const ethPriceUSD = usePriceEthUsdc()
-  const farm = useFarmFromPid(pid)
-  return farm.tokenPriceVsQuote ? ethPriceUSD.times(farm.tokenPriceVsQuote) : ZERO
-}
-
-export const usePriceEthUsd = (): BigNumber => {
-  const priceEthUsdc = usePriceEthUsdc()
-  return priceEthUsdc.div(priceEthUsdc)
-}
-
 // Toasts
+
 export const useToast = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const helpers = useMemo(() => {
     const push = (toast: Toast) => dispatch(pushToast(toast))
 
@@ -121,18 +129,88 @@ export const useToast = () => {
   return helpers
 }
 
-// Profile
+// // Profile
 
-export const useFetchProfile = () => {
-  const { account } = useWallet()
-  const dispatch = useDispatch()
+// export const useFetchProfile = () => {
+//   const { account } = useWeb3React()
+//   const dispatch = useAppDispatch()
+
+//   useEffect(() => {
+//     dispatch(fetchProfile(account))
+//   }, [account, dispatch])
+// }
+
+// export const useProfile = () => {
+//   const { isInitialized, isLoading, data, hasRegistered }: ProfileState = useSelector((state: State) => state.profile)
+//   return { profile: data, hasProfile: isInitialized && hasRegistered, isInitialized, isLoading }
+// }
+
+
+// Prices
+
+export const useFetchPriceList = () => {
+  const { slowRefresh } = useRefresh()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchProfile(account))
-  }, [account, dispatch])
+    dispatch(fetchPrices())
+  }, [dispatch, slowRefresh])
 }
 
-export const useProfile = () => {
-  const { isInitialized, isLoading, data, hasRegistered }: ProfileState = useSelector((state: State) => state.profile)
-  return { profile: data, hasProfile: isInitialized && hasRegistered, isInitialized, isLoading }
+export const useGetApiPrices = () => {
+  const prices: PriceState['data'] = useSelector((state: State) => state.prices.data)
+  return prices
 }
+
+export const useGetApiPrice = (address: string) => {
+  const prices = useGetApiPrices()
+
+  if (!prices) {
+    return null
+  }
+
+  return prices[address.toLowerCase()]
+}
+
+export const usePriceOvenUsdc = (): BigNumber => {
+  const ZERO = new BigNumber(0)
+  const ovenEthFarm = useFarmFromPid(1)
+  const usdcEthFarm = useFarmFromPid(4)
+
+  const usdcEthPrice = usdcEthFarm.tokenPriceVsQuote ? new BigNumber(1).div(usdcEthFarm.tokenPriceVsQuote) : ZERO
+  const ovenUsdcPrice = ovenEthFarm.tokenPriceVsQuote ? usdcEthPrice.times(ovenEthFarm.tokenPriceVsQuote) : ZERO
+
+  return ovenUsdcPrice
+}
+
+// Block
+
+export const useBlock = () => {
+  return useSelector((state: State) => state.block)
+}
+
+export const useInitialBlock = () => {
+  return useSelector((state: State) => state.block.initialBlock)
+}
+
+// // Collectibles
+// export const useGetCollectibles = () => {
+//   const { account } = useWeb3React()
+//   const dispatch = useAppDispatch()
+//   const { isInitialized, isLoading, data } = useSelector((state: State) => state.collectibles)
+//   const identifiers = Object.keys(data)
+
+//   useEffect(() => {
+//     // Fetch nfts only if we have not done so already
+//     if (!isInitialized) {
+//       dispatch(fetchWalletNfts(account))
+//     }
+//   }, [isInitialized, account, dispatch])
+
+//   return {
+//     isInitialized,
+//     isLoading,
+//     tokenIds: data,
+//     nftsInWallet: Nfts.filter((nft) => identifiers.includes(nft.identifier)),
+//   }
+// }
