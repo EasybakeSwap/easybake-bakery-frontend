@@ -27,29 +27,29 @@ const config: MenuEntry[] = [
     icon: 'BakeryIcon',
     href: '/bakery',
   },
-  {
-    label: 'Refinery',
-    icon: 'PoolIcon',
-    href: '/pools',
-  },
-  {
-    label: 'Analytics',
-    icon: 'InfoIcon',
-    items: [
-      {
-        label: 'Overview',
-        href: 'https://info.EasyBake.finance',
-      },
-      {
-        label: 'Tokens',
-        href: 'https://info.easybake.finance/tokens',
-      },
-      {
-        label: 'Pairs',
-        href: 'https://info.easybake.finance/pairs',
-      }
-    ],
-  },
+  // {
+  //   label: 'Refinery',
+  //   icon: 'PoolIcon',
+  //   href: '/pools',
+  // },
+  // {
+  //   label: 'Analytics',
+  //   icon: 'InfoIcon',
+  //   items: [
+  //     {
+  //       label: 'Overview',
+  //       href: 'https://info.EasyBake.finance',
+  //     },
+  //     {
+  //       label: 'Tokens',
+  //       href: 'https://info.easybake.finance/tokens',
+  //     },
+  //     {
+  //       label: 'Pairs',
+  //       href: 'https://info.easybake.finance/pairs',
+  //     }
+  //   ],
+  // },
   {
     label: 'Contracts',
     icon: 'ContractsIcon',
@@ -59,12 +59,12 @@ const config: MenuEntry[] = [
         href: 'https://rinkeby.etherscan.io/address/0x6be759Bd2808b869b821AE5d8184e2eFfe5eF396/#code', 
       },
       {
-        label: 'SugarBar.sol',
+        label: 'SugarToken.sol',
         href: 'https://rinkeby.etherscan.io/address/0x86b7d8c27afd403d8cde19758be643c11ade4be8/#code',
       },
       {
         label: 'MasterChef.sol',
-        href: 'https://rinkeby.etherscan.io/address/#code',
+        href: 'https://rinkeby.etherscan.io/address/0x34C0C9D040E7C51fF72eC3E0E8F9E4495d99107E#code',
       },
       {
         label: 'EasyBakeFactory.sol',
@@ -106,10 +106,10 @@ const config: MenuEntry[] = [
         label: 'Github',
         href: 'https://github.com/EasyBakeSwap',
       },
-      // {
-      //   label: 'Docs',
-      //   href: 'docs.easybake.finance',
-      // },
+      {
+        label: 'Docs',
+        href: 'docs.easybake.finance',
+      },
       {
         label: 'Blog',
         href: 'https://easybake.medium.com',

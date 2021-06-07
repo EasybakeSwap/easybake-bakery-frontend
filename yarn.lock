@@ -5578,10 +5578,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-easybake-uikit@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/easybake-uikit/-/easybake-uikit-0.1.2.tgz#4152b5d9a1764f1035dd363439b55409e08c27a0"
-  integrity sha512-tsJspJnMyinkIApYADd/pqcuzXCEnmOw1rXulqDInACweqRsjeqapGnLiMGBlakowpbrTeefD4VreXu6g+Zchw==
+easybake-uikit@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/easybake-uikit/-/easybake-uikit-1.2.0.tgz#fb52763b57a13a8b355be08416443c99ddbef068"
+  integrity sha512-Mv1+cGQplAhzfI+aB1vRaff32EsKJDANUZkZUKGldlu5OTHHSn7dBRx04NvknQQDR6EFJmFKYnaQ9eyWQcr0iQ==
   dependencies:
     "@popperjs/core" "^2.9.2"
     "@types/lodash" "^4.14.168"

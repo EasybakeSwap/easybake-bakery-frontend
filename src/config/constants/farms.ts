@@ -3,16 +3,16 @@ import { FarmConfig } from './types'
 
 const farms: FarmConfig[] = [
   // FIX ** Needs updating
-  // {
-  //   pid: 0,
-  //   lpSymbol: 'OVEN',
-  //   lpAddresses: {
-  //     4: '0x1f981839FBBc0E0c713d9D808F6C86cB9904A45B',
-  //     1: '',
-  //   },
-  //   token: tokens.sugar,
-  //   quoteToken: tokens.weth,
-  // },
+  {
+    pid: 0,
+    lpSymbol: 'OVEN',
+    lpAddresses: {
+      4: '0x6be759Bd2808b869b821AE5d8184e2eFfe5eF396',
+      1: '',
+    },
+    token: tokens.sugar,
+    quoteToken: tokens.weth,
+  },
   {
     pid: 1,
     lpSymbol: 'OVEN-ETH LP',

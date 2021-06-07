@@ -1,5 +1,5 @@
 import React, { useEffect, lazy } from 'react'
-import { Router, Route, Switch } from 'react-router-dom' // disabled Redirect
+import { Redirect, Router, Route, Switch } from 'react-router-dom'
 import { ResetCSS } from 'easybake-uikit'
 import BigNumber from 'bignumber.js'
 import useEagerConnect from 'hooks/useEagerConnect'
@@ -62,12 +62,12 @@ const App: React.FC = () => {
               <Profile />
             </Route> */}
             {/* Redirect */}
-            {/* <Route path="/staking">
-              <Redirect to="/pools" />
+            <Route path="/staking">
+              <Redirect to="/bakery" />
             </Route>
             <Route path="/sugar">
-              <Redirect to="/pools" />
-            </Route> */}
+              <Redirect to="/bakery" />
+            </Route>
             {/* <Route path="/nft">
               <Redirect to="/collectibles" />
             </Route> */}
