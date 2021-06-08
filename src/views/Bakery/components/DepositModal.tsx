@@ -61,6 +61,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
               // TODO: find a way to handle when the user rejects transaction or it fails
             } finally {
               setPendingTx(false)
+              onDismiss()
             }
           }}
         />
@@ -76,4 +77,3 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   )
 }
 
-export default DepositModal

@@ -59,6 +59,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
               // TODO: find a way to handle when the user rejects transaction or it fails
             } finally {
               setPendingTx(false)
+              onDismiss()
             }
           }}
         />
