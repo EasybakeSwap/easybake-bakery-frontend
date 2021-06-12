@@ -6,7 +6,7 @@ import { useHarvest } from 'hooks/useHarvest'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { useWeb3React } from '@web3-react/core'
 // import { usePriceOvenUsdc } from 'state/hooks'
-// import CardBusdValue from '../../../Home/components/CardBusdValue'
+// import CardUsdcValue from '../../../Home/components/CardUsdcValue'
 
 interface FarmCardActionsProps {
   earnings?: BigNumber
@@ -37,7 +37,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
     <Flex mb="8px" justifyContent="space-between" alignItems="center">
       <Heading color={rawEarningsBalance === 0 ? 'textDisabled' : 'text'}>
         {displayBalance}
-        {/* {earningsUsdc > 0 && <CardBusdValue value={earningsUsdc} />} */}
+        {/* {earningsUsdc > 0 && <CardUsdcValue value={earningsUsdc} />} */}
       </Heading>
       <Flex justifyContent="right">
         <IcingButtonSM

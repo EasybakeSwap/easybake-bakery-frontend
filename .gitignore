@@ -1,9 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+*/node_modules
 /.pnp
 .pnp.js
+
+*.icloud
 
 # testing
 /coverage
@@ -36,3 +38,4 @@ yarn-debug.log*
 yarn-error.log*
 debug.log*
 
+node_modules 2/@babel/core/node_modules/json5/lib/.index.d.ts.icloud

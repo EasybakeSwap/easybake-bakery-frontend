@@ -23,4 +23,26 @@ export default {
     4: '0x25ae90075E2DA21210f55cC69D29B94878d4eea8', // FIX ** Needs updating
     1: '',
   },
+  // PLACEHOLDERS BELOW HERE //
+  easybakeProfile: {
+    1: '0xDf4dBf6536201370F95e06A0F8a7a70fE40E388a',
+    4: '0x4B683C7E13B6d5D7fd1FeA9530F451954c1A7c8A',
+  },
+  bunnyFactory: {
+    1: '0xfa249Caa1D16f75fa159F7DFBAc0cC5EaB48CeFf',
+    4: '0x707CBF373175fdB601D34eeBF2Cf665d08f01148',
+  },
+  claimRefund: {
+    1: '0xE7e53A7e9E3Cf6b840f167eF69519175c497e149',
+    4: '',
+  },
+  predictions: {
+    1: '0x516ffd7D1e0Ca40b1879935B2De87cb20Fc1124b',
+    4: '0x4f3140C74789F1D809420343ea83BcE52B7bbAA5',
+  },
+  chainlinkOracle: {
+    1: '0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE',
+    4: '0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE',
+  },
+
 }

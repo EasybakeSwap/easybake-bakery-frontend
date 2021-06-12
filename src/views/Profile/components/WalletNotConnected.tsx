@@ -1,17 +1,20 @@
 import React from 'react'
 import { Heading, Text } from 'easybake-uikit'
+import { useTranslation } from 'contexts/Localization'
 import UnlockButton from 'components/UnlockButton'
 
 const WalletNotConnected = () => {
+  const { t } = useTranslation()
+
   return (
     <div>
-      <Heading size="xl" mb="8px">
-        Oops!
+      <Heading scale="xl" mb="8px">
+        {t('Oops!')}
       </Heading>
       <Text as="p" mb="16px">
-        Please connect your wallet to continue
+        {t('Please connect your wallet to continue')}
       </Text>
-      <UnlockButton scale="100%" />
+      <UnlockButton />
     </div>
   )
 }

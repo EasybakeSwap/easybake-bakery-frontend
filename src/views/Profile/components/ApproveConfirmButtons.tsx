@@ -1,101 +1,130 @@
 import React from 'react'
-// import styled from 'styled-components'
-// import {
-//   ChevronRightIcon,
-//   Button as UIKitButton,
-//   AutoRenewIcon,
-//   ChevronDownIcon,
-//   Box,
-//   Flex,
-// } from 'easybake-uikit'
-// import useI18n from 'hooks/useI18n'
+import styled from 'styled-components'
+import { ChevronRightIcon, Button as UIKitButton, AutoRenewIcon, ChevronDownIcon, Box, Flex } from 'easybake-uikit'
+import { useTranslation } from 'contexts/Localization'
 
-// interface ApproveConfirmButtonsProps {
-//   isApproveDisabled: boolean
-//   isApproving: boolean
-//   isConfirming: boolean
-//   isConfirmDisabled: boolean
-//   onApprove: () => void
-//   onConfirm: () => void
-// }
+export enum ButtonArrangement {
+  ROW = 'row',
+  SEQUENTIAL = 'sequential',
+}
 
-// const StyledApproveConfirmButtons = styled.div`
-//   align-items: center;
-//   display: grid;
-//   grid-template-columns: 1fr;
-//   justify-content: center;
+interface ApproveConfirmButtonsProps {
+  isApproveDisabled: boolean
+  isApproving: boolean
+  isConfirming: boolean
+  isConfirmDisabled: boolean
+  onApprove: () => void
+  onConfirm: () => void
+  buttonArrangement?: ButtonArrangement
+}
 
-//   ${({ theme }) => theme.mediaQueries.md} {
-//     grid-template-columns: 1fr 24px 1fr;
-//   }
-// `
+const StyledApproveConfirmButtonRow = styled.div`
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
 
-// const Button = styled(UIKitButton)`
-//   width: 100%;
+  ${({ theme }) => theme.mediaQueries.md} {
+    grid-template-columns: 1fr 24px 1fr;
+  }
+`
 
-//   ${({ theme }) => theme.mediaQueries.md} {
-//     min-width: 160px;
-//   }
-// `
+const Button = styled(UIKitButton)`
+  width: 100%;
 
-// const iconAttrs = { width: '24px', color: 'textDisabled' }
+  ${({ theme }) => theme.mediaQueries.md} {
+    min-width: 160px;
+  }
+`
 
-// const ChevronRight = styled(ChevronRightIcon).attrs(iconAttrs)`
-//   display: none;
+const iconAttrs = { width: '24px', color: 'textDisabled' }
 
-//   ${({ theme }) => theme.mediaQueries.md} {
-//     display: block;
-//   }
-// `
+const ChevronRight = styled(ChevronRightIcon).attrs(iconAttrs)`
+  display: none;
 
-// const ChevronBottom = styled(ChevronDownIcon).attrs(iconAttrs)`
-//   display: block;
+  ${({ theme }) => theme.mediaQueries.md} {
+    display: block;
+  }
+`
 
-//   ${({ theme }) => theme.mediaQueries.md} {
-//     display: none;
-//   }
-// `
+const ChevronBottom = styled(ChevronDownIcon).attrs(iconAttrs)`
+  display: block;
 
-// const spinnerIcon = <AutoRenewIcon spin color="currentColor" />
+  ${({ theme }) => theme.mediaQueries.md} {
+    display: none;
+  }
+`
 
-// const ApproveConfirmButtons: React.FC<ApproveConfirmButtonsProps> = ({
-//   isApproveDisabled,
-//   isApproving,
-//   isConfirming,
-//   isConfirmDisabled,
-//   onApprove,
-//   onConfirm,
-// }) => {
-//   const TranslateString = useI18n()
+const spinnerIcon = <AutoRenewIcon spin color="currentColor" />
 
-//   return (
-//     <StyledApproveConfirmButtons>
-//       <Box>
-//         <Button
-//           disabled={isApproveDisabled}
-//           onClick={onApprove}
-//           endIcon={isApproving ? spinnerIcon : undefined}
-//           isLoading={isApproving}
-//         >
-//           {isApproving ? TranslateString(800, 'Approving') : TranslateString(564, 'Approve')}
-//         </Button>
-//       </Box>
-//       <Flex justifyContent="center">
-//         <ChevronRight />
-//         <ChevronBottom />
-//       </Flex>
-//       <Box>
-//         <Button
-//           onClick={onConfirm}
-//           disabled={isConfirmDisabled}
-//           isLoading={isConfirming}
-//           endIcon={isConfirming ? spinnerIcon : undefined}
-//         >
-//           {isConfirming ? TranslateString(802, 'Confirming') : TranslateString(464, 'Confirm')}
-//         </Button>
-//       </Box>
-//     </StyledApproveConfirmButtons>
-//   )
-// }
+const ApproveConfirmButtons: React.FC<ApproveConfirmButtonsProps> = ({
+  isApproveDisabled,
+  isApproving,
+  isConfirming,
+  isConfirmDisabled,
+  onApprove,
+  onConfirm,
+  buttonArrangement = ButtonArrangement.ROW,
+}) => {
+  const { t } = useTranslation()
 
-// export default ApproveConfirmButtons
+  const ApproveConfirmRow = () => {
+    return (
+      <StyledApproveConfirmButtonRow>
+        <Box>
+          <Button
+            disabled={isApproveDisabled}
+            onClick={onApprove}
+            endIcon={isApproving ? spinnerIcon : undefined}
+            isLoading={isApproving}
+          >
+            {isApproving ? t('Approving') : t('Approve')}
+          </Button>
+        </Box>
+        <Flex justifyContent="center">
+          <ChevronRight />
+          <ChevronBottom />
+        </Flex>
+        <Box>
+          <Button
+            onClick={onConfirm}
+            disabled={isConfirmDisabled}
+            isLoading={isConfirming}
+            endIcon={isConfirming ? spinnerIcon : undefined}
+          >
+            {isConfirming ? t('Confirming') : t('Confirm')}
+          </Button>
+        </Box>
+      </StyledApproveConfirmButtonRow>
+    )
+  }
+
+  const ApproveConfirmSequential = () => {
+    return (
+      <>
+        {isApproveDisabled ? (
+          <Box>
+            <Button
+              onClick={onConfirm}
+              disabled={isConfirmDisabled}
+              isLoading={isConfirming}
+              endIcon={isConfirming ? spinnerIcon : undefined}
+            >
+              {isConfirming ? t('Confirming') : t('Confirm')}
+            </Button>
+          </Box>
+        ) : (
+          <Box>
+            <Button onClick={onApprove} endIcon={isApproving ? spinnerIcon : undefined} isLoading={isApproving}>
+              {isApproving ? t('Approving') : t('Approve')}
+            </Button>
+          </Box>
+        )}
+      </>
+    )
+  }
+
+  return buttonArrangement === ButtonArrangement.ROW ? ApproveConfirmRow() : ApproveConfirmSequential()
+}
+
+export default ApproveConfirmButtons

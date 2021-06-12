@@ -1,5 +1,5 @@
 import React from 'react'
-import { LogoIcon, NoProfileAvatarIcon } from 'easybake-uikit'
+import { NoProfileAvatarIcon } from 'easybake-uikit'
 import { Profile } from 'state/types'
 import styled from 'styled-components'
 
@@ -47,7 +47,7 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ profile }) => {
   return (
     <AvatarWrapper bg={`/images/nfts/${profile.nft?.images?.md}`}>
       {!profile.isActive && <AvatarInactive />}
-      <TeamAvatar src={`${LogoIcon}`} alt="EasyBake Logo" />
+      <TeamAvatar src={`/images/teams/${profile.team.images.alt}`} alt={profile.team.name} />
     </AvatarWrapper>
   )
 }

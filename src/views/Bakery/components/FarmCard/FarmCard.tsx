@@ -93,8 +93,8 @@ interface FarmCardProps {
 const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, account }) => {
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
-  // We assume the token name is coin pair + lp e.g. OVEN-BNB LP, LINK-BNB LP,
-  // NAR-OVEN LP. The images should be OVEN-bnb.svg, link-bnb.svg, nar-OVEN.svg
+  // We assume the token name is coin pair + lp e.g. OVEN-ETH LP, LINK-ETH LP,
+  // NAR-OVEN LP. The images should be OVEN-eth.svg, link-eth.svg, nar-OVEN.svg
   const farmImage = farm.lpSymbol.split(' ')[0].toLocaleLowerCase()
 
   const totalValueFormatted = farm.liquidity

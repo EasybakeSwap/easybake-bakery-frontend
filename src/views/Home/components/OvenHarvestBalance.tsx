@@ -6,7 +6,7 @@ import useAllEarnings from 'hooks/useAllEarnings'
 // import { usePriceOvenUsdc } from 'state/hooks'
 import styled from 'styled-components'
 import CardValue from './CardValue'
-// import CardBusdValue from './CardBusdValue'
+// import CardUsdcValue from './CardUsdcValue'
 
 const Block = styled.div`
   margin-bottom: -8px;
@@ -40,7 +40,7 @@ const OvenHarvestBalance = () => {
   return (
     <Block>
       <CardValue value={earningsSum} lineHeight="1.5"/>
-      {/* {!ovenPriceUsdc.eq(0) && <CardBusdValue value={earningsUsdc} />} */}
+      {/* {!ovenPriceUsdc.eq(0) && <CardUsdcValue value={earningsUsdc} />} */}
     </Block>
   )
 }

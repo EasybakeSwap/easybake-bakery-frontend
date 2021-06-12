@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { Flex, MetamaskIcon, Text, LinkExternal, TimerIcon, Skeleton, useTooltip, Button } from 'easybake-uikit' // disabled: TooltipText
 import { BASE_ETHERSCAN_URL, BASE_URL } from 'config'
-import { useBlock } from 'state/hooks'
+import { useTime } from 'state/hooks'
 import { Pool } from 'state/types'
 import { getAddress, getOvenVaultAddress } from 'utils/addressHelpers'
 import { registerToken } from 'utils/wallet'
@@ -32,8 +32,8 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({
   isAutoVault = false,
   totalOvenInVault,
 }) => {
-  const { currentBlock } = useBlock()
-  const { stakingToken, earningToken, totalStaked, startBlock, endBlock, isFinished, contractAddress } = pool
+  const { currentTime } = useTime()
+  const { stakingToken, earningToken, totalStaked, startTime, endTime, isFinished, contractAddress } = pool
 
   const tokenAddress = earningToken.address ? getAddress(earningToken.address) : ''
   const poolContractAddress = getAddress(contractAddress)
@@ -41,9 +41,9 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({
   const imageSrc = `${BASE_URL}/images/tokens/${earningToken.symbol.toLowerCase()}.png`
   const isMetaMaskInScope = !!(window as WindowChain).ethereum?.isMetaMask
 
-  const shouldShowBlockCountdown = Boolean(!isFinished && startBlock && endBlock)
-  const blocksUntilStart = Math.max(startBlock - currentBlock, 0)
-  const blocksRemaining = Math.max(endBlock - currentBlock, 0)
+  const shouldShowBlockCountdown = Boolean(!isFinished && startTime && endTime)
+  const blocksUntilStart = Math.max(startTime - currentTime, 0)
+  const blocksRemaining = Math.max(endTime - currentTime, 0)
   const hasPoolStarted = blocksUntilStart === 0 && blocksRemaining > 0
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(

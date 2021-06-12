@@ -55,6 +55,15 @@ const tokens = {
       1: '',
     },
   },
+  qsd: {
+    symbol: 'QSD',
+    address: {
+      4: '0x07AaA29E63FFEB2EBf59B33eE61437E1a91A3bb2',
+      1: '',
+    },
+    decimals: 18,
+    projectLink: 'https://chemix.io/home',
+  },
 }
 
 export default tokens

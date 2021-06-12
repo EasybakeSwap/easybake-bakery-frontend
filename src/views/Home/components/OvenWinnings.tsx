@@ -6,7 +6,7 @@ import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from 'bignumber.js'
 import styled from 'styled-components'
 import CardValue from './CardValue'
-import CardBusdValue from './CardBusdValue'
+import CardUsdcValue from './CardUsdcValue'
 
 const Block = styled.div`
   margin-bottom: 24px;
@@ -19,8 +19,8 @@ interface OvebWinningsProps {
 const OvenWinnings: React.FC<OvebWinningsProps> = ({ claimAmount }) => {
   const { account } = useWeb3React()
   const ovenAmount = getBalanceNumber(claimAmount)
-  const ovenPriceBusd = usePriceOvenUsdc()
-  const claimAmountBusd = new BigNumber(ovenAmount).multipliedBy(ovenPriceBusd).toNumber()
+  const ovenPriceUsdc = usePriceOvenUsdc()
+  const claimAmountUsdc = new BigNumber(ovenAmount).multipliedBy(ovenPriceUsdc).toNumber()
 
   if (!account) {
     return (
@@ -33,7 +33,7 @@ const OvenWinnings: React.FC<OvebWinningsProps> = ({ claimAmount }) => {
   return (
     <Block>
       <CardValue value={ovenAmount} lineHeight="1.5" />
-      {!ovenPriceBusd.eq(0) && <CardBusdValue value={claimAmountBusd} decimals={2} />}
+      {!ovenPriceUsdc.eq(0) && <CardUsdcValue value={claimAmountUsdc} decimals={2} />}
     </Block>
   )
 }

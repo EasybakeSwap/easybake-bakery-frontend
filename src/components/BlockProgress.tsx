@@ -1,15 +1,15 @@
 import React from 'react'
 import { Progress, ProgressProps } from 'easybake-uikit'
-import { useBlock } from 'state/hooks'
+import { useTime } from 'state/hooks'
 
 interface BlockProgressProps extends ProgressProps {
-  startBlock: number
-  endBlock: number
+  startTime: number
+  endTime: number
 }
 
-const BlockProgress: React.FC<BlockProgressProps> = ({ startBlock, endBlock, ...props }) => {
-  const { currentBlock } = useBlock()
-  const rawProgress = ((currentBlock - startBlock) / (endBlock - startBlock)) * 100
+const BlockProgress: React.FC<BlockProgressProps> = ({ startTime, endTime, ...props }) => {
+  const { currentTime } = useTime()
+  const rawProgress = ((currentTime - startTime) / (endTime - startTime)) * 100
   const progress = rawProgress <= 100 ? rawProgress : 100
 
   return <Progress primaryStep={progress} {...props} />

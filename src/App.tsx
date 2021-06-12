@@ -3,7 +3,7 @@ import { Redirect, Router, Route, Switch } from 'react-router-dom'
 import { ResetCSS } from 'easybake-uikit'
 import BigNumber from 'bignumber.js'
 import useEagerConnect from 'hooks/useEagerConnect'
-import { useFetchPriceList, useFetchPublicData } from 'state/hooks'
+// import { useFetchPriceList, useFetchProfile, useFetchPublicData } from 'state/hooks'
 import GlobalStyle from './style/Global'
 import Menu from './components/Menu'
 import SuspenseWithChunkError from './components/SuspenseWithChunkError'
@@ -18,7 +18,7 @@ import history from './routerHistory'
 const Home = lazy(() => import('./views/Home'))
 const Bakery = lazy(() => import('./views/Bakery'))
 // const Collectibles = lazy(() => import('./views/Collectibles'))
-// const Profile = lazy(() => import('./views/Profile'))
+const Profile = lazy(() => import('./views/Profile'))
 const NotFound = lazy(() => import('./views/NotFound'))
 
 // This config is required for number formating
@@ -35,9 +35,9 @@ const App: React.FC = () => {
   }, [])
 
   useEagerConnect()
-  useFetchPublicData()
+  // useFetchPublicData()
   // useFetchProfile()
-  useFetchPriceList()
+  // useFetchPriceList()
 
   return (
     <Router history={history}>
@@ -57,10 +57,10 @@ const App: React.FC = () => {
             </Route>
             {/* <Route path="/collectibles">
               <Collectibles />
-            </Route>
+            </Route> */}
             <Route path="/profile">
               <Profile />
-            </Route> */}
+            </Route>
             {/* Redirect */}
             <Route path="/staking">
               <Redirect to="/bakery" />

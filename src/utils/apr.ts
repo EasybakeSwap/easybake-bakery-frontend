@@ -24,13 +24,13 @@ export const getPoolApr = (
 /**
  * Get farm APR value in %
  * @param poolWeight allocationPoint / totalAllocationPoint
- * @param cakePriceUsd OVEN price in USD
+ * @param ovenPriceUsd OVEN price in USD
  * @param poolLiquidityUsd Total pool liquidity in USD
  * @returns
  */
-export const getFarmApr = (poolWeight: BigNumber, cakePriceUsd: BigNumber, poolLiquidityUsd: BigNumber): number => {
+export const getFarmApr = (poolWeight: BigNumber, ovenPriceUsd: BigNumber, poolLiquidityUsd: BigNumber): number => {
   const yearlyOvenRewardAllocation = OVEN_PER_SECOND.times(SECONDS_PER_YEAR).times(poolWeight)
-  const apr = yearlyOvenRewardAllocation.times(cakePriceUsd).div(poolLiquidityUsd).times(100)
+  const apr = yearlyOvenRewardAllocation.times(ovenPriceUsd).div(poolLiquidityUsd).times(100)
   return apr.isNaN() || !apr.isFinite() ? null : apr.toNumber()
 }
 
