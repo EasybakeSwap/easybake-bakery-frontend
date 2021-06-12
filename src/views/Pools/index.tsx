@@ -6,25 +6,25 @@ import { Heading, Flex } from 'easybake-uikit' // disabled: Image
 import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import usePersistState from 'hooks/usePersistState'
-import { usePools, useBlock } from 'state/hooks'
+import { usePools, useTime } from 'state/hooks'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
 import PageHeader from 'components/PageHeader'
 import PoolCard from './components/PoolCard'
-// import OvenVaultCard from './components/OvenVaultCard'
+import OvenVaultCard from './components/OvenVaultCard'
 import PoolTabButtons from './components/PoolTabButtons'
-// import BountyCard from './components/BountyCard'
+import BountyCard from './components/BountyCard'
 
 const Pools: React.FC = () => {
   const { path } = useRouteMatch()
   const { account } = useWeb3React()
   const pools = usePools(account)
-  const { currentBlock } = useBlock()
+  const { currentTime } = useTime()
   const [stakedOnly, setStakedOnly] = usePersistState(false, 'easybake_pool_staked')
 
   const [finishedPools, openPools] = useMemo(
-    () => partition(pools, (pool) => pool.isFinished || currentBlock > pool.endBlock),
-    [currentBlock, pools],
+    () => partition(pools, (pool) => pool.isFinished || currentTime > pool.endTime),
+    [currentTime, pools],
   )
   const stakedOnlyFinishedPools = useMemo(
     () => finishedPools.filter((pool) => pool.userData && new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)),
@@ -37,7 +37,7 @@ const Pools: React.FC = () => {
   const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0
 
   // This pool is passed explicitly to the oven vault
-  // const ovenPoolData = useMemo(() => openPools.find((pool) => pool.sousId === 0), [openPools])
+  const ovenPoolData = useMemo(() => openPools.find((pool) => pool.sousId === 0), [openPools])
 
   return (
     <>
@@ -55,7 +55,7 @@ const Pools: React.FC = () => {
             </Heading>
           </Flex>
           <Flex height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
-            {/* <BountyCard /> */}
+            <BountyCard />
           </Flex>
         </Flex>
       </PageHeader>
@@ -68,7 +68,7 @@ const Pools: React.FC = () => {
         <FlexLayout>
           <Route exact path={`${path}`}>
             <>
-              {/* <OvenVaultCard pool={ovenPoolData} showStakedOnly={stakedOnly} /> */}
+              <OvenVaultCard pool={ovenPoolData} showStakedOnly={stakedOnly} />
               {stakedOnly
                 ? orderBy(stakedOnlyOpenPools, ['sortOrder']).map((pool) => (
                     <PoolCard key={pool.sousId} pool={pool} account={account} />

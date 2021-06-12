@@ -1,216 +1,113 @@
-import { useEffect, useMemo } from 'react'
-import BigNumber from 'bignumber.js'
-import { kebabCase } from 'lodash'
-// import { useWeb3React } from '@web3-react/core'
-import { Toast, toastTypes } from 'easybake-uikit'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from 'state'
-// import Nfts from 'config/constants/nfts'
-import { getWeb3NoAccount } from 'utils/web3'
-import { getAddress } from 'utils/addressHelpers'
-import { getBalanceNumber } from 'utils/formatBalance'
-import useRefresh from 'hooks/useRefresh'
+/* eslint-disable no-param-reassign */
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import farmsConfig from 'config/constants/farms'
+import isArchivedPid from 'utils/farmHelpers'
+import priceHelperLpsConfig from 'config/constants/priceHelperLps'
+import fetchFarms from './fetchFarms'
+import fetchFarmsPrices from './fetchFarmsPrices'
 import {
-  fetchFarmsPublicDataAsync,
-  fetchPoolsPublicDataAsync,
-  fetchPoolsUserDataAsync,
-  push as pushToast,
-  remove as removeToast,
-  clear as clearToast,
-  setBlock,
-} from './actions'
-import { State, Farm, Pool, PriceState } from './types' // disabled `ProfileState`
-import { fetchPrices } from './prices'
-// import { fetchProfile } from './profile'
-// import { fetchWalletNfts } from './collectibles'
+  fetchFarmUserEarnings,
+  fetchFarmUserAllowances,
+  fetchFarmUserTokenBalances,
+  fetchFarmUserStakedBalances,
+} from './fetchFarmUser'
+import { FarmsState, Farm } from '../types'
 
-export const useFetchPublicData = () => {
-  const dispatch = useAppDispatch()
-  const { slowRefresh } = useRefresh()
-  useEffect(() => {
-    dispatch(fetchFarmsPublicDataAsync())
-    dispatch(fetchPoolsPublicDataAsync())
-  }, [dispatch, slowRefresh])
+const noAccountFarmConfig = farmsConfig.map((farm) => ({
+  ...farm,
+  userData: {
+    allowance: '0',
+    tokenBalance: '0',
+    stakedBalance: '0',
+    earnings: '0',
+  },
+}))
 
-  useEffect(() => {
-    const web3 = getWeb3NoAccount()
-    const interval = setInterval(async () => {
-      const blockNumber = await web3.eth.getBlockNumber()
-      dispatch(setBlock(blockNumber))
-    }, 6000)
+const initialState: FarmsState = { data: noAccountFarmConfig, loadArchivedFarmsData: false, userDataLoaded: false }
 
-    return () => clearInterval(interval)
-  }, [dispatch])
+export const nonArchivedFarms = farmsConfig.filter(({ pid }) => !isArchivedPid(pid))
+
+// Async thunks
+export const fetchFarmsPublicDataAsync = createAsyncThunk<Farm[], number[]>(
+  'farms/fetchFarmsPublicDataAsync',
+  async (pids) => {
+    const farmsToFetch = farmsConfig.filter((farmConfig) => pids.includes(farmConfig.pid))
+
+    // Add price helper farms
+    const farmsWithPriceHelpers = farmsToFetch.concat(priceHelperLpsConfig)
+
+    const farms = await fetchFarms(farmsWithPriceHelpers)
+    const farmsWithPrices = await fetchFarmsPrices(farms)
+
+    // Filter out price helper LP config farms
+    const farmsWithoutHelperLps = farmsWithPrices.filter((farm: Farm) => {
+      return farm.pid || farm.pid === 0
+    })
+
+    return farmsWithoutHelperLps
+  },
+)
+
+interface FarmUserDataResponse {
+  pid: number
+  allowance: string
+  tokenBalance: string
+  stakedBalance: string
+  earnings: string
 }
 
-// Farms
+export const fetchFarmUserDataAsync = createAsyncThunk<FarmUserDataResponse[], { account: string; pids: number[] }>(
+  'farms/fetchFarmUserDataAsync',
+  async ({ account, pids }) => {
+    const farmsToFetch = farmsConfig.filter((farmConfig) => pids.includes(farmConfig.pid))
+    const userFarmAllowances = await fetchFarmUserAllowances(account, farmsToFetch)
+    const userFarmTokenBalances = await fetchFarmUserTokenBalances(account, farmsToFetch)
+    const userStakedBalances = await fetchFarmUserStakedBalances(account, farmsToFetch)
+    const userFarmEarnings = await fetchFarmUserEarnings(account, farmsToFetch)
 
-export const useFarms = (): Farm[] => {
-  const farms = useSelector((state: State) => state.farms.data)
-  return farms
-}
+    return userFarmAllowances.map((farmAllowance, index) => {
+      return {
+        pid: farmsToFetch[index].pid,
+        allowance: userFarmAllowances[index],
+        tokenBalance: userFarmTokenBalances[index],
+        stakedBalance: userStakedBalances[index],
+        earnings: userFarmEarnings[index],
+      }
+    })
+  },
+)
 
-export const useFarmFromPid = (pid): Farm => {
-  const farm = useSelector((state: State) => state.farms.data.find((f) => f.pid === pid))
-  return farm
-}
+export const farmsSlice = createSlice({
+  name: 'Farms',
+  initialState,
+  reducers: {
+    setLoadArchivedFarmsData: (state, action) => {
+      const loadArchivedFarmsData = action.payload
+      state.loadArchivedFarmsData = loadArchivedFarmsData
+    },
+  },
+  extraReducers: (builder) => {
+    // Update farms with live data
+    builder.addCase(fetchFarmsPublicDataAsync.fulfilled, (state, action) => {
+      state.data = state.data.map((farm) => {
+        const liveFarmData = action.payload.find((farmData) => farmData.pid === farm.pid)
+        return { ...farm, ...liveFarmData }
+      })
+    })
 
-export const useFarmFromSymbol = (lpSymbol: string): Farm => {
-  const farm = useSelector((state: State) => state.farms.data.find((f) => f.lpSymbol === lpSymbol))
-  return farm
-}
+    // Update farms with user data
+    builder.addCase(fetchFarmUserDataAsync.fulfilled, (state, action) => {
+      action.payload.forEach((userDataEl) => {
+        const { pid } = userDataEl
+        const index = state.data.findIndex((farm) => farm.pid === pid)
+        state.data[index] = { ...state.data[index], userData: userDataEl }
+      })
+      state.userDataLoaded = true
+    })
+  },
+})
 
-export const useFarmUser = (pid) => {
-  const farm = useFarmFromPid(pid)
+// Actions
+export const { setLoadArchivedFarmsData } = farmsSlice.actions
 
-  return {
-    allowance: farm.userData ? new BigNumber(farm.userData.allowance) : new BigNumber(0),
-    tokenBalance: farm.userData ? new BigNumber(farm.userData.tokenBalance) : new BigNumber(0),
-    stakedBalance: farm.userData ? new BigNumber(farm.userData.stakedBalance) : new BigNumber(0),
-    earnings: farm.userData ? new BigNumber(farm.userData.earnings) : new BigNumber(0),
-  }
-}
-
-export const useLpTokenPrice = (symbol: string) => {
-  const farm = useFarmFromSymbol(symbol)
-  const tokenPriceInUsd = useGetApiPrice(getAddress(farm.token.address))
-
-  return farm.lpTotalSupply && farm.lpTotalInQuoteToken
-    ? new BigNumber(getBalanceNumber(farm.lpTotalSupply)).div(farm.lpTotalInQuoteToken).times(tokenPriceInUsd).times(2)
-    : new BigNumber(0)
-}
-
-// Pools
-
-export const usePools = (account): Pool[] => {
-  const { fastRefresh } = useRefresh()
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    if (account) {
-      dispatch(fetchPoolsUserDataAsync(account))
-    }
-  }, [account, dispatch, fastRefresh])
-
-  const pools = useSelector((state: State) => state.pools.data)
-  return pools
-}
-
-export const usePoolFromPid = (sousId): Pool => {
-  const pool = useSelector((state: State) => state.pools.data.find((p) => p.sousId === sousId))
-  return pool
-}
-
-// Toasts
-
-export const useToast = () => {
-  const dispatch = useAppDispatch()
-  const helpers = useMemo(() => {
-    const push = (toast: Toast) => dispatch(pushToast(toast))
-
-    return {
-      toastError: (title: string, description?: string) => {
-        return push({ id: kebabCase(title), type: toastTypes.DANGER, title, description })
-      },
-      toastInfo: (title: string, description?: string) => {
-        return push({ id: kebabCase(title), type: toastTypes.INFO, title, description })
-      },
-      toastSuccess: (title: string, description?: string) => {
-        return push({ id: kebabCase(title), type: toastTypes.SUCCESS, title, description })
-      },
-      toastWarning: (title: string, description?: string) => {
-        return push({ id: kebabCase(title), type: toastTypes.WARNING, title, description })
-      },
-      push,
-      remove: (id: string) => dispatch(removeToast(id)),
-      clear: () => dispatch(clearToast()),
-    }
-  }, [dispatch])
-
-  return helpers
-}
-
-// // Profile
-
-// export const useFetchProfile = () => {
-//   const { account } = useWeb3React()
-//   const dispatch = useAppDispatch()
-
-//   useEffect(() => {
-//     dispatch(fetchProfile(account))
-//   }, [account, dispatch])
-// }
-
-// export const useProfile = () => {
-//   const { isInitialized, isLoading, data, hasRegistered }: ProfileState = useSelector((state: State) => state.profile)
-//   return { profile: data, hasProfile: isInitialized && hasRegistered, isInitialized, isLoading }
-// }
-
-
-// Prices
-
-export const useFetchPriceList = () => {
-  const { slowRefresh } = useRefresh()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(fetchPrices())
-  }, [dispatch, slowRefresh])
-}
-
-export const useGetApiPrices = () => {
-  const prices: PriceState['data'] = useSelector((state: State) => state.prices.data)
-  return prices
-}
-
-export const useGetApiPrice = (address: string) => {
-  const prices = useGetApiPrices()
-
-  if (!prices) {
-    return null
-  }
-
-  return prices[address.toLowerCase()]
-}
-
-export const usePriceOvenUsdc = (): BigNumber => {
-  const ZERO = new BigNumber(0)
-  const ovenEthFarm = useFarmFromPid(1)
-  const usdcEthFarm = useFarmFromPid(4)
-
-  const usdcEthPrice = usdcEthFarm.tokenPriceVsQuote ? new BigNumber(1).div(usdcEthFarm.tokenPriceVsQuote) : ZERO
-  const ovenUsdcPrice = ovenEthFarm.tokenPriceVsQuote ? usdcEthPrice.times(ovenEthFarm.tokenPriceVsQuote) : ZERO
-
-  return ovenUsdcPrice
-}
-
-// Block
-
-export const useBlock = () => {
-  return useSelector((state: State) => state.block)
-}
-
-export const useInitialBlock = () => {
-  return useSelector((state: State) => state.block.initialBlock)
-}
-
-// // Collectibles
-// export const useGetCollectibles = () => {
-//   const { account } = useWeb3React()
-//   const dispatch = useAppDispatch()
-//   const { isInitialized, isLoading, data } = useSelector((state: State) => state.collectibles)
-//   const identifiers = Object.keys(data)
-
-//   useEffect(() => {
-//     // Fetch nfts only if we have not done so already
-//     if (!isInitialized) {
-//       dispatch(fetchWalletNfts(account))
-//     }
-//   }, [isInitialized, account, dispatch])
-
-//   return {
-//     isInitialized,
-//     isLoading,
-//     tokenIds: data,
-//     nftsInWallet: Nfts.filter((nft) => identifiers.includes(nft.identifier)),
-//   }
-// }
+export default farmsSlice.reducer

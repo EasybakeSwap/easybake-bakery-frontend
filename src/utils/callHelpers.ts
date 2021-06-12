@@ -87,7 +87,7 @@ export const harvest = async (masterChefContract, pid, account) => {
     })
 }
 
-export const sousHarvet = async (sousChefContract, account) => {
+export const sousHarvest = async (sousChefContract, account) => {
   return sousChefContract.methods
     .deposit('0')
     .send({ from: account, gas: 200000 })

@@ -1,41 +1,41 @@
 import { useEffect, useState } from 'react'
-// import BigNumber from 'bignumber.js'
-// import { getProfileContract } from 'utils/contractHelpers'
-// import makeBatchRequest from 'utils/makeBatchRequest'
-// import { useToast } from 'state/hooks'
+import BigNumber from 'bignumber.js'
+import { getProfileContract } from 'utils/contractHelpers'
+import makeBatchRequest from 'utils/makeBatchRequest'
+import { useToast } from 'state/hooks'
 
-// const useGetProfileCosts = () => {
-//   const [costs, setCosts] = useState({
-//     numberCakeToReactivate: new BigNumber(0),
-//     numberCakeToRegister: new BigNumber(0),
-//     numberCakeToUpdate: new BigNumber(0),
-//   })
-//   const { toastError } = useToast()
+const useGetProfileCosts = () => {
+  const [costs, setCosts] = useState({
+    numberOvenToReactivate: new BigNumber(0),
+    numberOvenToRegister: new BigNumber(0),
+    numberOvenToUpdate: new BigNumber(0),
+  })
+  const { toastError } = useToast()
 
-//   useEffect(() => {
-//     const fetchCosts = async () => {
-//       try {
-//         const profileContract = getProfileContract()
-//         const [numberCakeToReactivate, numberCakeToRegister, numberCakeToUpdate] = await makeBatchRequest([
-//           profileContract.methods.numberCakeToReactivate().call,
-//           profileContract.methods.numberCakeToRegister().call,
-//           profileContract.methods.numberCakeToUpdate().call,
-//         ])
+  useEffect(() => {
+    const fetchCosts = async () => {
+      try {
+        const profileContract = getProfileContract()
+        const [numberOvenToReactivate, numberOvenToRegister, numberOvenToUpdate] = await makeBatchRequest([
+          profileContract.methods.numberOvenToReactivate().call,
+          profileContract.methods.numberOvenToRegister().call,
+          profileContract.methods.numberOvenToUpdate().call,
+        ])
 
-//         setCosts({
-//           numberCakeToReactivate: new BigNumber(numberCakeToReactivate as string),
-//           numberCakeToRegister: new BigNumber(numberCakeToRegister as string),
-//           numberCakeToUpdate: new BigNumber(numberCakeToUpdate as string),
-//         })
-//       } catch (error) {
-//         toastError('Error', 'Could not retrieve OVEN costs for profile')
-//       }
-//     }
+        setCosts({
+          numberOvenToReactivate: new BigNumber(numberOvenToReactivate as string),
+          numberOvenToRegister: new BigNumber(numberOvenToRegister as string),
+          numberOvenToUpdate: new BigNumber(numberOvenToUpdate as string),
+        })
+      } catch (error) {
+        toastError('Error', 'Could not retrieve OVEN costs for profile')
+      }
+    }
 
-//     fetchCosts()
-//   }, [setCosts, toastError])
+    fetchCosts()
+  }, [setCosts, toastError])
 
-//   return costs
-// }
+  return costs
+}
 
-// export default useGetProfileCosts
+export default useGetProfileCosts

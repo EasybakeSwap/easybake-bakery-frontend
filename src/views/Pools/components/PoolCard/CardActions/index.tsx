@@ -21,8 +21,8 @@ interface CardActionsProps {
 
 const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance, stakingTokenPrice }) => {
   const { sousId, stakingToken, earningToken, harvest, poolCategory, userData } = pool
-  // Pools using native BNB behave differently than pools using a token
-  const isBnbPool = poolCategory === PoolCategory.BINANCE
+  // Pools using native ETH behave differently than pools using a token
+  const isBnbPool = poolCategory === PoolCategory.ETHEREUM
   const allowance = userData?.allowance ? new BigNumber(userData.allowance) : BIG_ZERO
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO

@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components'
-// eslint-disable-next-line import/no-unresolved
 import { PancakeTheme } from 'easybake-uikit/dist/theme'
 
 declare module 'styled-components' {

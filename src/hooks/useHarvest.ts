@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state'
 import { fetchFarmUserDataAsync, updateUserBalance, updateUserPendingReward } from 'state/actions'
-import { sousHarvet, harvest } from 'utils/callHelpers'
+import { sousHarvest, harvest } from 'utils/callHelpers'
 import { useMasterchefContract, useSousChefContract } from './useContract'
 
 export const useHarvest = (farmPid: number) => {
@@ -44,7 +44,7 @@ export const useSousHarvest = (sousId) => {
     if (sousId === 0) {
       await harvest(masterChefContract, 0, account)
     } else {
-      await sousHarvet(sousChefContract, account)
+      await sousHarvest(sousChefContract, account)
     }
     dispatch(updateUserPendingReward(sousId, account))
     dispatch(updateUserBalance(sousId, account))

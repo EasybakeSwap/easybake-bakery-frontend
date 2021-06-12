@@ -77,3 +77,4 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   )
 }
 
+export default DepositModal

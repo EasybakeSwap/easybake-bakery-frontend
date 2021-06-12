@@ -27,29 +27,29 @@ const config: MenuEntry[] = [
     icon: 'BakeryIcon',
     href: '/bakery',
   },
-  // {
-  //   label: 'Refinery',
-  //   icon: 'PoolIcon',
-  //   href: '/pools',
-  // },
-  // {
-  //   label: 'Analytics',
-  //   icon: 'InfoIcon',
-  //   items: [
-  //     {
-  //       label: 'Overview',
-  //       href: 'https://info.EasyBake.finance',
-  //     },
-  //     {
-  //       label: 'Tokens',
-  //       href: 'https://info.easybake.finance/tokens',
-  //     },
-  //     {
-  //       label: 'Pairs',
-  //       href: 'https://info.easybake.finance/pairs',
-  //     }
-  //   ],
-  // },
+  {
+    label: 'Refinery',
+    icon: 'PoolIcon',
+    href: '/pools',
+  },
+  {
+    label: 'Analytics',
+    icon: 'InfoIcon',
+    items: [
+      {
+        label: 'Overview',
+        href: 'https://info.EasyBake.finance',
+      },
+      {
+        label: 'Tokens',
+        href: 'https://info.easybake.finance/tokens',
+      },
+      {
+        label: 'Pairs',
+        href: 'https://info.easybake.finance/pairs',
+      }
+    ],
+  },
   {
     label: 'Contracts',
     icon: 'ContractsIcon',

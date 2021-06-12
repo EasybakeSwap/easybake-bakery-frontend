@@ -3,7 +3,7 @@
 import { nodes } from './getRpcUrl'
 
 /**
- * Prompt the user to add BSC as a network on Metamask, or switch to BSC if the wallet is on a different network
+ * Prompt the user to add ETH as a network on Metamask, or switch to ETH if the wallet is on a different network
  * @returns {boolean} true if the setup succeeded, false otherwise
  */
 export const setupNetwork = async () => {
@@ -23,7 +23,7 @@ export const setupNetwork = async () => {
               decimals: 18,
             },
             rpcUrls: nodes,
-            blockExplorerUrls: ['https://etherscan.com/'],
+            blockExplorerUrls: ['https://etherscan.io/'],
           },
         ],
       })
