@@ -1,68 +1,26 @@
 import React from 'react'
-import { Flex, IconButton, useModal, CalculateIcon, Skeleton, useTooltip, Text } from 'easybake-uikit' // disabled: TooltipText
-import { getBalanceNumber } from 'utils/formatBalance'
-import { getPoolApr } from 'utils/apr'
-import { getAddress } from 'utils/addressHelpers'
-import { tokenEarnedPerThousandDollarsCompounding, getRoi } from 'utils/compoundApyHelpers'
-import { useGetApiPrice } from 'state/hooks'
+import { Flex, IconButton, useModal, CalculateIcon, Skeleton, TooltipText, useTooltip } from 'easybake-uikit'
 import Balance from 'components/Balance'
 import ApyCalculatorModal from 'components/ApyCalculatorModal'
 import { Pool } from 'state/types'
 import { BASE_EXCHANGE_URL } from 'config'
+import { getAprData } from 'views/Pools/helpers'
 
 interface AprRowProps {
   pool: Pool
-  stakingTokenPrice: number
-  isAutoVault?: boolean
-  compoundFrequency?: number
   performanceFee?: number
 }
 
-const AprRow: React.FC<AprRowProps> = ({
-  pool,
-  stakingTokenPrice,
-  isAutoVault = false,
-  compoundFrequency = 1,
-  performanceFee = 0,
-}) => {
-  const { stakingToken, earningToken, totalStaked, isFinished, tokenPerSecond } = pool
+const AprRow: React.FC<AprRowProps> = ({ pool, performanceFee = 0 }) => {
+  const { stakingToken, earningToken, isFinished, apr, earningTokenPrice, isAutoVault } = pool
 
   const tooltipContent = isAutoVault
-    ? 'APY includes compounding, APR doesn’t. This pool’s OVEN is compounded automatically, so we show APY.'
-    : 'This pool’s rewards aren’t compounded automatically, so we show APR'
+    ? ('APY includes compounding, APR doesn’t. This pool’s OVEN is compounded automatically, so we show APY.')
+    : ('This pool’s rewards aren’t compounded automatically, so we show APR')
 
-  const { targetRef, tooltip, tooltipVisible } = useTooltip(tooltipContent, { placement: 'bottom-end' })
+  const { targetRef, tooltip, tooltipVisible } = useTooltip(tooltipContent, { placement: 'bottom-start' })
 
-  const earningTokenPrice = useGetApiPrice(earningToken.address ? getAddress(earningToken.address) : '')
-  const apr = getPoolApr(
-    stakingTokenPrice,
-    earningTokenPrice,
-    getBalanceNumber(totalStaked, stakingToken.decimals),
-    parseFloat(tokenPerSecond),
-  )
-
-  // special handling for tokens like tBTC or BIFI where the daily token rewards for $1000 dollars will be less than 0.001 of that token
-  const isHighValueToken = Math.round(earningTokenPrice / 1000) > 0
-  const roundingDecimals = isHighValueToken ? 4 : 2
-
-  const earningsPercentageToDisplay = () => {
-    if (isAutoVault) {
-      const oneThousandDollarsWorthOfToken = 1000 / earningTokenPrice
-      const tokenEarnedPerThousand365D = tokenEarnedPerThousandDollarsCompounding({
-        numberOfDays: 365,
-        farmApr: apr,
-        tokenPrice: earningTokenPrice,
-        roundingDecimals,
-        compoundFrequency,
-        performanceFee,
-      })
-      return getRoi({
-        amountEarned: tokenEarnedPerThousand365D,
-        amountInvested: oneThousandDollarsWorthOfToken,
-      })
-    }
-    return apr
-  }
+  const { apr: earningsPercentageToDisplay, roundingDecimals, compoundFrequency } = getAprData(pool, performanceFee)
 
   const apyModalLink =
     stakingToken.address &&
@@ -72,10 +30,10 @@ const AprRow: React.FC<AprRowProps> = ({
     <ApyCalculatorModal
       tokenPrice={earningTokenPrice}
       apr={apr}
-      linkLabel={`Get ${stakingToken.symbol}`}
+      linkLabel={('Get %symbol%', { symbol: stakingToken.symbol })}
       linkHref={apyModalLink || BASE_EXCHANGE_URL}
       earningTokenSymbol={earningToken.symbol}
-      roundingDecimals={isHighValueToken ? 4 : 2}
+      roundingDecimals={roundingDecimals}
       compoundFrequency={compoundFrequency}
       performanceFee={performanceFee}
     />,
@@ -84,7 +42,7 @@ const AprRow: React.FC<AprRowProps> = ({
   return (
     <Flex alignItems="center" justifyContent="space-between">
       {tooltipVisible && tooltip}
-      <Text ref={targetRef}>{isAutoVault ? 'APY' : 'APR'}:</Text>
+      <TooltipText ref={targetRef}>{isAutoVault ? `${('APY')}:` : `${('APR')}:`}</TooltipText>
       {isFinished || !apr ? (
         <Skeleton width="82px" height="32px" />
       ) : (
@@ -92,10 +50,10 @@ const AprRow: React.FC<AprRowProps> = ({
           <Balance
             fontSize="16px"
             isDisabled={isFinished}
-            value={earningsPercentageToDisplay()}
+            value={earningsPercentageToDisplay}
             decimals={2}
             unit="%"
-            // bold
+            bold
           />
           <IconButton onClick={onPresentApyModal} variant="text" scale="sm">
             <CalculateIcon color="textSubtle" width="18px" />

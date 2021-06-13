@@ -1,5 +1,5 @@
 import farms from 'config/constants/farms'
-import { getBep20Contract, getLpContract } from 'utils/contractHelpers'
+import { getErc20Contract, getLpContract } from 'utils/contractHelpers'
 
 const farmsToTest = farms.filter((farm) => farm.pid !== 0)
 
@@ -28,8 +28,8 @@ describe('Config farms', () => {
     ).toBeTruthy()
   })
   it.each(farmsToTest)('Farm %p has non 0 tokens amount', async (farm) => {
-    const tokenContract = getBep20Contract(farm.token.address[56])
-    const quoteTokenContract = getBep20Contract(farm.quoteToken.address[56])
+    const tokenContract = getErc20Contract(farm.token.address[56])
+    const quoteTokenContract = getErc20Contract(farm.quoteToken.address[56])
 
     const tokenAmount = await tokenContract.methods.balanceOf(farm.lpAddresses[56]).call()
     const quoteTokenAmount = await quoteTokenContract.methods.balanceOf(farm.lpAddresses[56]).call()

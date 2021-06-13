@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Modal, Text, Flex, Image, Button, Slider, BalanceInput, AutoRenewIcon, Link } from 'easybake-uikit'
+
 import { BASE_EXCHANGE_URL } from 'config'
 import { useSousStake } from 'hooks/useStake'
 import { useSousUnstake } from 'hooks/useUnstake'
@@ -12,9 +13,9 @@ import { Pool } from 'state/types'
 import PercentageButton from './PercentageButton'
 
 interface StakeModalProps {
-  isBnbPool: boolean
+  isEthPool: boolean
   pool: Pool
-  stakingMax: BigNumber
+  stakingTokenBalance: BigNumber
   stakingTokenPrice: number
   isRemovingStake?: boolean
   onDismiss?: () => void
@@ -25,29 +26,43 @@ const StyledLink = styled(Link)`
 `
 
 const StakeModal: React.FC<StakeModalProps> = ({
+  isEthPool,
   pool,
-  stakingMax,
+  stakingTokenBalance,
   stakingTokenPrice,
   isRemovingStake = false,
   onDismiss,
 }) => {
-  const { sousId, stakingToken, earningToken } = pool
+  const { sousId, stakingToken, userData, stakingLimit, earningToken } = pool
+  
   const { theme } = useTheme()
-
-  const { onStake } = useSousStake(sousId)
-  const { onUnstake } = useSousUnstake(sousId)
+  const { onStake } = useSousStake(sousId, isEthPool)
+  const { onUnstake } = useSousUnstake(sousId, pool.enableEmergencyWithdraw)
   const { toastSuccess, toastError } = useToast()
-
   const [pendingTx, setPendingTx] = useState(false)
   const [stakeAmount, setStakeAmount] = useState('')
+  const [hasReachedStakeLimit, setHasReachedStakedLimit] = useState(false)
   const [percent, setPercent] = useState(0)
+  const getCalculatedStakingLimit = () => {
+    if (isRemovingStake) {
+      return userData.stakedBalance
+    }
+    return stakingLimit.gt(0) && stakingTokenBalance.gt(stakingLimit) ? stakingLimit : stakingTokenBalance
+  }
 
   const usdValueStaked = stakeAmount && formatNumber(new BigNumber(stakeAmount).times(stakingTokenPrice).toNumber())
+
+  useEffect(() => {
+    if (stakingLimit.gt(0) && !isRemovingStake) {
+      const fullDecimalStakeAmount = getDecimalAmount(new BigNumber(stakeAmount), stakingToken.decimals)
+      setHasReachedStakedLimit(fullDecimalStakeAmount.plus(userData.stakedBalance).gt(stakingLimit))
+    }
+  }, [stakeAmount, stakingLimit, userData, stakingToken, isRemovingStake, setHasReachedStakedLimit])
 
   const handleStakeInputChange = (input: string) => {
     if (input) {
       const convertedInput = getDecimalAmount(new BigNumber(input), stakingToken.decimals)
-      const percentage = Math.floor(convertedInput.dividedBy(stakingMax).multipliedBy(100).toNumber())
+      const percentage = Math.floor(convertedInput.dividedBy(getCalculatedStakingLimit()).multipliedBy(100).toNumber())
       setPercent(Math.min(percentage, 100))
     } else {
       setPercent(0)
@@ -57,7 +72,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
 
   const handleChangePercent = (sliderPercent: number) => {
     if (sliderPercent > 0) {
-      const percentageOfStakingMax = stakingMax.dividedBy(100).multipliedBy(sliderPercent)
+      const percentageOfStakingMax = getCalculatedStakingLimit().dividedBy(100).multipliedBy(sliderPercent)
       const amountToStake = getFullDisplayBalance(percentageOfStakingMax, stakingToken.decimals, stakingToken.decimals)
       setStakeAmount(amountToStake)
     } else {
@@ -74,24 +89,31 @@ const StakeModal: React.FC<StakeModalProps> = ({
       try {
         await onUnstake(stakeAmount, stakingToken.decimals)
         toastSuccess(
-          'Unstaked',
-          `Your ${earningToken.symbol} earnings have also been harvested to your wallet!`,
+          `${('Unstaked')}!` +
+          ('Your %symbol% earnings have also been harvested to your wallet!' + {
+            symbol: earningToken.symbol,
+          }),
         )
         setPendingTx(false)
         onDismiss()
       } catch (e) {
-        toastError('Canceled', 'Please try again and confirm the transaction.')
+        toastError(('Canceled'), ('Please try again and confirm the transaction.'))
         setPendingTx(false)
       }
     } else {
       try {
         // staking
         await onStake(stakeAmount, stakingToken.decimals)
-        toastSuccess(`Staked!`, `Your ${stakingToken.symbol} funds have been staked in the pool!`)
+        toastSuccess(
+          `${('Staked')}!`,
+          ('Your %symbol% funds have been staked in the pool!' + {
+            symbol: stakingToken.symbol,
+          }),
+        )
         setPendingTx(false)
         onDismiss()
       } catch (e) {
-        toastError('Canceled', 'Please try again and confirm the transaction.')
+        toastError(('Canceled'), ('Please try again and confirm the transaction.'))
         setPendingTx(false)
       }
     }
@@ -99,12 +121,20 @@ const StakeModal: React.FC<StakeModalProps> = ({
 
   return (
     <Modal
-      title={isRemovingStake ? 'Unstake' : 'Stake in Pool'}
+      title={isRemovingStake ? ('Unstake') : ('Stake in Pool')}
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
     >
+      {stakingLimit.gt(0) && !isRemovingStake && (
+        <Text color="secondary" bold mb="24px" style={{ textAlign: 'center' }} fontSize="16px">
+          {('Max stake for this pool: %amount% %token%' + {
+            amount: getFullDisplayBalance(stakingLimit, stakingToken.decimals, 0),
+            token: stakingToken.symbol,
+          })}
+        </Text>
+      )}
       <Flex alignItems="center" justifyContent="space-between" mb="8px">
-        <Text bold>{isRemovingStake ? 'Unstake' : 'Stake'}:</Text>
+        <Text bold>{isRemovingStake ? ('Unstake') : ('Stake')}:</Text>
         <Flex alignItems="center" minWidth="70px">
           <Image src={`/images/tokens/${stakingToken.symbol}.png`} width={24} height={24} alt={stakingToken.symbol} />
           <Text ml="4px" bold>
@@ -115,10 +145,22 @@ const StakeModal: React.FC<StakeModalProps> = ({
       <BalanceInput
         value={stakeAmount}
         onUserInput={handleStakeInputChange}
-        currencyValue={`~${usdValueStaked || 0} USD`}
+        currencyValue={stakingTokenPrice !== 0 && `~${usdValueStaked || 0} USD`}
+        isWarning={hasReachedStakeLimit}
+        decimals={stakingToken.decimals}
       />
-      <Text mt="8px" ml="auto" color="textSubtle" fontSize="12px" mb="8px">
-        Balance: {getFullDisplayBalance(stakingMax, stakingToken.decimals)}
+      {hasReachedStakeLimit && (
+        <Text color="failure" fontSize="12px" style={{ textAlign: 'right' }} mt="4px">
+          {('Maximum total stake: %amount% %token%' + {
+            amount: getFullDisplayBalance(new BigNumber(stakingLimit), stakingToken.decimals, 0),
+            token: stakingToken.symbol,
+          })}
+        </Text>
+      )}
+      <Text ml="auto" color="textSubtle" fontSize="12px" mb="8px">
+        {('Balance: %balance%' + {
+          balance: getFullDisplayBalance(getCalculatedStakingLimit(), stakingToken.decimals),
+        })}
       </Text>
       <Slider
         min={0}
@@ -133,21 +175,21 @@ const StakeModal: React.FC<StakeModalProps> = ({
         <PercentageButton onClick={() => handleChangePercent(25)}>25%</PercentageButton>
         <PercentageButton onClick={() => handleChangePercent(50)}>50%</PercentageButton>
         <PercentageButton onClick={() => handleChangePercent(75)}>75%</PercentageButton>
-        <PercentageButton onClick={() => handleChangePercent(100)}>MAX</PercentageButton>
+        <PercentageButton onClick={() => handleChangePercent(100)}>{('Max')}</PercentageButton>
       </Flex>
       <Button
         isLoading={pendingTx}
         endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
         onClick={handleConfirmClick}
-        disabled={!stakeAmount || parseFloat(stakeAmount) === 0}
+        disabled={!stakeAmount || parseFloat(stakeAmount) === 0 || hasReachedStakeLimit}
         mt="24px"
       >
-        {pendingTx ? 'Confirming' : 'Confirm'}
+        {pendingTx ? ('Confirming') : ('Confirm')}
       </Button>
       {!isRemovingStake && (
         <StyledLink external href={BASE_EXCHANGE_URL}>
           <Button width="100%" mt="8px" variant="secondary">
-            Get {stakingToken.symbol}
+            {('Get %symbol%' + { symbol: stakingToken.symbol })}
           </Button>
         </StyledLink>
       )}

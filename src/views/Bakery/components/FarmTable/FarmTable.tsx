@@ -1,23 +1,16 @@
 import React, { useRef } from 'react'
-import styled, {keyframes} from 'styled-components'
+import styled from 'styled-components'
 import { useTable, Button, ChevronUpIcon, ColumnType } from 'easybake-uikit'
+
 
 import Row, { RowProps } from './Row'
 
 export interface ITableProps {
   data: RowProps[]
   columns: ColumnType<RowProps>[]
+  userDataReady: boolean
   sortColumn?: string
 }
-
-const Load = keyframes`{
-  0% {
-    opacity: 0%;
-  }
-  100% {
-    opacity: 100%;
-  }
-}`;
 
 const Container = styled.div`
   filter: ${({ theme }) => theme.card.dropShadow};
@@ -25,7 +18,6 @@ const Container = styled.div`
   background: ${({ theme }) => theme.card.background};
   border-radius: 16px;
   margin: 16px 0px;
-  animation: ${Load} 300ms ease-in forwards;
 `
 
 const TableWrapper = styled.div`
@@ -67,7 +59,8 @@ const ScrollButtonContainer = styled.div`
 
 const FarmTable: React.FC<ITableProps> = (props) => {
   const tableWrapperEl = useRef<HTMLDivElement>(null)
-  const { data, columns } = props
+  
+  const { data, columns, userDataReady } = props
 
   const { rows } = useTable(columns, data, { sortable: true, sortColumn: 'farm' })
 
@@ -84,14 +77,14 @@ const FarmTable: React.FC<ITableProps> = (props) => {
           <StyledTable>
             <TableBody>
               {rows.map((row) => {
-                return <Row {...row.original} key={`table-row-${row.id}`} />
+                return <Row {...row.original} userDataReady={userDataReady} key={`table-row-${row.id}`} />
               })}
             </TableBody>
           </StyledTable>
         </TableWrapper>
         <ScrollButtonContainer>
           <Button variant="text" onClick={scrollToTop}>
-            TOP
+            {('To Top')}
             <ChevronUpIcon color="primary" />
           </Button>
         </ScrollButtonContainer>

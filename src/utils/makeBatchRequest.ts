@@ -7,7 +7,7 @@ import { getWeb3NoAccount } from './web3'
  *
  * [
  *  contract.method.balanceOf().call,
- *  contract.method.startBlockNumber().call
+ *  contract.method.startTimeNumber().call
  * ]
  */
 const makeBatchRequest = (calls: any[]) => {

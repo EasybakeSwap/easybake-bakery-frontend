@@ -5,7 +5,7 @@ import tokens from 'config/constants/tokens'
 import { Token } from 'config/constants/types'
 import multicall from 'utils/multicall'
 
-// remove BNB because it's not a Bep20 token
+// remove BNB because it's not a Erc20 token
 const tokensToTest = omitBy(tokens, (token) => token.symbol.toLowerCase() === 'bnb')
 
 describe('Config tokens', () => {

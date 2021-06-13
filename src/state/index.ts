@@ -5,7 +5,7 @@ import toastsReducer from './toasts'
 import poolsReducer from './pools'
 import pricesReducer from './prices'
 // import profileReducer from './profile'
-import blockReducer from './block'
+import timeReducer from './time'
 // import collectiblesReducer from './collectibles'
 
 const store = configureStore({
@@ -16,7 +16,7 @@ const store = configureStore({
     pools: poolsReducer,
     prices: pricesReducer,
     // profile: profileReducer,
-    block: blockReducer,
+    time: timeReducer,
     // collectibles: collectiblesReducer,
   },
 })

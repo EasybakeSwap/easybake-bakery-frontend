@@ -1,14 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Box, CardBody, Flex, Text } from 'easybake-uikit'
+import { Box, CardBody, Flex, Text, useMatchBreakpoints } from 'easybake-uikit'
+
 import { useWeb3React } from '@web3-react/core'
 import UnlockButton from 'components/UnlockButton'
-import { getAddress } from 'utils/addressHelpers'
-import { useGetApiPrice } from 'state/hooks'
-import useLastUpdated from 'hooks/useLastUpdated'
-import useGetVaultUserInfo from 'hooks/ovenVault/useGetVaultUserInfo'
-import useGetVaultSharesInfo from 'hooks/ovenVault/useGetVaultSharesInfo'
-import useGetVaultFees from 'hooks/ovenVault/useGetVaultFees'
+import { useOvenVault } from 'state/hooks'
 import { Pool } from 'state/types'
 import AprRow from '../PoolCard/AprRow'
 import { StyledCard, StyledCardInner } from '../PoolCard/StyledCard'
@@ -28,85 +24,53 @@ interface OvenVaultProps {
 }
 
 const OvenVaultCard: React.FC<OvenVaultProps> = ({ pool, showStakedOnly }) => {
+  
+  const { isXl } = useMatchBreakpoints()
   const { account } = useWeb3React()
-  const { lastUpdated, setLastUpdated } = useLastUpdated()
-  const userInfo = useGetVaultUserInfo(lastUpdated)
-  const vaultFees = useGetVaultFees()
-  const { totalOvenInVault, pricePerFullShare } = useGetVaultSharesInfo()
-  const { stakingToken } = pool
-  //   Estimate & manual for now. 288 = once every 5 mins. We can change once we have a better sense of this
-  const timesCompoundedDaily = 288
-  const accountHasSharesStaked = userInfo.shares && userInfo.shares.gt(0)
-  const stakingTokenPrice = useGetApiPrice(stakingToken.address ? getAddress(stakingToken.address) : '')
-  const isLoading = !pool.userData || !userInfo.shares
-  const performanceFeeAsDecimal = vaultFees.performanceFee && parseInt(vaultFees.performanceFee, 10) / 100
+  const {
+    userData: { userShares, isLoading: isVaultUserDataLoading },
+    fees: { performanceFee },
+  } = useOvenVault()
+
+  const accountHasSharesStaked = userShares && userShares.gt(0)
+  const isLoading = !pool.userData || isVaultUserDataLoading
+  const performanceFeeAsDecimal = performanceFee && performanceFee / 100
 
   if (showStakedOnly && !accountHasSharesStaked) {
     return null
   }
 
   return (
-    <StyledCard isPromotedPool>
-      <StyledCardInner isPromotedPool>
+    <StyledCard isPromoted={{ isDesktop: isXl }}>
+      <StyledCardInner>
         <StyledCardHeader
-          isPromotedPool
           isStaking={accountHasSharesStaked}
           isAutoVault
           earningTokenSymbol="OVEN"
           stakingTokenSymbol="OVEN"
         />
         <StyledCardBody isLoading={isLoading}>
-          <AprRow
-            pool={pool}
-            stakingTokenPrice={stakingTokenPrice}
-            isAutoVault
-            compoundFrequency={timesCompoundedDaily}
-            performanceFee={performanceFeeAsDecimal}
-          />
+          <AprRow pool={pool} performanceFee={performanceFeeAsDecimal} />
           <Box mt="24px">
-            <RecentOvenProfitRow
-              ovenAtLastUserAction={userInfo.ovenAtLastUserAction}
-              userShares={userInfo.shares}
-              pricePerFullShare={pricePerFullShare}
-            />
+            <RecentOvenProfitRow />
           </Box>
           <Box mt="8px">
-            <UnstakingFeeCountdownRow
-              withdrawalFee={vaultFees.withdrawalFee}
-              withdrawalFeePeriod={vaultFees.withdrawalFeePeriod}
-              lastDepositedTime={accountHasSharesStaked && userInfo.lastDepositedTime}
-            />
+            <UnstakingFeeCountdownRow />
           </Box>
-          <Flex mt="24px" flexDirection="column">
+          <Flex mt="32px" flexDirection="column">
             {account ? (
-              <VaultCardActions
-                pool={pool}
-                userInfo={userInfo}
-                pricePerFullShare={pricePerFullShare}
-                vaultFees={vaultFees}
-                stakingTokenPrice={stakingTokenPrice}
-                accountHasSharesStaked={accountHasSharesStaked}
-                lastUpdated={lastUpdated}
-                setLastUpdated={setLastUpdated}
-                isLoading={isLoading}
-              />
+              <VaultCardActions pool={pool} accountHasSharesStaked={accountHasSharesStaked} isLoading={isLoading} />
             ) : (
               <>
                 <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>
-                  Start earning
+                  {('Start earning')}
                 </Text>
-                <UnlockButton scale="100%" />
+                <UnlockButton />
               </>
             )}
           </Flex>
         </StyledCardBody>
-        <CardFooter
-          pool={pool}
-          account={account}
-          performanceFee={vaultFees.performanceFee}
-          isAutoVault
-          totalOvenInVault={totalOvenInVault}
-        />
+        <CardFooter pool={pool} account={account} />
       </StyledCardInner>
     </StyledCard>
   )

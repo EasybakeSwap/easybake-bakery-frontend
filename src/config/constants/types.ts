@@ -1,3 +1,5 @@
+import { TranslatableText } from 'state/types'
+
 export interface Address {
   4?: string
   1: string
@@ -8,6 +10,7 @@ export interface Token {
   address?: Address
   decimals?: number
   projectLink?: string
+  usdcPrice?: string
 }
 
 export enum PoolIds {
@@ -15,11 +18,36 @@ export enum PoolIds {
   poolUnlimited = 'poolUnlimited',
 }
 
+export type IfoStatus = 'idle' | 'coming_soon' | 'live' | 'finished'
+
+interface IfoPoolInfo {
+  saleAmount: string
+  raiseAmount: string
+  ovenToBurn: string
+  distributionRatio: number // Range [0-1]
+}
+
+export interface Ifo {
+  id: string
+  isActive: boolean
+  address: string
+  name: string
+  currency: Token
+  token: Token
+  releaseBlockNumber: number
+  articleUrl: string
+  campaignId: string
+  tokenOfferingPrice: number
+  version: number
+  [PoolIds.poolBasic]?: IfoPoolInfo
+  [PoolIds.poolUnlimited]: IfoPoolInfo
+}
 
 export enum PoolCategory {
   'COMMUNITY' = 'Community',
   'CORE' = 'Core',
-  'BINANCE' = 'Binance', // Pools using native BNB behave differently than pools using a token
+  'ETHEREUM' = 'Ethereum', // Pools using native ETH behave differently than pools using a token
+  'AUTO' = 'Auto',
 }
 
 export interface FarmConfig {
@@ -31,9 +59,9 @@ export interface FarmConfig {
   multiplier?: string
   isCommunity?: boolean
   dual?: {
-    rewardPerBlock: number
+    rewardPerSecond: number
     earnLabel: string
-    endBlock: number
+    endTime: number
   }
 }
 
@@ -41,13 +69,13 @@ export interface PoolConfig {
   sousId: number
   earningToken: Token
   stakingToken: Token
-  stakingLimit?: number
   contractAddress: Address
   poolCategory: PoolCategory
   tokenPerSecond: string
   sortOrder?: number
   harvest?: boolean
   isFinished?: boolean
+  enableEmergencyWithdraw?: boolean
 }
 
 export type Images = {
@@ -94,8 +122,34 @@ export type Nft = {
   variationId?: number | string
 }
 
+export type TeamImages = {
+  alt: string
+} & Images
+
+export type Team = {
+  id: number
+  name: string
+  description: string
+  isJoinable?: boolean
+  users: number
+  points: number
+  images: TeamImages
+  background: string
+  textColor: string
+}
+
+export type CampaignType = 'ifo' | 'teambattle'
+
+export type Campaign = {
+  id: string
+  type: CampaignType
+  title?: TranslatableText
+  description?: TranslatableText
+  badge?: string
+}
+
 export type PageMeta = {
   title: string
-  description: string
-  image: string
+  description?: string
+  image?: string
 }

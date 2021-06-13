@@ -2,11 +2,11 @@ import React from 'react'
 import { CardHeader, Heading, Text, Flex, Image } from 'easybake-uikit'
 import styled from 'styled-components'
 
-const Wrapper = styled(CardHeader)<{ isFinished?: boolean; background?: string; isPromotedPool?: boolean }>`
+
+const Wrapper = styled(CardHeader)<{ isFinished?: boolean; background?: string }>`
   background: ${({ isFinished, background, theme }) =>
     isFinished ? theme.colors.backgroundDisabled : theme.colors.gradients[background]};
-  border-radius: ${({ theme, isPromotedPool }) =>
-    isPromotedPool ? '31px 31px 0 0' : `${theme.radii.card} ${theme.radii.card} 0 0`};
+  border-radius: ${({ theme }) => `${theme.radii.card} ${theme.radii.card} 0 0`};
 `
 
 const StyledCardHeader: React.FC<{
@@ -15,17 +15,10 @@ const StyledCardHeader: React.FC<{
   isAutoVault?: boolean
   isFinished?: boolean
   isStaking?: boolean
-  isPromotedPool?: boolean
-}> = ({
-  earningTokenSymbol,
-  stakingTokenSymbol,
-  isFinished = false,
-  isAutoVault = false,
-  isStaking = false,
-  isPromotedPool = false,
-}) => {
+}> = ({ earningTokenSymbol, stakingTokenSymbol, isFinished = false, isAutoVault = false, isStaking = false }) => {
+  
   const poolImageSrc = isAutoVault
-    ? `oven-ovenvault.svg`
+    ? `cake-cakevault.svg`
     : `${earningTokenSymbol}-${stakingTokenSymbol}.svg`.toLocaleLowerCase()
   const isOvenPool = earningTokenSymbol === 'OVEN' && stakingTokenSymbol === 'OVEN'
   const background = isStaking ? 'bubblegum' : 'cardHeader'
@@ -33,31 +26,31 @@ const StyledCardHeader: React.FC<{
   const getHeadingPrefix = () => {
     if (isAutoVault) {
       // vault
-      return 'Auto'
+      return ('Auto')
     }
     if (isOvenPool) {
-      // manual oven
-      return 'Manual'
+      // manual cake
+      return ('Manual')
     }
     // all other pools
-    return 'Earn'
+    return ('Earn')
   }
 
   const getSubHeading = () => {
     if (isAutoVault) {
-      return 'Automatic restaking'
+      return ('Automatic restaking')
     }
     if (isOvenPool) {
-      return `Earn OVEN, stake OVEN`
+      return ('Earn OVEN, stake OVEN')
     }
-    return `Stake ${stakingTokenSymbol}`
+    return ('Stake %symbol%', { symbol: stakingTokenSymbol })
   }
 
   return (
-    <Wrapper isPromotedPool={isPromotedPool} isFinished={isFinished} background={background}>
+    <Wrapper isFinished={isFinished} background={background}>
       <Flex alignItems="center" justifyContent="space-between">
         <Flex flexDirection="column">
-          <Heading color={isFinished ? 'textDisabled' : 'body'} size="lg">
+          <Heading color={isFinished ? 'textDisabled' : 'body'} scale="lg">
             {`${getHeadingPrefix()} ${earningTokenSymbol}`}
           </Heading>
           <Text color={isFinished ? 'textDisabled' : 'textSubtle'}>{getSubHeading()}</Text>

@@ -8,7 +8,7 @@ export interface TimerProps {
   hours?: number
   days?: number
   showTooltip?: boolean
-  blockNumber?: number
+  blockTime?: number
   HeadingTextComponent?: React.ElementType
   BodyTextComponent?: React.ElementType
 }
@@ -44,12 +44,12 @@ const DefaultBodyTextComponent = ({ children, ...props }) => (
   </Text>
 )
 
-const TooltipContent = ({ blockNumber }) => (
+const TooltipContent = ({ blockTime }) => (
   <>
     <Text color="body" mb="10px" fontWeight="600">
-      Block {blockNumber}
+      Block {blockTime}
     </Text>
-    <Link external href={`https://etherscan.com/block/${blockNumber}`}>
+    <Link external href={`https://etherscan.com/block/${blockTime}`}>
       View on Etherscan
     </Link>
   </>
@@ -60,12 +60,12 @@ const Wrapper: React.FC<TimerProps> = ({
   minutes,
   hours,
   days,
-  blockNumber,
+  blockTime,
   showTooltip = false,
   HeadingTextComponent = DefaultHeadingTextComponent,
   BodyTextComponent = DefaultBodyTextComponent,
 }) => {
-  const { targetRef, tooltip, tooltipVisible } = useTooltip(<TooltipContent blockNumber={blockNumber} />, {placement: 'bottom'},)
+  const { targetRef, tooltip, tooltipVisible } = useTooltip(<TooltipContent blockTime={blockTime} />, {placement: 'bottom'},)
   const shouldDisplayTooltip = showTooltip && tooltipVisible
   return (
     <Flex alignItems="flex-end" position="relative">

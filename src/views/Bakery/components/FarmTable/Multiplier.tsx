@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { HelpIcon, useTooltip } from 'easybake-uikit'
+import { HelpIcon, Skeleton, useTooltip } from 'easybake-uikit'
+
 
 const ReferenceElement = styled.div`
   display: inline-block;
@@ -22,33 +23,20 @@ const MultiplierWrapper = styled.div`
   }
 `
 
-const Disabled = styled.div`
-  color: ${({ theme }) => theme.colors.textDisabled};
-`
-const Active = styled.div`
-  color: ${({ theme }) => theme.colors.text};
-`  
-
 const Container = styled.div`
   display: flex;
   align-items: center;
 `
 
-const SubContainer = styled.div`
-  position: relative;
-  left: 3px;
-  display: flex;
-  align-items: center;
-`
-
 const Multiplier: React.FunctionComponent<MultiplierProps> = ({ multiplier }) => {
-  const displayMultiplier = multiplier ? <Active>{multiplier}</Active> : <Disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</Disabled>
+  const displayMultiplier = multiplier ? multiplier.toLowerCase() : <Skeleton width={30} />
+  
   const tooltipContent = (
     <div>
-      The temperature represents the amount of $OVEN rewards each oven gets.
+      {('The multiplier represents the amount of OVEN rewards each farm gets.')}
       <br />
       <br />
-      For example, if a 1x oven was getting 1 $OVEN per block, a 40x oven would be getting 40 $OVEN per block.
+      {('For example, if a 1x farm was getting 1 OVEN per block, a 40x farm would be getting 40 OVEN per block.')}
     </div>
   )
   const { targetRef, tooltip, tooltipVisible } = useTooltip(tooltipContent, {
@@ -58,12 +46,10 @@ const Multiplier: React.FunctionComponent<MultiplierProps> = ({ multiplier }) =>
 
   return (
     <Container>
-      <SubContainer>
-        <MultiplierWrapper>{displayMultiplier}</MultiplierWrapper>
-        <ReferenceElement ref={targetRef}>
-          <HelpIcon color="textSubtle" />
-        </ReferenceElement>
-      </SubContainer>
+      <MultiplierWrapper>{displayMultiplier}</MultiplierWrapper>
+      <ReferenceElement ref={targetRef}>
+        <HelpIcon color="textSubtle" />
+      </ReferenceElement>
       {tooltipVisible && tooltip}
     </Container>
   )

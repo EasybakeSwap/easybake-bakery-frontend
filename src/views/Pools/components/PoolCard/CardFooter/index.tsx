@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
-import { Flex, CardFooter, ExpandableLabel, HelpIcon, useTooltip, Box } from 'easybake-uikit'
+
+import { Flex, CardFooter, ExpandableLabel, HelpIcon, useTooltip } from 'easybake-uikit'
 import { Pool } from 'state/types'
 import { CompoundingPoolTag, ManualPoolTag } from 'components/Tags'
 import ExpandedFooter from './ExpandedFooter'
@@ -9,8 +10,6 @@ import ExpandedFooter from './ExpandedFooter'
 interface FooterProps {
   pool: Pool
   account: string
-  performanceFee?: number
-  isAutoVault?: boolean
   totalOvenInVault?: BigNumber
 }
 
@@ -22,22 +21,18 @@ const ExpandableButtonWrapper = styled(Flex)`
   }
 `
 
-const Footer: React.FC<FooterProps> = ({
-  pool,
-  account,
-  performanceFee = 0,
-  isAutoVault = false,
-  totalOvenInVault,
-}) => {
+const Footer: React.FC<FooterProps> = ({ pool, account }) => {
+  const { isAutoVault } = pool
+  
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const manualTooltipText = 'You must harvest and compound your earnings from this pool manually.'
-  const autoTooltipText = 
-    'Any funds you stake in this pool will be automagically harvested and restaked (compounded) for you.'
-  
+  const manualTooltipText = ('You must harvest and compound your earnings from this pool manually.')
+  const autoTooltipText = t(
+    'Any funds you stake in this pool will be automagically harvested and restaked (compounded) for you.',
+  )
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(isAutoVault ? autoTooltipText : manualTooltipText, {
-    placement: 'bottom-end',
+    placement: 'bottom',
   })
 
   return (
@@ -46,23 +41,15 @@ const Footer: React.FC<FooterProps> = ({
         <Flex alignItems="center">
           {isAutoVault ? <CompoundingPoolTag /> : <ManualPoolTag />}
           {tooltipVisible && tooltip}
-          <Box ref={targetRef}>
+          <Flex ref={targetRef}>
             <HelpIcon ml="4px" width="20px" height="20px" color="textSubtle" />
-          </Box>
+          </Flex>
         </Flex>
         <ExpandableLabel expanded={isExpanded} onClick={() => setIsExpanded(!isExpanded)}>
-          {isExpanded ? 'Hide' : 'Details'}
+          {isExpanded ? ('Hide') : ('Details')}
         </ExpandableLabel>
       </ExpandableButtonWrapper>
-      {isExpanded && (
-        <ExpandedFooter
-          pool={pool}
-          account={account}
-          performanceFee={performanceFee}
-          isAutoVault={isAutoVault}
-          totalOvenInVault={totalOvenInVault}
-        />
-      )}
+      {isExpanded && <ExpandedFooter pool={pool} account={account} />}
     </CardFooter>
   )
 }

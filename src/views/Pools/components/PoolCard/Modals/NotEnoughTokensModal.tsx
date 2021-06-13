@@ -1,4 +1,6 @@
+// eslint-disable
 import React from 'react'
+
 import styled from 'styled-components'
 import { Modal, Text, Button, OpenNewIcon, Link } from 'easybake-uikit'
 import { BASE_EXCHANGE_URL } from 'config'
@@ -14,32 +16,35 @@ const StyledLink = styled(Link)`
 `
 
 const NotEnoughTokensModal: React.FC<NotEnoughTokensModalProps> = ({ tokenSymbol, onDismiss }) => {
+  
   const { theme } = useTheme()
 
   return (
     <Modal
-      title={`${tokenSymbol} required`}
+      title={('%symbol% required' + { symbol: tokenSymbol })}
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
     >
       <Text color="failure" bold>
-        Insufficient {tokenSymbol} balance, {tokenSymbol})
+        {('Insufficient %symbol% balance' + { symbol: tokenSymbol })}
       </Text>
-      <Text mt="24px">You’ll need {tokenSymbol} to stake in this pool!</Text>
+      <Text mt="24px">{('You’ll need %symbol% to stake in this pool!' + { symbol: tokenSymbol })}</Text>
       <Text>
-        Buy some {tokenSymbol}, or make sure your {tokenSymbol} isn’t in another pool or LP.
+        {('Buy some %symbol%, or make sure your %symbol% isn’t in another pool or LP.' + {
+          symbol: tokenSymbol,
+        })}
       </Text>
       <Button mt="24px" as="a" external href={BASE_EXCHANGE_URL}>
-        Buy {tokenSymbol}
+        {('Buy')} {tokenSymbol}
       </Button>
       <StyledLink href="https://yieldwatch.net" external>
         <Button variant="secondary" mt="8px" width="100%">
-          Locate Assets
+          {('Locate Assets')}
           <OpenNewIcon color="primary" ml="4px" />
         </Button>
       </StyledLink>
       <Button variant="text" onClick={onDismiss}>
-        Close window
+        {('Close Window')}
       </Button>
     </Modal>
   )

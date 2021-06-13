@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Button, Modal, LinkExternal } from 'easybake-uikit'
-import { IcingButtonLG } from 'components/IcingButton/sizes/LG'
 import ModalActions from 'components/ModalActions'
 import ModalInput from 'components/ModalInput'
 import { getFullDisplayBalance } from 'utils/formatBalance'
@@ -38,7 +37,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   }, [fullBalance, setVal])
 
   return (
-    <Modal title='Bake DOUGH LP Tokens' onDismiss={onDismiss}>
+    <Modal title={('Stake LP tokens')} onDismiss={onDismiss}>
       <ModalInput
         value={val}
         onSelectMax={handleSelectMax}
@@ -46,31 +45,27 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
         max={fullBalance}
         symbol={tokenName}
         addLiquidityUrl={addLiquidityUrl}
-        inputTitle='Bake'
+        inputTitle={('Stake')}
       />
       <ModalActions>
-        <IcingButtonLG
-          btnName='Confirm'
-          isLoading={pendingTx}
-          isDisabled={!valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
+        <Button variant="secondary" onClick={onDismiss} width="100%" disabled={pendingTx}>
+          {('Cancel')}
+        </Button>
+        <Button
+          width="100%"
+          disabled={pendingTx || !valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
           onClick={async () => {
             setPendingTx(true)
-            try {
-              await onConfirm(val)
-            } catch (error) {
-              // TODO: find a way to handle when the user rejects transaction or it fails
-            } finally {
-              setPendingTx(false)
-            }
+            await onConfirm(val)
+            setPendingTx(false)
+            onDismiss()
           }}
-        />
-        
-        <Button variant="secondary" onClick={onDismiss} width="100%">
-          Cancel
+        >
+          {pendingTx ? ('Pending Confirmation') : ('Confirm')}
         </Button>
       </ModalActions>
       <LinkExternal href={addLiquidityUrl} style={{ alignSelf: 'center' }}>
-        Get {tokenName} Tokens
+        {('Get %symbol%', { symbol: tokenName })}
       </LinkExternal>
     </Modal>
   )

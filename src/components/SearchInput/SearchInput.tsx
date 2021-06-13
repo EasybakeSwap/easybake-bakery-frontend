@@ -11,7 +11,6 @@ const StyledInput = styled(Input)`
 const InputWrapper = styled.div`
   position: relative;
   ${({ theme }) => theme.mediaQueries.sm} {
-    width: 234px;
     display: block;
   }
 `
@@ -20,9 +19,10 @@ const Container = styled.div<{ toggled: boolean }>``
 
 interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  placeholder?: string
 }
 
-const SearchInput: React.FC<Props> = ({ onChange: onChangeCallback }) => {
+const SearchInput: React.FC<Props> = ({ onChange: onChangeCallback, placeholder = 'Search' }) => {
   const [toggled, setToggled] = useState(false)
   const [searchText, setSearchText] = useState('')
 
@@ -42,7 +42,7 @@ const SearchInput: React.FC<Props> = ({ onChange: onChangeCallback }) => {
         <StyledInput
           value={searchText}
           onChange={onChange}
-          placeholder="Search Ovens"
+          placeholder={(placeholder)}
           onBlur={() => setToggled(false)}
         />
       </InputWrapper>

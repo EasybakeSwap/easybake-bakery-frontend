@@ -1,5 +1,5 @@
 import pools from 'config/constants/pools'
-import { getSouschefContract } from 'utils/contractHelpers'
+import { getSousChefContract } from 'utils/contractHelpers'
 
 // Pool 0 is special (OVEN pool)
 // Pool 78 is a broken pool, not used, and break the tests
@@ -21,7 +21,7 @@ describe('Config pools', () => {
   it.each(poolsToTest.filter((pool) => pool.earningToken.symbol !== 'BNB'))(
     'Pool %p has the correct earning token',
     async (pool) => {
-      const contract = getSouschefContract(pool.sousId)
+      const contract = getSousChefContract(pool.sousId)
       const rewardTokenAddress = await contract.methods.rewardToken().call()
       expect(rewardTokenAddress.toLowerCase()).toBe(pool.earningToken.address[56].toLowerCase())
     },
@@ -29,7 +29,7 @@ describe('Config pools', () => {
   it.each(poolsToTest.filter((pool) => pool.stakingToken.symbol !== 'BNB'))(
     'Pool %p has the correct staking token',
     async (pool) => {
-      const contract = getSouschefContract(pool.sousId)
+      const contract = getSousChefContract(pool.sousId)
       const stakingTokenAddress = await contract.methods.syrup().call()
       expect(stakingTokenAddress.toLowerCase()).toBe(pool.stakingToken.address[56].toLowerCase())
     },

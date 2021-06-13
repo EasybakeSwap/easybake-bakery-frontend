@@ -1,36 +1,43 @@
 import React from 'react'
-import BigNumber from 'bignumber.js'
 import { Flex, Text } from 'easybake-uikit'
 import { useWeb3React } from '@web3-react/core'
+
+import { useOvenVault, usePriceOvenUsdc } from 'state/hooks'
+import { getOvenVaultEarnings } from 'views/Pools/helpers'
 import RecentOvenProfitBalance from './RecentOvenProfitBalance'
 
-interface RecentCakeProfitRowProps {
-  ovenAtLastUserAction: BigNumber
-  userShares: BigNumber
-  pricePerFullShare: BigNumber
-}
-
-const RecentCakeProfitCountdownRow: React.FC<RecentCakeProfitRowProps> = ({
-  ovenAtLastUserAction,
-  userShares,
-  pricePerFullShare,
-}) => {
+const RecentOvenProfitCountdownRow = () => {
+  
   const { account } = useWeb3React()
-  const shouldDisplayOvenProfit =
-    account && ovenAtLastUserAction && ovenAtLastUserAction.gt(0) && userShares && userShares.gt(0)
+  const {
+    pricePerFullShare,
+    userData: { ovenAtLastUserAction, userShares, lastUserActionTime },
+  } = useOvenVault()
+  const ovenPriceUsdc = usePriceOvenUsdc()
+  const { hasAutoEarnings, autoOvenToDisplay, autoUsdToDisplay } = getOvenVaultEarnings(
+    account,
+    ovenAtLastUserAction,
+    userShares,
+    pricePerFullShare,
+    ovenPriceUsdc.toNumber(),
+  )
+
+  const lastActionInMs = lastUserActionTime && parseInt(lastUserActionTime) * 1000
+  const dateTimeLastAction = new Date(lastActionInMs)
+  const dateStringToDisplay = dateTimeLastAction.toLocaleString()
 
   return (
     <Flex alignItems="center" justifyContent="space-between">
-      <Text fontSize="14px">Recent OVEN profit:</Text>
-      {shouldDisplayOvenProfit && (
+      <Text fontSize="14px">{`${('Recent OVEN profit')}:`}</Text>
+      {hasAutoEarnings && (
         <RecentOvenProfitBalance
-          ovenAtLastUserAction={ovenAtLastUserAction}
-          userShares={userShares}
-          pricePerFullShare={pricePerFullShare}
+          ovenToDisplay={autoOvenToDisplay}
+          dollarValueToDisplay={autoUsdToDisplay}
+          dateStringToDisplay={dateStringToDisplay}
         />
       )}
     </Flex>
   )
 }
 
-export default RecentCakeProfitCountdownRow
+export default RecentOvenProfitCountdownRow

@@ -1,9 +1,10 @@
 import React from 'react'
+
 import styled from 'styled-components'
-import { Flex, LinkExternal } from 'easybake-uikit'
+import { Text, Flex, LinkExternal, Skeleton } from 'easybake-uikit'
 
 export interface ExpandableSectionProps {
-  etherscanAddress?: string
+  bscScanAddress?: string
   infoAddress?: string
   removed?: boolean
   totalValueFormatted?: string
@@ -20,33 +21,26 @@ const StyledLinkExternal = styled(LinkExternal)`
 `
 
 const DetailsSection: React.FC<ExpandableSectionProps> = ({
-  etherscanAddress,
+  bscScanAddress,
   infoAddress,
   removed,
-  // totalValueFormatted,
+  totalValueFormatted,
   lpLabel,
   addLiquidityUrl,
 }) => {
   
+
   return (
     <Wrapper>
-        {!removed && (
-          <Flex justifyContent="center">
-          <StyledLinkExternal href={addLiquidityUrl}>Get {lpLabel} Tokens</StyledLinkExternal>
-        </Flex>
-        )}
-        <Flex justifyContent="center">
-          <StyledLinkExternal href={etherscanAddress} bold={false}>
-          View Etherscan Contract
-          </StyledLinkExternal>
-        </Flex>
-        <Flex justifyContent="center">
-          <StyledLinkExternal href={infoAddress}>See Pair Info</StyledLinkExternal>
-        </Flex>
-      {/* <Flex justifyContent="space-between">
-        <Text>Total Liquidity:</Text>
-        <Text>{totalValueFormatted}</Text>
-      </Flex> */}
+      <Flex justifyContent="space-between">
+        <Text>{('Total Liquidity')}:</Text>
+        {totalValueFormatted ? <Text>{totalValueFormatted}</Text> : <Skeleton width={75} height={25} />}
+      </Flex>
+      {!removed && (
+        <StyledLinkExternal href={addLiquidityUrl}>{('Get %symbol%', { symbol: lpLabel })}</StyledLinkExternal>
+      )}
+      <StyledLinkExternal href={bscScanAddress}>{('View Contract')}</StyledLinkExternal>
+      <StyledLinkExternal href={infoAddress}>{('See Pair Info')}</StyledLinkExternal>
     </Wrapper>
   )
 }

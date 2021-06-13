@@ -1,9 +1,10 @@
+/* eslint-disable */
 import React from 'react'
 import styled, {keyframes} from 'styled-components'
 import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-router'
 import { customMeta, DEFAULT_META } from 'config/constants/meta'
-// import { usePriceOvenUsdc } from 'state/hooks'
+import { usePriceOvenUsdc } from 'state/hooks'
 import Container from './Container'
 
 const Load = keyframes`{
@@ -35,17 +36,17 @@ const StyledPage = styled(Container)`
 
 const PageMeta = () => {
   const { pathname } = useLocation()
-  // const ovenPriceUsd = usePriceOvenUsdc()
-  // const ovenPriceUsdDisplay = ovenPriceUsd.eq(0)
-  //   ? ''
-  //   : `$${ovenPriceUsd.toNumber().toLocaleString(undefined, {
-  //       minimumFractionDigits: 3,
-  //       maximumFractionDigits: 3,
-  //     })}`
+  const ovenPriceUsd = usePriceOvenUsdc()
+  const ovenPriceUsdDisplay = ovenPriceUsd.eq(0)
+    ? ''
+    : `$${ovenPriceUsd.toNumber().toLocaleString(undefined, {
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3,
+      })}`
   const pageMeta = customMeta[pathname] || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
-  const pageTitle = title;
-  // const pageTitle = ovenPriceUsdDisplay ? [title, ovenPriceUsdDisplay].join(' - ') : title
+  // const pageTitle = title;
+  const pageTitle = ovenPriceUsdDisplay ? [title, ovenPriceUsdDisplay].join(' - ') : title
 
   return (
     <Helmet>

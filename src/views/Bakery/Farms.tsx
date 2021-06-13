@@ -233,7 +233,7 @@ const Farms: React.FC = () => {
     const { token, quoteToken } = farm
     const tokenAddress = token.address
     const quoteTokenAddress = quoteToken.address
-    const lpLabel = farm.lpSymbol && farm.lpSymbol.split(' ')[0].toUpperCase().replace('EASYBAKE', '')
+    const lpLabel = farm.lpSymbol && farm.lpSymbol.spli(' ')[0].toUpperCase().replace('EASYBAKE', '')
 
     const row: RowProps = {
       apr: {
@@ -246,7 +246,7 @@ const Farms: React.FC = () => {
         originalValue: farm.apr,
       },
       farm: {
-        image: farm.lpSymbol.split(' ')[0].toLocaleLowerCase(),
+        image: farm.lpSymbol.spli(' ')[0].toLocaleLowerCase(),
         label: lpLabel,
         pid: farm.pid,
       },

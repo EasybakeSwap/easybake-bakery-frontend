@@ -1,35 +1,39 @@
 import React from 'react'
-import BigNumber from 'bignumber.js'
-import { useTooltip, Text } from 'easybake-uikit' // disabled: TooltipText
-import { getFullDisplayBalance } from 'utils/formatBalance'
-import { convertSharesToOven } from '../../helpers'
+import { Text, TooltipText, useTooltip } from 'easybake-uikit'
+
+import Balance from 'components/Balance'
 
 interface RecentOvenProfitBalanceProps {
-  ovenAtLastUserAction: BigNumber
-  userShares: BigNumber
-  pricePerFullShare: BigNumber
+  ovenToDisplay: number
+  dollarValueToDisplay: number
+  dateStringToDisplay: string
 }
 
 const RecentOvenProfitBalance: React.FC<RecentOvenProfitBalanceProps> = ({
-  ovenAtLastUserAction,
-  userShares,
-  pricePerFullShare,
+  ovenToDisplay,
+  dollarValueToDisplay,
+  dateStringToDisplay,
 }) => {
-  const currentSharesAsOven = convertSharesToOven(userShares, pricePerFullShare)
-  const ovenProfit = currentSharesAsOven.ovenAsBigNumber.minus(ovenAtLastUserAction)
-  const ovenToDisplay = ovenProfit.gte(0) ? getFullDisplayBalance(ovenProfit, 18, 5) : '0'
+  
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
-    'Your estimated earnings since last manual stake or unstake:',
-    { placement: 'bottom-end' },
+    <>
+      <Balance fontSize="16px" value={ovenToDisplay} decimals={3} bold unit=" OVEN" />
+      <Balance fontSize="16px" value={dollarValueToDisplay} decimals={2} bold prefix="~$" />
+      Earned Since Last Action
+      <Text>{dateStringToDisplay}</Text>
+    </>,
+    {
+      placement: 'bottom-end',
+    },
   )
 
   return (
     <>
       {tooltipVisible && tooltip}
-      <Text ref={targetRef} small>
-      {ovenToDisplay}
-      </Text>
+      <TooltipText ref={targetRef} small>
+        <Balance fontSize="14px" value={ovenToDisplay} />
+      </TooltipText>
     </>
   )
 }

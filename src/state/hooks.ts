@@ -1,52 +1,88 @@
 import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { kebabCase } from 'lodash'
-// import { useWeb3React } from '@web3-react/core'
-import { Toast, toastTypes } from 'easybake-uikit'
+import { useWeb3React } from '@web3-react/core'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
+import { orderBy } from 'lodash'
+// import { Team } from 'config/constants/types'
 // import Nfts from 'config/constants/nfts'
+import { farmsConfig } from 'config/constants'
 import { getWeb3NoAccount } from 'utils/web3'
-import { getAddress } from 'utils/addressHelpers'
-import { getBalanceNumber } from 'utils/formatBalance'
+import { getBalanceAmount } from 'utils/formatBalance'
+import { BIG_ZERO } from 'utils/bigNumber'
 import useRefresh from 'hooks/useRefresh'
+import { filterFarmsByQuoteToken } from 'utils/farmsPriceHelpers'
+import useCurrentTime from 'hooks/useTimer'
 import {
   fetchFarmsPublicDataAsync,
   fetchPoolsPublicDataAsync,
   fetchPoolsUserDataAsync,
-  push as pushToast,
-  remove as removeToast,
-  clear as clearToast,
-  setBlock,
+  fetchOvenVaultPublicData,
+  fetchOvenVaultUserData,
+  fetchOvenVaultFees,
+  setTime,
 } from './actions'
-import { State, Farm, Pool, PriceState } from './types' // disabled `ProfileState`
-import { fetchPrices } from './prices'
+import { State, Farm, Pool, ProfileState, FarmsState } from './types' // -(TeamsState, AchievementState) 
 // import { fetchProfile } from './profile'
+// import { fetchTeam, fetchTeams } from './teams'
+// import { fetchAchievements } from './achievements'
 // import { fetchWalletNfts } from './collectibles'
+// import { getCanClaim } from './predictions/helpers'
+import { transformPool } from './pools/helpers'
+import { fetchPoolsStakingLimitsAsync } from './pools'
+import { fetchFarmUserDataAsync } from './farms'
 
-export const useFetchPublicData = () => {
+export const usePollFarmsData = (includeArchive = false) => {
   const dispatch = useAppDispatch()
   const { slowRefresh } = useRefresh()
-  useEffect(() => {
-    dispatch(fetchFarmsPublicDataAsync())
-    dispatch(fetchPoolsPublicDataAsync())
-  }, [dispatch, slowRefresh])
+  const web3 = getWeb3NoAccount()
+  const { account } = useWeb3React()
 
   useEffect(() => {
-    const web3 = getWeb3NoAccount()
+    const farmsToFetch = includeArchive ? farmsConfig : undefined
+    const pids = farmsToFetch.map((farmToFetch) => farmToFetch.pid)
+
+    dispatch(fetchFarmsPublicDataAsync())
+
+    if (account) {
+      dispatch(fetchFarmUserDataAsync({ account, pids }))
+    }
+  }, [includeArchive, dispatch, slowRefresh, web3, account])
+}
+
+/**
+ * Fetches the "core" farm data used globally
+ * 1 = OVEN-ETH LP
+ * 2 = USDC-ETH LP
+ */
+export const usePollCoreFarmData = () => {
+  const dispatch = useAppDispatch()
+  const { fastRefresh } = useRefresh()
+  const web3 = getWeb3NoAccount()
+
+  useEffect(() => {
+    dispatch(fetchFarmsPublicDataAsync()) // UPDATE
+  }, [dispatch, fastRefresh, web3])
+}
+
+export const usePollTime = () => {
+  const dispatch = useAppDispatch()
+  const web3 = getWeb3NoAccount()
+
+  useEffect(() => {
     const interval = setInterval(async () => {
-      const blockNumber = await web3.eth.getBlockNumber()
-      dispatch(setBlock(blockNumber))
+      const blockTime = useCurrentTime()
+      dispatch(setTime(blockTime))
     }, 6000)
 
     return () => clearInterval(interval)
-  }, [dispatch])
+  }, [dispatch, web3])
 }
 
 // Farms
 
-export const useFarms = (): Farm[] => {
-  const farms = useSelector((state: State) => state.farms.data)
+export const useFarms = (): FarmsState => {
+  const farms = useSelector((state: State) => state.farms)
   return farms
 }
 
@@ -55,7 +91,7 @@ export const useFarmFromPid = (pid): Farm => {
   return farm
 }
 
-export const useFarmFromSymbol = (lpSymbol: string): Farm => {
+export const useFarmFromLpSymbol = (lpSymbol: string): Farm => {
   const farm = useSelector((state: State) => state.farms.data.find((f) => f.lpSymbol === lpSymbol))
   return farm
 }
@@ -64,72 +100,175 @@ export const useFarmUser = (pid) => {
   const farm = useFarmFromPid(pid)
 
   return {
-    allowance: farm.userData ? new BigNumber(farm.userData.allowance) : new BigNumber(0),
-    tokenBalance: farm.userData ? new BigNumber(farm.userData.tokenBalance) : new BigNumber(0),
-    stakedBalance: farm.userData ? new BigNumber(farm.userData.stakedBalance) : new BigNumber(0),
-    earnings: farm.userData ? new BigNumber(farm.userData.earnings) : new BigNumber(0),
+    allowance: farm.userData ? new BigNumber(farm.userData.allowance) : BIG_ZERO,
+    tokenBalance: farm.userData ? new BigNumber(farm.userData.tokenBalance) : BIG_ZERO,
+    stakedBalance: farm.userData ? new BigNumber(farm.userData.stakedBalance) : BIG_ZERO,
+    earnings: farm.userData ? new BigNumber(farm.userData.earnings) : BIG_ZERO,
   }
 }
 
-export const useLpTokenPrice = (symbol: string) => {
-  const farm = useFarmFromSymbol(symbol)
-  const tokenPriceInUsd = useGetApiPrice(getAddress(farm.token.address))
+// Return a farm for a given token symbol. The farm is filtered based on attempting to return a farm with a quote token from an array of preferred quote tokens
+export const useFarmFromTokenSymbol = (tokenSymbol: string, preferredQuoteTokens?: string[]): Farm => {
+  const farms = useSelector((state: State) => state.farms.data.filter((farm) => farm.token.symbol === tokenSymbol))
+  const filteredFarm = filterFarmsByQuoteToken(farms, preferredQuoteTokens)
+  return filteredFarm
+}
 
-  return farm.lpTotalSupply && farm.lpTotalInQuoteToken
-    ? new BigNumber(getBalanceNumber(farm.lpTotalSupply)).div(farm.lpTotalInQuoteToken).times(tokenPriceInUsd).times(2)
-    : new BigNumber(0)
+// Return the base token price for a farm, from a given pid
+export const useUsdcPriceFromPid = (pid: number): BigNumber => {
+  const farm = useFarmFromPid(pid)
+  return farm && new BigNumber(farm.token.usdcPrice)
+}
+
+export const useUsdcPriceFromToken = (tokenSymbol: string): BigNumber => {
+  const tokenFarm = useFarmFromTokenSymbol(tokenSymbol)
+  const tokenPrice = useUsdcPriceFromPid(tokenFarm?.pid)
+  return tokenPrice
+}
+
+export const useLpTokenPrice = (symbol: string) => {
+  const farm = useFarmFromLpSymbol(symbol)
+  const farmTokenPriceInUsd = useUsdcPriceFromPid(farm.pid)
+  let lpTokenPrice = BIG_ZERO
+
+  if (farm.lpTotalSupply && farm.lpTotalInQuoteToken) {
+    // Total value of base token in LP
+    const valueOfBaseTokenInFarm = farmTokenPriceInUsd.times(farm.tokenAmountTotal)
+    // Double it to get overall value in LP
+    const overallValueOfAllTokensInFarm = valueOfBaseTokenInFarm.times(2)
+    // Divide total value of all tokens, by the number of LP tokens
+    const totalLpTokens = getBalanceAmount(new BigNumber(farm.lpTotalSupply))
+    lpTokenPrice = overallValueOfAllTokensInFarm.div(totalLpTokens)
+  }
+
+  return lpTokenPrice
 }
 
 // Pools
 
-export const usePools = (account): Pool[] => {
+export const useFetchPublicPoolsData = () => {
+  const dispatch = useAppDispatch()
+  const { slowRefresh } = useRefresh()
+  const web3 = getWeb3NoAccount()
+
+  useEffect(() => {
+    const fetchPoolsPublicData = async () => {
+      const blockTime = useCurrentTime()
+      dispatch(fetchPoolsPublicDataAsync(blockTime))
+    }
+
+    fetchPoolsPublicData()
+    dispatch(fetchPoolsStakingLimitsAsync())
+  }, [dispatch, slowRefresh, web3])
+}
+
+export const usePools = (account): { pools: Pool[]; userDataLoaded: boolean } => {
   const { fastRefresh } = useRefresh()
   const dispatch = useAppDispatch()
   useEffect(() => {
     if (account) {
-      dispatch(fetchPoolsUserDataAsync(account))
+      dispatch(fetchPoolsUserDataAsync[account])
     }
   }, [account, dispatch, fastRefresh])
 
-  const pools = useSelector((state: State) => state.pools.data)
-  return pools
+  const { pools, userDataLoaded } = useSelector((state: State) => ({
+    pools: state.pools.data,
+    userDataLoaded: state.pools.userDataLoaded,
+  }))
+  return { pools: pools.map(transformPool), userDataLoaded }
 }
 
-export const usePoolFromPid = (sousId): Pool => {
+export const usePoolFromPid = (sousId: number): Pool => {
   const pool = useSelector((state: State) => state.pools.data.find((p) => p.sousId === sousId))
-  return pool
+  return transformPool(pool)
 }
 
-// Toasts
-
-export const useToast = () => {
+export const useFetchOvenVault = () => {
+  const { account } = useWeb3React()
+  const { fastRefresh } = useRefresh()
   const dispatch = useAppDispatch()
-  const helpers = useMemo(() => {
-    const push = (toast: Toast) => dispatch(pushToast(toast))
 
-    return {
-      toastError: (title: string, description?: string) => {
-        return push({ id: kebabCase(title), type: toastTypes.DANGER, title, description })
-      },
-      toastInfo: (title: string, description?: string) => {
-        return push({ id: kebabCase(title), type: toastTypes.INFO, title, description })
-      },
-      toastSuccess: (title: string, description?: string) => {
-        return push({ id: kebabCase(title), type: toastTypes.SUCCESS, title, description })
-      },
-      toastWarning: (title: string, description?: string) => {
-        return push({ id: kebabCase(title), type: toastTypes.WARNING, title, description })
-      },
-      push,
-      remove: (id: string) => dispatch(removeToast(id)),
-      clear: () => dispatch(clearToast()),
-    }
+  useEffect(() => {
+    dispatch(fetchOvenVaultPublicData())
+  }, [dispatch, fastRefresh])
+
+  useEffect(() => {
+    dispatch(fetchOvenVaultUserData({ account }))
+  }, [dispatch, fastRefresh, account])
+
+  useEffect(() => {
+    dispatch(fetchOvenVaultFees())
   }, [dispatch])
-
-  return helpers
 }
 
-// // Profile
+export const useOvenVault = () => {
+  const {
+    totalShares: totalSharesAsString,
+    pricePerFullShare: pricePerFullShareAsString,
+    totalOvenInVault: totalOvenInVaultAsString,
+    estimatedOvenBountyReward: estimatedOvenBountyRewardAsString,
+    totalPendingOvenHarvest: totalPendingOvenHarvestAsString,
+    fees: { performanceFee, callFee, withdrawalFee, withdrawalFeePeriod },
+    userData: {
+      isLoading,
+      userShares: userSharesAsString,
+      ovenAtLastUserAction: ovenAtLastUserActionAsString,
+      lastDepositedTime,
+      lastUserActionTime,
+    },
+  } = useSelector((state: State) => state.pools.ovenVault)
+
+  const estimatedOvenBountyReward = useMemo(() => {
+    return new BigNumber(estimatedOvenBountyRewardAsString)
+  }, [estimatedOvenBountyRewardAsString])
+
+  const totalPendingOvenHarvest = useMemo(() => {
+    return new BigNumber(totalPendingOvenHarvestAsString)
+  }, [totalPendingOvenHarvestAsString])
+
+  const totalShares = useMemo(() => {
+    return new BigNumber(totalSharesAsString)
+  }, [totalSharesAsString])
+
+  const pricePerFullShare = useMemo(() => {
+    return new BigNumber(pricePerFullShareAsString)
+  }, [pricePerFullShareAsString])
+
+  const totalOvenInVault = useMemo(() => {
+    return new BigNumber(totalOvenInVaultAsString)
+  }, [totalOvenInVaultAsString])
+
+  const userShares = useMemo(() => {
+    return new BigNumber(userSharesAsString)
+  }, [userSharesAsString])
+
+  const ovenAtLastUserAction = useMemo(() => {
+    return new BigNumber(ovenAtLastUserActionAsString)
+  }, [ovenAtLastUserActionAsString])
+
+  return {
+    totalShares,
+    pricePerFullShare,
+    totalOvenInVault,
+    estimatedOvenBountyReward,
+    totalPendingOvenHarvest,
+    fees: {
+      performanceFee,
+      callFee,
+      withdrawalFee,
+      withdrawalFeePeriod,
+    },
+    userData: {
+      isLoading,
+      userShares,
+      ovenAtLastUserAction,
+      lastDepositedTime,
+      lastUserActionTime,
+    },
+  }
+}
+
+// Profile
 
 // export const useFetchProfile = () => {
 //   const { account } = useWeb3React()
@@ -140,60 +279,179 @@ export const useToast = () => {
 //   }, [account, dispatch])
 // }
 
-// export const useProfile = () => {
-//   const { isInitialized, isLoading, data, hasRegistered }: ProfileState = useSelector((state: State) => state.profile)
-//   return { profile: data, hasProfile: isInitialized && hasRegistered, isInitialized, isLoading }
+export const useProfile = () => {
+  const { isInitialized, isLoading, data, hasRegistered }: ProfileState = useSelector((state: State) => state.profile)
+  return { profile: data, hasProfile: isInitialized && hasRegistered, isInitialized, isLoading }
+}
+
+// Teams
+
+// export const useTeam = (id: number) => {
+//   const team: Team = useSelector((state: State) => state.teams.data[id])
+//   const dispatch = useAppDispatch()
+
+//   useEffect(() => {
+//     dispatch(fetchTeam(id))
+//   }, [id, dispatch])
+
+//   return team
 // }
 
+// export const useTeams = () => {
+//   const { isInitialized, isLoading, data }: TeamsState = useSelector((state: State) => state.teams)
+//   const dispatch = useAppDispatch()
 
-// Prices
+//   useEffect(() => {
+//     dispatch(fetchTeams())
+//   }, [dispatch])
 
-export const useFetchPriceList = () => {
-  const { slowRefresh } = useRefresh()
-  const dispatch = useAppDispatch()
+//   return { teams: data, isInitialized, isLoading }
+// }
 
-  useEffect(() => {
-    dispatch(fetchPrices())
-  }, [dispatch, slowRefresh])
-}
+// Achievements
 
-export const useGetApiPrices = () => {
-  const prices: PriceState['data'] = useSelector((state: State) => state.prices.data)
-  return prices
-}
+// export const useFetchAchievements = () => {
+//   const { account } = useWeb3React()
+//   const dispatch = useAppDispatch()
 
-export const useGetApiPrice = (address: string) => {
-  const prices = useGetApiPrices()
+//   useEffect(() => {
+//     if (account) {
+//       dispatch(fetchAchievements(account))
+//     }
+//   }, [account, dispatch])
+// }
 
-  if (!prices) {
-    return null
-  }
+// export const useAchievements = () => {
+//   const achievements: AchievementState['data'] = useSelector((state: State) => state.achievements.data)
+//   return achievements
+// }
 
-  return prices[address.toLowerCase()]
+export const usePriceEthUsdc = (): BigNumber => {
+  const ethUsdcFarm = useFarmFromPid(2) // UPDATE
+  return new BigNumber(ethUsdcFarm.quoteToken.usdcPrice)
 }
 
 export const usePriceOvenUsdc = (): BigNumber => {
-  const ZERO = new BigNumber(0)
-  const ovenEthFarm = useFarmFromPid(1)
-  const usdcEthFarm = useFarmFromPid(4)
-
-  const usdcEthPrice = usdcEthFarm.tokenPriceVsQuote ? new BigNumber(1).div(usdcEthFarm.tokenPriceVsQuote) : ZERO
-  const ovenUsdcPrice = ovenEthFarm.tokenPriceVsQuote ? usdcEthPrice.times(ovenEthFarm.tokenPriceVsQuote) : ZERO
-
-  return ovenUsdcPrice
+  const ovenEthFarm = useFarmFromPid(1) // UPDATE
+  return new BigNumber(ovenEthFarm.token.usdcPrice)
 }
 
-// Block
-
-export const useBlock = () => {
-  return useSelector((state: State) => state.block)
+// Time
+export const useTime = () => {
+  return useSelector((state: State) => state.time)
 }
 
-export const useInitialBlock = () => {
-  return useSelector((state: State) => state.block.initialBlock)
+export const useInitialTime = () => {
+  return useSelector((state: State) => state.time.initialTime)
 }
 
-// // Collectibles
+// Predictions
+// export const useIsHistoryPaneOpen = () => {
+//   return useSelector((state: State) => state.predictions.isHistoryPaneOpen)
+// }
+
+// export const useIsChartPaneOpen = () => {
+//   return useSelector((state: State) => state.predictions.isChartPaneOpen)
+// }
+
+// export const useGetRounds = () => {
+//   return useSelector((state: State) => state.predictions.rounds)
+// }
+
+// export const useGetSortedRounds = () => {
+//   const roundData = useGetRounds()
+//   return orderBy(Object.values(roundData), ['epoch'], ['asc'])
+// }
+
+// export const useGetCurrentEpoch = () => {
+//   return useSelector((state: State) => state.predictions.currentEpoch)
+// }
+
+// export const useGetIntervalTimes = () => {
+//   return useSelector((state: State) => state.predictions.intervalTimes)
+// }
+
+// export const useGetBufferTimes = () => {
+//   return useSelector((state: State) => state.predictions.bufferTimes)
+// }
+
+// export const useGetTotalIntervalTimes = () => {
+//   const intervalTimes = useGetIntervalTimes()
+//   const bufferTimes = useGetBufferTimes()
+//   return intervalTimes + bufferTimes
+// }
+
+// export const useGetRound = (id: string) => {
+//   const rounds = useGetRounds()
+//   return rounds[id]
+// }
+
+// export const useGetCurrentRound = () => {
+//   const currentEpoch = useGetCurrentEpoch()
+//   const rounds = useGetSortedRounds()
+//   return rounds.find((round) => round.epoch === currentEpoch)
+// }
+
+// export const useGetPredictionsStatus = () => {
+//   return useSelector((state: State) => state.predictions.status)
+// }
+
+// export const useGetHistoryFilter = () => {
+//   return useSelector((state: State) => state.predictions.historyFilter)
+// }
+
+// export const useGetCurrentRoundTime = () => {
+//   return useSelector((state: State) => state.predictions.currentRoundStartTime)
+// }
+
+// export const useGetMinBetAmount = () => {
+//   const minBetAmount = useSelector((state: State) => state.predictions.minBetAmount)
+//   return useMemo(() => new BigNumber(minBetAmount), [minBetAmount])
+// }
+
+// export const useGetIsFetchingHistory = () => {
+//   return useSelector((state: State) => state.predictions.isFetchingHistory)
+// }
+
+// export const useGetHistory = () => {
+//   return useSelector((state: State) => state.predictions.history)
+// }
+
+// export const useGetHistoryByAccount = (account: string) => {
+//   const bets = useGetHistory()
+//   return bets ? bets[account] : []
+// }
+
+// export const useGetBetByRoundId = (account: string, roundId: string) => {
+//   const bets = useSelector((state: State) => state.predictions.bets)
+
+//   if (!bets[account]) {
+//     return null
+//   }
+
+//   if (!bets[account][roundId]) {
+//     return null
+//   }
+
+//   return bets[account][roundId]
+// }
+
+// export const useBetCanClaim = (account: string, roundId: string) => {
+//   const bet = useGetBetByRoundId(account, roundId)
+
+//   if (!bet) {
+//     return false
+//   }
+
+//   return getCanClaim(bet)
+// }
+
+// export const useGetLastOraclePrice = (): BigNumber => {
+//   const lastOraclePrice = useSelector((state: State) => state.predictions.lastOraclePrice)
+//   return new BigNumber(lastOraclePrice)
+// }
+
+// Collectibles
 // export const useGetCollectibles = () => {
 //   const { account } = useWeb3React()
 //   const dispatch = useAppDispatch()

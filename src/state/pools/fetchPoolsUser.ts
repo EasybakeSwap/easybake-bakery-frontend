@@ -10,35 +10,35 @@ import BigNumber from 'bignumber.js'
 
 // Pool 0, OVEN / OVEN is a different kind of contract (master chef)
 // BNB pools use the native BNB token (wrapping ? unwrapping is done at the contract level)
-const nonBnbPools = poolsConfig.filter((p) => p.stakingToken.symbol !== 'BNB')
+const nonEthPools = poolsConfig.filter((p) => p.stakingToken.symbol !== 'BNB')
 const bnbPools = poolsConfig.filter((p) => p.stakingToken.symbol === 'BNB')
 const nonMasterPools = poolsConfig.filter((p) => p.sousId !== 0)
 const web3 = getWeb3NoAccount()
 const masterChefContract = new web3.eth.Contract((masterChefABI as unknown) as AbiItem, getMasterChefAddress())
 
 export const fetchPoolsAllowance = async (account) => {
-  const calls = nonBnbPools.map((p) => ({
+  const calls = nonEthPools.map((p) => ({
     address: getAddress(p.stakingToken.address),
     name: 'allowance',
     params: [account, getAddress(p.contractAddress)],
   }))
 
   const allowances = await multicall(erc20ABI, calls)
-  return nonBnbPools.reduce(
+  return nonEthPools.reduce(
     (acc, pool, index) => ({ ...acc, [pool.sousId]: new BigNumber(allowances[index]).toJSON() }),
     {},
   )
 }
 
 export const fetchUserBalances = async (account) => {
-  // Non BNB pools
-  const calls = nonBnbPools.map((p) => ({
+  // Non ETH pools
+  const calls = nonEthPools.map((p) => ({
     address: getAddress(p.stakingToken.address),
     name: 'balanceOf',
     params: [account],
   }))
   const tokenBalancesRaw = await multicall(erc20ABI, calls)
-  const tokenBalances = nonBnbPools.reduce(
+  const tokenBalances = nonEthPools.reduce(
     (acc, pool, index) => ({ ...acc, [pool.sousId]: new BigNumber(tokenBalancesRaw[index]).toJSON() }),
     {},
   )

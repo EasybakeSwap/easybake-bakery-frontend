@@ -43,13 +43,13 @@ import React, { useEffect, useState } from 'react'
 // const StartPage: React.FC<StartPageProps> = ({ goToApprove, goToChange, goToRemove, onDismiss }) => {
 //   const [needsApproval, setNeedsApproval] = useState(null)
 //   const { profile } = useProfile()
-//   const { numberCakeToUpdate, numberCakeToReactivate } = useGetProfileCosts()
-//   const minimumCakeRequired = profile.isActive ? numberCakeToUpdate : numberCakeToReactivate
+//   const { numberOvenToUpdate, OvenT } = useGetProfileCosts()
+//   const minimumCakeRequired = profile.isActive ? numberOvenToUpdate : OvenT
 //   const hasMinimumCakeRequired = useHasCakeBalance(minimumCakeRequired)
 //   const TranslateString = useI18n()
 //   const { account } = useWeb3React()
-//   const cakeContract = useOvenContract()
-//   const cost = profile.isActive ? numberCakeToUpdate : numberCakeToReactivate
+//   const ovenContract = useOvenContract()
+//   const cost = profile.isActive ? numberOvenToUpdate : OvenT
 
 //   /**
 //    * Check if the wallet has the required OVEN allowance to change their profile pic or reactivate
@@ -57,7 +57,7 @@ import React, { useEffect, useState } from 'react'
 //    */
 //   useEffect(() => {
 //     const checkApprovalStatus = async () => {
-//       const response = await cakeContract.methods.allowance(account, getPancakeProfileAddress()).call()
+//       const response = await ovenContract.methods.allowance(account, getPancakeProfileAddress()).call()
 //       const currentAllowance = new BigNumber(response)
 //       setNeedsApproval(currentAllowance.lt(cost))
 //     }
@@ -65,7 +65,7 @@ import React, { useEffect, useState } from 'react'
 //     if (account) {
 //       checkApprovalStatus()
 //     }
-//   }, [account, cost, setNeedsApproval, cakeContract])
+//   }, [account, cost, setNeedsApproval, ovenContract])
 
 //   if (!profile) {
 //     return null

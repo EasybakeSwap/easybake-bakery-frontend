@@ -15,7 +15,7 @@ import React, { useState } from 'react'
 //   const [isAcknowledged, setIsAcknowledged] = useState(false)
 //   const [isConfirming, setIsConfirming] = useState(false)
 //   const { profile } = useProfile()
-//   const { numberCakeToReactivate } = useGetProfileCosts()
+//   const { OvenT } = useGetProfileCosts()
 //   const TranslateString = useI18n()
 //   const pancakeProfileContract = useProfileContract()
 //   const { account } = useWeb3React()
@@ -60,7 +60,7 @@ import React, { useState } from 'react'
 //         )}
 //       </Text>
 //       <Text as="p" color="textSubtle" mb="24px">
-//         {TranslateString(999, `Cost to reactivate in future: ${getBalanceNumber(numberCakeToReactivate)} OVEN`)}
+//         {TranslateString(999, `Cost to reactivate in future: ${getBalanceNumber(OvenT)} OVEN`)}
 //       </Text>
 //       <label htmlFor="acknowledgement" style={{ cursor: 'pointer', display: 'block', marginBottom: '24px' }}>
 //         <Flex alignItems="center">

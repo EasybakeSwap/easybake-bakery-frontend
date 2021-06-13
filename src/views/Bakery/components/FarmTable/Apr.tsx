@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import ApyButton from 'views/Bakery/components/FarmCard/ApyButton'
+import ApyButton from 'views/Farms/components/FarmCard/ApyButton'
 import { Address } from 'config/constants/types'
 import BigNumber from 'bignumber.js'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
+import { Skeleton } from 'easybake-uikit'
 
 export interface AprProps {
   value: string
@@ -12,7 +13,7 @@ export interface AprProps {
   lpLabel: string
   tokenAddress?: Address
   quoteTokenAddress?: Address
-  ovenPrice: BigNumber
+  cakePrice: BigNumber
   originalValue: number
   hideButton?: boolean
 }
@@ -38,18 +39,13 @@ const AprWrapper = styled.div`
   min-width: 60px;
   text-align: left;
 `
-const AprWrapperLoading = styled.div`
-  min-width: 60px;
-  text-align: left;
-  color: ${({ theme }) => theme.colors.textDisabled};
-`
 
 const Apr: React.FC<AprProps> = ({
   value,
   lpLabel,
   tokenAddress,
   quoteTokenAddress,
-  ovenPrice,
+  cakePrice,
   originalValue,
   hideButton = false,
 }) => {
@@ -62,11 +58,13 @@ const Apr: React.FC<AprProps> = ({
         <>
           <AprWrapper>{value}%</AprWrapper>
           {!hideButton && (
-            <ApyButton lpLabel={lpLabel} ovenPrice={ovenPrice} apr={originalValue} addLiquidityUrl={addLiquidityUrl} />
+            <ApyButton lpLabel={lpLabel} cakePrice={cakePrice} apr={originalValue} addLiquidityUrl={addLiquidityUrl} />
           )}
         </>
       ) : (
-        <AprWrapperLoading>&nbsp;&nbsp;-</AprWrapperLoading> // disabled loading...
+        <AprWrapper>
+          <Skeleton width={60} />
+        </AprWrapper>
       )}
     </Container>
   ) : (

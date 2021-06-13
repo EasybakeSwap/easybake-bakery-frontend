@@ -1,11 +1,9 @@
 import React from 'react'
 import { Flex, Text, Button, Heading, useModal, Skeleton } from 'easybake-uikit'
-import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { Token } from 'config/constants/types'
-import { getAddress } from 'utils/addressHelpers'
+
 import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
-import { useGetApiPrice } from 'state/hooks'
 import Balance from 'components/Balance'
 import CollectModal from '../Modals/CollectModal'
 
@@ -13,27 +11,27 @@ interface HarvestActionsProps {
   earnings: BigNumber
   earningToken: Token
   sousId: number
-  isBnbPool: boolean
+  earningTokenPrice: number
+  isEthPool: boolean
   isLoading?: boolean
 }
-
-const InlineBalance = styled(Balance)`
-  display: inline;
-`
 
 const HarvestActions: React.FC<HarvestActionsProps> = ({
   earnings,
   earningToken,
   sousId,
-  isBnbPool,
+  isEthPool,
+  earningTokenPrice,
   isLoading = false,
 }) => {
-  const earningTokenPrice = useGetApiPrice(earningToken.address ? getAddress(earningToken.address) : '')
+  
   const earningTokenBalance = getBalanceNumber(earnings, earningToken.decimals)
-  const earningTokenDollarBalance = getBalanceNumber(earnings.multipliedBy(earningTokenPrice), earningToken.decimals)
-  const fullBalance = getFullDisplayBalance(earnings, earningToken.decimals)
   const formattedBalance = formatNumber(earningTokenBalance, 3, 3)
+
+  const earningTokenDollarBalance = getBalanceNumber(earnings.multipliedBy(earningTokenPrice), earningToken.decimals)
   const earningsDollarValue = formatNumber(earningTokenDollarBalance)
+
+  const fullBalance = getFullDisplayBalance(earnings, earningToken.decimals)
   const hasEarnings = earnings.toNumber() > 0
   const isCompoundPool = sousId === 0
 
@@ -44,7 +42,7 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
       earningToken={earningToken}
       earningsDollarValue={earningsDollarValue}
       sousId={sousId}
-      isBnbPool={isBnbPool}
+      isEthPool={isEthPool}
       isCompoundPool={isCompoundPool}
     />,
   )
@@ -62,26 +60,29 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
               ) : (
                 <Heading color="textDisabled">0</Heading>
               )}
-              <Text fontSize="12px" color={hasEarnings ? 'textSubtle' : 'textDisabled'}>
-                ~
-                {hasEarnings ? (
-                  <InlineBalance
-                    fontSize="12px"
-                    color="textSubtle"
-                    decimals={2}
-                    value={earningTokenDollarBalance}
-                    unit=" USD"
-                  />
-                ) : (
-                  '0 USD'
-                )}
-              </Text>
+              {earningTokenPrice !== 0 && (
+                <Text fontSize="12px" color={hasEarnings ? 'textSubtle' : 'textDisabled'}>
+                  ~
+                  {hasEarnings ? (
+                    <Balance
+                      display="inline"
+                      fontSize="12px"
+                      color="textSubtle"
+                      decimals={2}
+                      value={earningTokenDollarBalance}
+                      unit=" USD"
+                    />
+                  ) : (
+                    '0 USD'
+                  )}
+                </Text>
+              )}
             </>
           )}
         </Flex>
         <Flex>
           <Button disabled={!hasEarnings} onClick={onPresentCollect}>
-            {isCompoundPool ? 'Collect' : 'Harvest'}
+            {isCompoundPool ? ('Collect') : ('Harvest')}
           </Button>
         </Flex>
       </Flex>

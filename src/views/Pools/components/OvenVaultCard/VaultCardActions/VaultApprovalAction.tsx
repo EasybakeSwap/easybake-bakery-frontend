@@ -1,43 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, AutoRenewIcon, Skeleton } from 'easybake-uikit'
-import { useWeb3React } from '@web3-react/core'
-import { ethers } from 'ethers'
-import { useOvenContract, useOvenVaultContract } from 'hooks/useContract'
-import useToast from 'hooks/useToast'
-import { Pool } from 'state/types'
+
+import { useVaultApprove } from 'hooks/useApprove'
 
 interface ApprovalActionProps {
-  pool: Pool
   setLastUpdated: () => void
   isLoading?: boolean
 }
 
-const ApprovalAction: React.FC<ApprovalActionProps> = ({ pool, isLoading = false, setLastUpdated }) => {
-  const { account } = useWeb3React()
-  const { stakingToken } = pool
-  const ovenVaultContract = useOvenVaultContract()
-  const ovenContract = useOvenContract()
-  const [requestedApproval, setRequestedApproval] = useState(false)
-  const { toastSuccess, toastError } = useToast()
+const VaultApprovalAction: React.FC<ApprovalActionProps> = ({ isLoading = false, setLastUpdated }) => {
+  
 
-  const handleApprove = () => {
-    ovenContract.methods
-      .approve(ovenVaultContract.options.address, ethers.constants.MaxUint256)
-      .send({ from: account })
-      .on('sending', () => {
-        setRequestedApproval(true)
-      })
-      .on('receipt', () => {
-        toastSuccess(`Contract Enabled`, `You can now stake in the ${stakingToken.symbol} vault!`)
-        setLastUpdated()
-        setRequestedApproval(false)
-      })
-      .on('error', (error) => {
-        console.error(error)
-        toastError('Error', `Please try again. Confirm the transaction and make sure you are paying enough gas!`)
-        setRequestedApproval(false)
-      })
-  }
+  const { handleApprove, requestedApproval } = useVaultApprove(setLastUpdated)
 
   return (
     <>
@@ -58,4 +32,4 @@ const ApprovalAction: React.FC<ApprovalActionProps> = ({ pool, isLoading = false
   )
 }
 
-export default ApprovalAction
+export default VaultApprovalAction

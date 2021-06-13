@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 // import { useWeb3React } from '@web3-react/core'
 // import useI18n from 'hooks/useI18n'
 // import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
-// import { useCake, useBunnyFactory } from 'hooks/useContract'
+// import { useOven, useBunnyFactory } from 'hooks/useContract'
 // import { Nft } from 'config/constants/types'
 // import useHasCakeBalance from 'hooks/useHasCakeBalance'
 // import nftList from 'config/constants/nfts'
@@ -22,7 +22,7 @@ import React, { useState } from 'react'
 //   const { actions, minimumCakeRequired, allowance } = useProfileCreation()
 
 //   const { account } = useWeb3React()
-//   const cakeContract = useCake()
+//   const ovenContract = useOven()
 //   const bunnyFactoryContract = useBunnyFactory()
 //   const TranslateString = useI18n()
 //   const hasMinimumCakeRequired = useHasCakeBalance(minimumCakeBalanceToMint)
@@ -37,7 +37,7 @@ import React, { useState } from 'react'
 //     onRequiresApproval: async () => {
 //       // TODO: Move this to a helper, this check will be probably be used many times
 //       try {
-//         const response = await cakeContract.methods.allowance(account, bunnyFactoryContract.options.address).call()
+//         const response = await ovenContract.methods.allowance(account, bunnyFactoryContract.options.address).call()
 //         const currentAllowance = new BigNumber(response)
 //         return currentAllowance.gte(minimumCakeRequired)
 //       } catch (error) {
@@ -45,7 +45,7 @@ import React, { useState } from 'react'
 //       }
 //     },
 //     onApprove: () => {
-//       return cakeContract.methods
+//       return ovenContract.methods
 //         .approve(bunnyFactoryContract.options.address, allowance.toJSON())
 //         .send({ from: account })
 //     },

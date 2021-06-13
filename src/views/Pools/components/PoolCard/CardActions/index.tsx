@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { Flex, Text, Box } from 'easybake-uikit'
+
 import { PoolCategory } from 'config/constants/types'
 import { Pool } from 'state/types'
 import ApprovalAction from './ApprovalAction'
@@ -16,17 +17,17 @@ const InlineText = styled(Text)`
 interface CardActionsProps {
   pool: Pool
   stakedBalance: BigNumber
-  stakingTokenPrice: number
 }
 
-const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance, stakingTokenPrice }) => {
-  const { sousId, stakingToken, earningToken, harvest, poolCategory, userData } = pool
-  // Pools using native BNB behave differently than pools using a token
-  const isBnbPool = poolCategory === PoolCategory.BINANCE
+const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
+  const { sousId, stakingToken, earningToken, harvest, poolCategory, userData, earningTokenPrice } = pool
+  // Pools using native ETH behave differently than pools using a token
+  const isEthPool = poolCategory === PoolCategory.ETHEREUM
+  
   const allowance = userData?.allowance ? new BigNumber(userData.allowance) : BIG_ZERO
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO
-  const needsApproval = !allowance.gt(0) && !isBnbPool
+  const needsApproval = !allowance.gt(0) // && !isEthPool
   const isStaked = stakedBalance.gt(0)
   const isLoading = !userData
 
@@ -40,24 +41,25 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance, stakingT
                 {`${earningToken.symbol} `}
               </InlineText>
               <InlineText color="textSubtle" textTransform="uppercase" bold fontSize="12px">
-                earned
+                Earned
               </InlineText>
             </Box>
             <HarvestActions
               earnings={earnings}
               earningToken={earningToken}
               sousId={sousId}
-              isBnbPool={isBnbPool}
+              earningTokenPrice={earningTokenPrice}
+              isEthPool={isEthPool}
               isLoading={isLoading}
             />
           </>
         )}
         <Box display="inline">
           <InlineText color={isStaked ? 'secondary' : 'textSubtle'} textTransform="uppercase" bold fontSize="12px">
-            {isStaked ? stakingToken.symbol : `stake`}{' '}
+            {isStaked ? stakingToken.symbol : ('Stake')}{' '}
           </InlineText>
           <InlineText color={isStaked ? 'textSubtle' : 'secondary'} textTransform="uppercase" bold fontSize="12px">
-            {isStaked ? `staked` : `${stakingToken.symbol}`}
+            {isStaked ? ('Staked') : `${stakingToken.symbol}`}
           </InlineText>
         </Box>
         {needsApproval ? (
@@ -67,9 +69,8 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance, stakingT
             isLoading={isLoading}
             pool={pool}
             stakingTokenBalance={stakingTokenBalance}
-            stakingTokenPrice={stakingTokenPrice}
             stakedBalance={stakedBalance}
-            isBnbPool={isBnbPool}
+            isEthPool={isEthPool}
             isStaked={isStaked}
           />
         )}

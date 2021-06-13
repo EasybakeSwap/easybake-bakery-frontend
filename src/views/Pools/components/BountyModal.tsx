@@ -1,21 +1,23 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
+import { DEFAULT_GAS_LIMIT } from 'config'
 import styled from 'styled-components'
-import { Modal, Text, Flex, Button, AutoRenewIcon } from 'easybake-uikit' // Disabled: HelpIcon, useTooltip
-import { getFullDisplayBalance } from 'utils/formatBalance'
+import { Modal, Text, Flex, Button, HelpIcon, AutoRenewIcon, useTooltip } from 'easybake-uikit'
+import { getBalanceNumber } from 'utils/formatBalance'
 import { useOvenVaultContract } from 'hooks/useContract'
 import useTheme from 'hooks/useTheme'
 import useToast from 'hooks/useToast'
 import UnlockButton from 'components/UnlockButton'
+import Balance from 'components/Balance'
 
 interface BountyModalProps {
-  ovenBountyToDisplay: string
-  dollarBountyToDisplay: string
+  ovenBountyToDisplay: number
+  dollarBountyToDisplay: number
   totalPendingOvenHarvest: BigNumber
   callFee: number
   onDismiss?: () => void
-  TooltipComponent?: React.ElementType
+  TooltipComponent: React.ElementType
 }
 
 const Divider = styled.div`
@@ -31,6 +33,7 @@ const BountyModal: React.FC<BountyModalProps> = ({
   totalPendingOvenHarvest,
   callFee,
   onDismiss,
+  TooltipComponent,
 }) => {
   const { account } = useWeb3React()
   const { theme } = useTheme()
@@ -38,54 +41,60 @@ const BountyModal: React.FC<BountyModalProps> = ({
   const ovenVaultContract = useOvenVaultContract()
   const [pendingTx, setPendingTx] = useState(false)
   const callFeeAsDecimal = callFee / 100
-  const totalYieldToDisplay = getFullDisplayBalance(totalPendingOvenHarvest, 18, 3)
-  // const { targetRef, tooltip, tooltipVisible } = useTooltip(<TooltipComponent />, {
-  //   placement: 'bottom',
-  //   tooltipPadding: { right: 15 },
-  // })
+  const totalYieldToDisplay = getBalanceNumber(totalPendingOvenHarvest, 18)
+  const { targetRef, tooltip, tooltipVisible } = useTooltip(<TooltipComponent />, {
+    placement: 'bottom',
+    tooltipPadding: { right: 15 },
+  })
 
   const handleConfirmClick = async () => {
     ovenVaultContract.methods
       .harvest()
-      .send({ from: account })
+      .send({ from: account, gas: DEFAULT_GAS_LIMIT })
       .on('sending', () => {
         setPendingTx(true)
       })
       .on('receipt', () => {
-        toastSuccess('Bounty collected!', 'OVEN bounty has been sent to your wallet.')
+        toastSuccess(('Bounty collected!'), ('OVEN bounty has been sent to your wallet.'))
         setPendingTx(false)
         onDismiss()
       })
       .on('error', (error) => {
         console.error(error)
         toastError(
-          'Could not be collected',
-          'There may be an issue with your transaction, or another user claimed the bounty first.',
+          ('Could not be collected'),
+          ('There may be an issue with your transaction, or another user claimed the bounty first.'),
         )
         setPendingTx(false)
+        onDismiss()
       })
   }
 
   return (
-    <Modal title='Claim Bounty' onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
-      {/* {tooltipVisible && tooltip} */}
+    <Modal title={('Claim Bounty')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
+      {tooltipVisible && tooltip}
       <Flex alignItems="flex-start" justifyContent="space-between">
-        <Text>You`ll claim</Text>
+        <Text>You’ll claim</Text>
         <Flex flexDirection="column">
-          <Text bold>{ovenBountyToDisplay} OVEN</Text>
+          <Balance bold value={ovenBountyToDisplay} decimals={7} unit=" OVEN" />
           <Text fontSize="12px" color="textSubtle">
-            ~ {dollarBountyToDisplay} USD
+            <Balance
+              fontSize="12px"
+              color="textSubtle"
+              value={dollarBountyToDisplay}
+              decimals={2}
+              unit=" USD"
+              prefix="~"
+            />
           </Text>
         </Flex>
       </Flex>
       <Divider />
       <Flex alignItems="center" justifyContent="space-between">
         <Text fontSize="14px" color="textSubtle">
-          Pool total pending yield
+        Pool Total Pending Yield
         </Text>
-        <Text fontSize="14px" color="textSubtle">
-          {totalYieldToDisplay} OVEN
-        </Text>
+        <Balance color="textSubtle" value={totalYieldToDisplay} unit=" OVEN" />
       </Flex>
       <Flex alignItems="center" justifyContent="space-between" mb="24px">
         <Text fontSize="14px" color="textSubtle">
@@ -105,16 +114,16 @@ const BountyModal: React.FC<BountyModalProps> = ({
           Confirm
         </Button>
       ) : (
-        <UnlockButton scale="100%" />
+        <UnlockButton mb="28px" />
       )}
-      {/* <Flex justifyContent="center" alignItems="center">
+      <Flex justifyContent="center" alignItems="center">
         <Text fontSize="16px" bold color="textSubtle" mr="4px">
-          What's this?
+          What is this?
         </Text>
         <span ref={targetRef}>
           <HelpIcon color="textSubtle" />
         </span>
-      </Flex> */}
+      </Flex>
     </Modal>
   )
 }

@@ -1,10 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useWeb3React } from '@web3-react/core'
+import { Skeleton } from 'easybake-uikit'
 
 export interface EarnedProps {
   earnings: number
   pid: number
+}
+
+interface EarnedPropsWithLoading extends EarnedProps {
+  userDataReady: boolean
 }
 
 const Amount = styled.span<{ earned: number }>`
@@ -12,27 +16,15 @@ const Amount = styled.span<{ earned: number }>`
   display: flex;
   align-items: center;
 `
-// const DisabledText = styled.div`
-//   color: ${({ theme }) => theme.colors.textDisabled};
-// `
 
-const Earned: React.FunctionComponent<EarnedProps> = ({ earnings }) => {
-  const { account } = useWeb3React()
-  const amountEarned = account ? earnings : null
-
-  let dispayedAmountEarned
-  if (amountEarned > 0 && amountEarned < 0.001) {
-    dispayedAmountEarned = '<0.001'
-  } else if (amountEarned === null) {
-    dispayedAmountEarned = 'Unlock Wallet'
-  } else {
-    dispayedAmountEarned = amountEarned.toLocaleString()
+const Earned: React.FunctionComponent<EarnedPropsWithLoading> = ({ earnings, userDataReady }) => {
+  if (userDataReady) {
+    return <Amount earned={earnings}>{earnings.toLocaleString()}</Amount>
   }
-
-  return amountEarned ? (
-    <Amount earned={amountEarned}>{dispayedAmountEarned}</Amount>
-  ) : (
-    <Amount earned={null}>{dispayedAmountEarned}</Amount>
+  return (
+    <Amount earned={0}>
+      <Skeleton width={60} />
+    </Amount>
   )
 }
 

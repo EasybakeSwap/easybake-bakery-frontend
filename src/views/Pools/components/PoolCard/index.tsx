@@ -2,9 +2,8 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { CardBody, Flex, Text, CardRibbon } from 'easybake-uikit'
 import UnlockButton from 'components/UnlockButton'
-import { getAddress } from 'utils/addressHelpers'
+
 import { BIG_ZERO } from 'utils/bigNumber'
-import { useGetApiPrice } from 'state/hooks'
 import { Pool } from 'state/types'
 import AprRow from './AprRow'
 import { StyledCard, StyledCardInner } from './StyledCard'
@@ -14,14 +13,14 @@ import CardActions from './CardActions'
 
 const PoolCard: React.FC<{ pool: Pool; account: string }> = ({ pool, account }) => {
   const { sousId, stakingToken, earningToken, isFinished, userData } = pool
+  
   const stakedBalance = userData?.stakedBalance ? new BigNumber(userData.stakedBalance) : BIG_ZERO
   const accountHasStakedBalance = stakedBalance.gt(0)
-  const stakingTokenPrice = useGetApiPrice(stakingToken.address ? getAddress(stakingToken.address) : '')
 
   return (
     <StyledCard
       isFinished={isFinished && sousId !== 0}
-      ribbon={isFinished && <CardRibbon variantColor="textDisabled" text='Finished' />}
+      ribbon={isFinished && <CardRibbon variantColor="textDisabled" text={('Finished')} />}
     >
       <StyledCardInner>
         <StyledCardHeader
@@ -31,16 +30,16 @@ const PoolCard: React.FC<{ pool: Pool; account: string }> = ({ pool, account }) 
           isFinished={isFinished && sousId !== 0}
         />
         <CardBody>
-          <AprRow pool={pool} stakingTokenPrice={stakingTokenPrice} />
+          <AprRow pool={pool} />
           <Flex mt="24px" flexDirection="column">
             {account ? (
-              <CardActions pool={pool} stakedBalance={stakedBalance} stakingTokenPrice={stakingTokenPrice} />
+              <CardActions pool={pool} stakedBalance={stakedBalance} />
             ) : (
               <>
                 <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>
-                  Start earning
+                  {('Start earning')}
                 </Text>
-                <UnlockButton scale="100%" />
+                <UnlockButton />
               </>
             )}
           </Flex>

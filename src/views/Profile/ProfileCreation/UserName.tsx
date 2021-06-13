@@ -34,7 +34,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 // }
 
 // const profileApiUrl = process.env.REACT_APP_API_PROFILE
-// const minimumCakeToRegister = new BigNumber(REGISTER_COST).multipliedBy(new BigNumber(10).pow(18))
+// const minimumOvenToRegister = new BigNumber(REGISTER_COST).multipliedBy(new BigNumber(10).pow(18))
 
 // const InputWrap = styled.div`
 //   position: relative;
@@ -67,7 +67,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 //   const [isValid, setIsValid] = useState(false)
 //   const [isLoading, setIsLoading] = useState(false)
 //   const [message, setMessage] = useState('')
-//   const hasMinimumCakeRequired = useHasCakeBalance(minimumCakeToRegister)
+//   const hasMinimumCakeRequired = useHasCakeBalance(minimumOvenToRegister)
 //   const [onPresentConfirmProfileCreation] = useModal(
 //     <ConfirmProfileCreationModal
 //       userName={userName}

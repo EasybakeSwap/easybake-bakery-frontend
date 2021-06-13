@@ -1,24 +1,43 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useRouteMatch, Link } from 'react-router-dom'
+import { useLocation, Link, useRouteMatch } from 'react-router-dom'
 import { ButtonMenu, ButtonMenuItem, NotificationDot } from 'easybake-uikit'
+
 
 interface FarmTabButtonsProps {
   hasStakeInFinishedFarms: boolean
 }
 
 const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms }) => {
-  const { url, isExact } = useRouteMatch()
+  const { url } = useRouteMatch()
+  const location = useLocation()
+  
+
+  let activeIndex
+  switch (location.pathname) {
+    case '/farms':
+      activeIndex = 0
+      break
+    case '/farms/history':
+      activeIndex = 1
+      break
+    case '/farms/archived':
+      activeIndex = 2
+      break
+    default:
+      activeIndex = 0
+      break
+  }
 
   return (
     <Wrapper>
-      <ButtonMenu activeIndex={isExact ? 0 : 1} scale="sm" variant="subtle">
+      <ButtonMenu activeIndex={activeIndex} scale="sm" variant="subtle">
         <ButtonMenuItem as={Link} to={`${url}`}>
-          Live
+          {('Live')}
         </ButtonMenuItem>
         <NotificationDot show={hasStakeInFinishedFarms}>
           <ButtonMenuItem as={Link} to={`${url}/history`}>
-            Finished
+            {('Finished')}
           </ButtonMenuItem>
         </NotificationDot>
       </ButtonMenu>

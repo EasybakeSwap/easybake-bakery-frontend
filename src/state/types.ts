@@ -1,36 +1,47 @@
-import { Toast } from 'easybake-uikit'
+import { ThunkAction } from 'redux-thunk'
+import { AnyAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import { FarmConfig, Nft, PoolConfig } from 'config/constants/types'
+import { CampaignType, FarmConfig, Nft, PoolConfig, Team } from 'config/constants/types'
+
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, State, unknown, AnyAction>
 
 export type TranslatableText =
   | string
   | {
-      id: number
-      fallback: string
+      key: string
       data?: {
         [key: string]: string | number
       }
     }
 
+export type SerializedBigNumber = string
+
 export interface Farm extends FarmConfig {
-  tokenAmount?: BigNumber
-  quoteTokenAmount?: BigNumber
-  lpTotalInQuoteToken?: BigNumber
-  lpTotalSupply?: BigNumber
-  tokenPriceVsQuote?: BigNumber
-  poolWeight?: BigNumber
+  tokenAmountMc?: SerializedBigNumber
+  quoteTokenAmountMc?: SerializedBigNumber
+  tokenAmountTotal?: SerializedBigNumber
+  quoteTokenAmountTotal?: SerializedBigNumber
+  lpTotalInQuoteToken?: SerializedBigNumber
+  lpTotalSupply?: SerializedBigNumber
+  tokenPriceVsQuote?: SerializedBigNumber
+  poolWeight?: SerializedBigNumber
   userData?: {
-    allowance: BigNumber
-    tokenBalance: BigNumber
-    stakedBalance: BigNumber
-    earnings: BigNumber
+    allowance: string
+    tokenBalance: string
+    stakedBalance: string
+    earnings: string
   }
 }
 
 export interface Pool extends PoolConfig {
   totalStaked?: BigNumber
-  startBlock?: number
-  endBlock?: number
+  stakingLimit?: BigNumber
+  startTime?: number
+  endTime?: number
+  apr?: number
+  stakingTokenPrice?: number
+  earningTokenPrice?: number
+  isAutoVault?: boolean
   userData?: {
     allowance: BigNumber
     stakingTokenBalance: BigNumber
@@ -48,21 +59,46 @@ export interface Profile {
   isActive: boolean
   username: string
   nft?: Nft
+  team: Team
   hasRegistered: boolean
 }
 
 // Slices states
 
-export interface ToastsState {
-  data: Toast[]
-}
-
 export interface FarmsState {
   data: Farm[]
+  loadArchivedFarmsData: boolean
+  userDataLoaded: boolean
+}
+
+export interface VaultFees {
+  performanceFee: number
+  callFee: number
+  withdrawalFee: number
+  withdrawalFeePeriod: number
+}
+
+export interface VaultUser {
+  isLoading: boolean
+  userShares: string
+  ovenAtLastUserAction: string
+  lastDepositedTime: string
+  lastUserActionTime: string
+}
+export interface OvenVault {
+  totalShares?: string
+  pricePerFullShare?: string
+  totalOvenInVault?: string
+  estimatedOvenBountyReward?: string
+  totalPendingOvenHarvest?: string
+  fees?: VaultFees
+  userData?: VaultUser
 }
 
 export interface PoolsState {
   data: Pool[]
+  ovenVault: OvenVault
+  userDataLoaded: boolean
 }
 
 export interface ProfileState {
@@ -72,45 +108,43 @@ export interface ProfileState {
   data: Profile
 }
 
-// API Price State
-export interface PriceApiList {
-  /* eslint-disable camelcase */
-  [key: string]: {
-    name: string
-    symbol: string
-    price: string
-    price_BNB: string
-  }
+export type TeamResponse = {
+  0: string
+  1: string
+  2: string
+  3: string
+  4: boolean
 }
 
-export interface PriceApiListThunk {
-  /* eslint-disable camelcase */
-  [key: string]: number
+export type TeamsById = {
+  [key: string]: Team
 }
 
-export interface PriceApiResponse {
-  /* eslint-disable camelcase */
-  updated_at: string
-  data: PriceApiList
-}
-
-export interface PriceApiThunk {
-  /* eslint-disable camelcase */
-  updated_at: string
-  data: PriceApiListThunk
-}
-
-export interface PriceState {
+export interface TeamsState {
+  isInitialized: boolean
   isLoading: boolean
-  lastUpdated: string
-  data: PriceApiListThunk
+  data: TeamsById
 }
 
-// Block
+export interface Achievement {
+  id: string
+  type: CampaignType
+  address: string
+  title: TranslatableText
+  description?: TranslatableText
+  badge: string
+  points: number
+}
 
-export interface BlockState {
-  currentBlock: number
-  initialBlock: number
+export interface AchievementState {
+  data: Achievement[]
+}
+
+// Time
+
+export interface TimeState {
+  currentTime: number
+  initialTime: number
 }
 
 // Collectibles
@@ -123,14 +157,114 @@ export interface CollectiblesState {
   }
 }
 
+// Predictions
+
+export enum BetPosition {
+  BULL = 'Bull',
+  BEAR = 'Bear',
+  HOUSE = 'House',
+}
+
+export enum PredictionStatus {
+  INITIAL = 'initial',
+  LIVE = 'live',
+  PAUSED = 'paused',
+  ERROR = 'error',
+}
+
+export interface Round {
+  id: string
+  epoch: number
+  failed?: boolean
+  startTime: number
+  startAt: number
+  lockAt: number
+  lockTime: number
+  lockPrice: number
+  endTime: number
+  closePrice: number
+  totalBets: number
+  totalAmount: number
+  bullBets: number
+  bearBets: number
+  bearAmount: number
+  bullAmount: number
+  position: BetPosition
+  bets?: Bet[]
+}
+
+export interface Market {
+  id: string
+  paused: boolean
+  epoch: number
+}
+
+export interface Bet {
+  id?: string
+  hash?: string
+  amount: number
+  position: BetPosition
+  claimed: boolean
+  claimedHash: string
+  user?: PredictionUser
+  round: Round
+}
+
+export interface PredictionUser {
+  id: string
+  address: string
+  time: number
+  totalBets: number
+  totalETH: number
+}
+
+export interface RoundData {
+  [key: string]: Round
+}
+
+export interface HistoryData {
+  [key: string]: Bet[]
+}
+
+export interface BetData {
+  [key: string]: {
+    [key: string]: Bet
+  }
+}
+
+export enum HistoryFilter {
+  ALL = 'all',
+  COLLECTED = 'collected',
+  UNCOLLECTED = 'uncollected',
+}
+
+export interface PredictionsState {
+  status: PredictionStatus
+  isLoading: boolean
+  isHistoryPaneOpen: boolean
+  isChartPaneOpen: boolean
+  isFetchingHistory: boolean
+  historyFilter: HistoryFilter
+  currentEpoch: number
+  currentRoundStartTime: number
+  intervalTimes: number
+  bufferTimes: number
+  minBetAmount: string
+  lastOraclePrice: string
+  rounds: RoundData
+  history: HistoryData
+  bets: BetData
+}
+
 // Global state
 
 export interface State {
+  achievements: AchievementState
+  time: TimeState
   farms: FarmsState
-  toasts: ToastsState
-  prices: PriceState
   pools: PoolsState
+  predictions: PredictionsState
   profile: ProfileState
-  block: BlockState
+  teams: TeamsState
   collectibles: CollectiblesState
 }

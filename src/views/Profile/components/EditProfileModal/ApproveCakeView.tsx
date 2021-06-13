@@ -9,22 +9,22 @@ import React, { useState } from 'react'
 // // import useGetProfileCosts from 'hooks/useGetProfileCosts'
 // import { UseEditProfileResponse } from './reducer'
 
-// interface ApproveCakePageProps extends InjectedModalProps {
+// interface ApproveOvenPageProps extends InjectedModalProps {
 //   goToChange: UseEditProfileResponse['goToChange']
 // }
 
-// const ApproveCakePage: React.FC<ApproveCakePageProps> = ({ goToChange, onDismiss }) => {
+// const ApproveOvenPage: React.FC<ApproveOvenPageProps> = ({ goToChange, onDismiss }) => {
 //   const [isApproving, setIsApproving] = useState(false)
 //   const { profile } = useProfile()
 //   const TranslateString = useI18n()
 //   const { account } = useWeb3React()
-//   const { numberCakeToUpdate, numberCakeToReactivate } = useGetProfileCosts()
-//   const cakeContract = useOvenContract()
+//   const { numberOvenToUpdate, OvenT } = useGetProfileCosts()
+//   const ovenContract = useOvenContract()
 //   const { toastError } = useToast()
-//   const cost = profile.isActive ? numberCakeToUpdate : numberCakeToReactivate
+//   const cost = profile.isActive ? numberOvenToUpdate : OvenT
 
 //   const handleApprove = () => {
-//     cakeContract.methods
+//     ovenContract.methods
 //       .approve(getPancakeProfileAddress(), cost.times(2).toJSON())
 //       .send({ from: account })
 //       .on('sending', () => {
@@ -68,4 +68,4 @@ import React, { useState } from 'react'
 //   )
 // }
 
-// export default ApproveCakePage
+// export default ApproveOvenPage

@@ -75,7 +75,7 @@ describe('Parser', () => {
     },
   ]
 
-  it('Pool - Return the correct value', () => {
+  i('Pool - Return the correct value', () => {
     const outPut = [
       {
         sousId: '5ffd7e80361bff0009cc8198',
@@ -96,7 +96,7 @@ describe('Parser', () => {
     expect(getFormattedData(SettingsType.POOL, inputPool)).toStrictEqual(outPut)
   })
 
-  it('IFO - Return the correct value', () => {
+  i('IFO - Return the correct value', () => {
     const outPut = [
       {
         id: '5ffd7e80361bff0009cc8198',
@@ -110,7 +110,7 @@ describe('Parser', () => {
         launchTime: '10:00:00',
         saleAmount: '100000000',
         raiseAmount: 1000000,
-        cakeToBurn: 500000,
+        ovenToBurn: 500000,
         projectSiteUrl: 'https://blink.wink.org',
         currency: 'OVEN-BNB LP',
         currencyAddress: '0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6',
@@ -121,7 +121,7 @@ describe('Parser', () => {
     expect(getFormattedData(SettingsType.IFO, inputIFO)).toStrictEqual(outPut)
   })
 
-  it('FARM - return the correct value', () => {
+  i('FARM - return the correct value', () => {
     const outPut = [
       {
         pid: 0,

@@ -1,12 +1,13 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { provider as ProviderType } from 'web3-core'
+import BigNumber from 'bignumber.js'
+import { Button, Flex, Text } from 'easybake-uikit'
 import { getAddress } from 'utils/addressHelpers'
 import { getErc20Contract } from 'utils/contractHelpers'
-import { Flex, Text } from 'easybake-uikit'
-import { BaseButtonLG } from 'components/IcingButton/sizes/LG'
+import { useAppDispatch } from 'state'
+import { fetchFarmUserDataAsync } from 'state/farms'
 import { Farm } from 'state/types'
-import { useFarmFromSymbol, useFarmUser } from 'state/hooks'
 import useWeb3 from 'hooks/useWeb3'
 import { useApprove } from 'hooks/useApprove'
 import UnlockButton from 'components/UnlockButton'
@@ -29,12 +30,22 @@ interface FarmCardActionsProps {
 
 const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidityUrl }) => {
   const [requestedApproval, setRequestedApproval] = useState(false)
-  const { pid, lpAddresses } = useFarmFromSymbol(farm.lpSymbol)
-  const { allowance, tokenBalance, stakedBalance, earnings } = useFarmUser(pid)
+  const { pid, lpAddresses } = farm
+  const {
+    allowance: allowanceAsString = 0,
+    tokenBalance: tokenBalanceAsString = 0,
+    stakedBalance: stakedBalanceAsString = 0,
+    earnings: earningsAsString = 0,
+  } = farm.userData || {}
+  const allowance = new BigNumber(allowanceAsString)
+  const tokenBalance = new BigNumber(tokenBalanceAsString)
+  const stakedBalance = new BigNumber(stakedBalanceAsString)
+  const earnings = new BigNumber(earningsAsString)
   const lpAddress = getAddress(lpAddresses)
   const lpName = farm.lpSymbol.toUpperCase()
   const isApproved = account && allowance && allowance.isGreaterThan(0)
   const web3 = useWeb3()
+  const dispatch = useAppDispatch()
 
   const lpContract = getErc20Contract(lpAddress, web3)
 
@@ -44,11 +55,12 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
     try {
       setRequestedApproval(true)
       await onApprove()
+      dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
       setRequestedApproval(false)
     } catch (e) {
       console.error(e)
     }
-  }, [onApprove])
+  }, [onApprove, dispatch, account, pid])
 
   const renderApprovalOrStakeButton = () => {
     return isApproved ? (
@@ -60,7 +72,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
         addLiquidityUrl={addLiquidityUrl}
       />
     ) : (
-        <BaseButtonLG btnName='Approve Contract' scale="100%" isDisabled={requestedApproval} onClick={handleApprove} />
+      <Button mt="8px" width="100%" disabled={requestedApproval} onClick={handleApprove}>
+        {('Approve Contract')}
+      </Button>
     )
   }
 
@@ -68,23 +82,22 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
     <Action>
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
-          {/* TODO: Is there a way to get a dynamic value here from useFarmFromSymbol? */}
-          Earned
+          OVEN
         </Text>
         <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-          OVEN
+          {('Earned')}
         </Text>
       </Flex>
       <HarvestAction earnings={earnings} pid={pid} />
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="3px">
-          Baked
-        </Text>
-        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
           {lpName}
         </Text>
+        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
+          {('Staked')}
+        </Text>
       </Flex>
-      {!account ? <UnlockButton scale="100%" /> : renderApprovalOrStakeButton()}
+      {!account ? <UnlockButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
     </Action>
   )
 }

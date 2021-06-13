@@ -19,7 +19,6 @@ import ovenAbi from 'config/abi/oven.json' // v2 (Chain: Ethereum)
 import sugarAbi from 'config/abi/sugar.json' // v2 (Chain: Ethereum)
 import masterChef from 'config/abi/masterchef.json' // v2 (Chain: Ethereum)
 import sousChef from 'config/abi/sousChef.json' // v2 (Chain: Ethereum)
-import sousChefEth from 'config/abi/sousChefEth.json' // v1 ? not used
 import easybakeV2LpAbi from 'config/abi/easybake_v2_lp.json' // v2 (Chain: Ethereum)
 import ovenVaultAbi from 'config/abi/ovenVault.json' // v2 (Chain: Ethereum)
 
@@ -37,14 +36,9 @@ export const getErc721Contract = (address: string, web3?: Web3) => {
 export const getLpContract = (address: string, web3?: Web3) => {
   return getContract(easybakeV2LpAbi, address, web3)
 }
-export const getSouschefContract = (id: number, web3?: Web3) => {
+export const getSousChefContract = (id: number, web3?: Web3) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
   const abi = sousChef
-  return getContract(abi, getAddress(config.contractAddress), web3)
-}
-export const getSousChefEthContract = (id: number, web3?: Web3) => {
-  const config = poolsConfig.find((pool) => pool.sousId === id)
-  const abi = sousChefEth
   return getContract(abi, getAddress(config.contractAddress), web3)
 }
 export const getMasterchefContract = (web3?: Web3) => {
