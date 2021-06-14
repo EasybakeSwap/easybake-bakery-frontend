@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Button, Input, InputProps, Flex, Link } from 'easybakeswap-uikit'
+import { Text, Button, Input, InputProps, Flex, Link } from 'easybake-uikit'
+import { useTranslation } from 'contexts/Localization'
+import { BigNumber } from 'bignumber.js'
 
 interface ModalInputProps {
   max: string
@@ -11,6 +13,7 @@ interface ModalInputProps {
   value: string
   addLiquidityUrl?: string
   inputTitle?: string
+  decimals?: number
 }
 
 const getBoxShadow = ({ isWarning = false, theme }) => {
@@ -63,33 +66,50 @@ const ModalInput: React.FC<ModalInputProps> = ({
   value,
   addLiquidityUrl,
   inputTitle,
+  decimals = 18,
 }) => {
+  const { t } = useTranslation()
   const isBalanceZero = max === '0' || !max
 
-  const displayBalance = isBalanceZero ? '0' : parseFloat(max).toFixed(4)
+  const displayBalance = (balance: string) => {
+    if (isBalanceZero) {
+      return '0'
+    }
+    const balanceBigNumber = new BigNumber(balance)
+    if (balanceBigNumber.gt(0) && balanceBigNumber.lt(0.0001)) {
+      return balanceBigNumber.toLocaleString()
+    }
+    return balanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
+  }
 
   return (
     <div style={{ position: 'relative' }}>
       <StyledTokenInput isWarning={isBalanceZero}>
         <Flex justifyContent="space-between" pl="16px">
           <Text fontSize="14px">{inputTitle}</Text>
-          <Text fontSize="14px">
-          Balance: {displayBalance}
-          </Text>
+          <Text fontSize="14px">{t('Balance: %balance%', { balance: displayBalance(max) })}</Text>
         </Flex>
         <Flex alignItems="flex-end" justifyContent="space-around">
-          <StyledInput onChange={onChange} placeholder="0" value={value} />
-          <Button size="sm" onClick={onSelectMax} mr="8px">
-            Max
+          <StyledInput
+            pattern={`^[0-9]*[.,]?[0-9]{0,${decimals}}$`}
+            inputMode="decimal"
+            step="any"
+            min="0"
+            onChange={onChange}
+            placeholder="0"
+            value={value}
+          />
+          <Button scale="sm" onClick={onSelectMax} mr="8px">
+            {t('Max')}
           </Button>
           <Text fontSize="16px">{symbol}</Text>
         </Flex>
       </StyledTokenInput>
       {isBalanceZero && (
         <StyledErrorMessage fontSize="14px" color="failure">
-          No tokens to stake:{' '}
+          {t('No tokens to stake')}:{' '}
           <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
-            get {symbol}
+            {t('Get %symbol%', { symbol })}
           </Link>
         </StyledErrorMessage>
       )}

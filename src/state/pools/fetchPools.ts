@@ -1,11 +1,12 @@
+import BigNumber from 'bignumber.js'
 import poolsConfig from 'config/constants/pools'
 import sousChefABI from 'config/abi/sousChef.json'
 import ovenABI from 'config/abi/oven.json'
 import wethABI from 'config/abi/weth.json'
-import { QuoteToken } from 'config/constants/types'
 import multicall from 'utils/multicall'
 import { getAddress, getWethAddress } from 'utils/addressHelpers'
-import BigNumber from 'bignumber.js'
+import { BIG_ZERO } from 'utils/bigNumber'
+import { getSouschefContract } from 'utils/contractHelpers'
 
 export const fetchPoolsBlockLimits = async () => {
   const poolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0)
@@ -25,30 +26,30 @@ export const fetchPoolsBlockLimits = async () => {
   const starts = await multicall(sousChefABI, callsStartBlock)
   const ends = await multicall(sousChefABI, callsEndBlock)
 
-  return poolsWithEnd.map((ovenPoolConfig, index) => {
+  return poolsWithEnd.map((cakePoolConfig, index) => {
     const startBlock = starts[index]
     const endBlock = ends[index]
     return {
-      sousId: ovenPoolConfig.sousId,
+      sousId: cakePoolConfig.sousId,
       startBlock: new BigNumber(startBlock).toJSON(),
       endBlock: new BigNumber(endBlock).toJSON(),
     }
   })
 }
 
-export const fetchPoolsTotalStatking = async () => {
-  const nonEthPools = poolsConfig.filter((p) => p.stakingTokenName !== QuoteToken.WETH)
-  const ethPool = poolsConfig.filter((p) => p.stakingTokenName === QuoteToken.WETH)
+export const fetchPoolsTotalStaking = async () => {
+  const nonEthPools = poolsConfig.filter((p) => p.stakingToken.symbol !== 'WETH')
+  const ethPool = poolsConfig.filter((p) => p.stakingToken.symbol === 'WETH')
 
   const callsNonEthPools = nonEthPools.map((poolConfig) => {
     return {
-      address: poolConfig.stakingTokenAddress,
+      address: getAddress(poolConfig.stakingToken.address),
       name: 'balanceOf',
       params: [getAddress(poolConfig.contractAddress)],
     }
   })
 
-  const callsEthPools = ethPool.map((poolConfig) => {
+  const callsBnbPools = ethPool.map((poolConfig) => {
     return {
       address: getWethAddress(),
       name: 'balanceOf',
@@ -57,7 +58,7 @@ export const fetchPoolsTotalStatking = async () => {
   })
 
   const nonEthPoolsTotalStaked = await multicall(ovenABI, callsNonEthPools)
-  const ethPoolsTotalStaked = await multicall(wethABI, callsEthPools)
+  const ethPoolsTotalStaked = await multicall(wethABI, callsBnbPools)
 
   return [
     ...nonEthPools.map((p, index) => ({
@@ -69,4 +70,34 @@ export const fetchPoolsTotalStatking = async () => {
       totalStaked: new BigNumber(ethPoolsTotalStaked[index]).toJSON(),
     })),
   ]
+}
+
+export const fetchPoolStakingLimit = async (sousId: number): Promise<BigNumber> => {
+  try {
+    const sousContract = getSouschefContract(sousId)
+    const stakingLimit = await sousContract.methods.poolLimitPerUser().call()
+    return new BigNumber(stakingLimit)
+  } catch (error) {
+    return BIG_ZERO
+  }
+}
+
+export const fetchPoolsStakingLimits = async (
+  poolsWithStakingLimit: number[],
+): Promise<{ [key: string]: BigNumber }> => {
+  const validPools = poolsConfig
+    .filter((p) => p.stakingToken.symbol !== 'WETH' && !p.isFinished)
+    .filter((p) => !poolsWithStakingLimit.includes(p.sousId))
+
+  // Get the staking limit for each valid pool
+  // Note: We cannot batch the calls via multicall because V1 pools do not have "poolLimitPerUser" and will throw an error
+  const stakingLimitPromises = validPools.map((validPool) => fetchPoolStakingLimit(validPool.sousId))
+  const stakingLimits = await Promise.all(stakingLimitPromises)
+
+  return stakingLimits.reduce((accum, stakingLimit, index) => {
+    return {
+      ...accum,
+      [validPools[index].sousId]: stakingLimit,
+    }
+  }, {})
 }

@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
-import { PancakeTheme } from 'easybakeswap-uikit/dist/theme' // UPDATE
+// eslint-disable-next-line import/no-unresolved
+import { PancakeTheme } from 'easybake-uikit/dist/theme'
 
 declare module 'styled-components' {
   /* eslint-disable @typescript-eslint/no-empty-interface */
@@ -14,8 +15,8 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.background};
 
     img {
-      height: 0%;
-      max-width: 0%;
+      height: auto;
+      max-width: 100%;
     }
   }
 `

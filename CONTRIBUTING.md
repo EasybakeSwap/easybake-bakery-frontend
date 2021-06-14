@@ -6,14 +6,16 @@ You may begin by reading our [Contribution guidelines](https://docs.easybakeswap
 # Contents Overview
 
 - **components** contains generic components used inside the application including:
-    - Layout
-    - Menu
-    - Modal Actions
-    - and more...
+
+  - Layout
+  - Menu
+  - Modal Actions
+  - and more...
 
 - **config** contains all the config files, including:
-    - abi
-    - constants
+
+  - abi
+  - constants
 
 - **views** contains building blocks for each page. The entry point of a view is used as the root component of each route.
 

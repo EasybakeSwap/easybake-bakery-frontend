@@ -1,54 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Card, CardBody, Heading, Skeleton, Text } from 'easybakeswap-uikit'
+import { Card, CardBody, Heading, Skeleton, Text } from 'easybake-uikit'
+import { useTranslation } from 'contexts/Localization'
 import { useGetStats } from 'hooks/api'
 
 const StyledTotalValueLockedCard = styled(Card)`
-  background-image: url('/images/lilac.png');
-  margin-left: auto;
-  margin-right: auto;
-`
-
-const Row = styled.div`
   align-items: center;
   display: flex;
-  font-size: 14px;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  flex: 1;
 `
 
 const TotalValueLockedCard = () => {
+  const { t } = useTranslation()
   const data = useGetStats()
-  const tvl = data ? data.total_value_locked_all.toLocaleString('en-US', { maximumFractionDigits: 0 }) : null
+  const tvl = data ? data.tvl.toLocaleString('en-US', { maximumFractionDigits: 0 }) : null
 
   return (
-    <StyledTotalValueLockedCard style={{ textAlign: 'center' }}>
+    <StyledTotalValueLockedCard>
       <CardBody>
-        <Heading size="md" mb="12px">
-          { 'Launch Details' }
+        <Heading scale="lg" mb="24px">
+          {t('Total Value Locked (TVL)')}
         </Heading>
         {data ? (
           <>
-            <a href={'https://view.monday.com/1095099231-236887ea96824ef7051147cef14a9f2a?r=use1'}>
-              <Text color="textSubtle">{ 'Progress Tracker' }</Text>
-            </a>
-
-            <a href={'https://easybake.medium.com/introducing-easybake-finance-e8f704a36e41'}>
-              <Text color="textSubtle">{ 'Introduction' }</Text>
-            </a>
-
-            <a href={'https://forum.easybake.finance'}>
-              <Text color="textSubtle">{ 'Forum' }</Text>
-            </a>
-
-            <a href={'https://forum.easybake.finance/c/tokenomics/6'}>
-              <Text color="textSubtle">{ 'Tokenomics' }</Text>
-            </a>
+            <Heading scale="xl">{`$${tvl}`}</Heading>
+            <Text color="textSubtle">{t('Across all LPs and Syrup Pools')}</Text>
           </>
         ) : (
-          <>
-            <Skeleton height={66} />
-          </>
+          <Skeleton height={66} />
         )}
       </CardBody>
     </StyledTotalValueLockedCard>

@@ -1,79 +1,70 @@
+import React, { lazy } from 'react'
+import { Router, Redirect, Route, Switch } from 'react-router-dom'
+import { ResetCSS } from 'easybake-uikit'
 import BigNumber from 'bignumber.js'
-import { ResetCSS } from 'easybakeswap-uikit'
-import React, { lazy, Suspense, useEffect } from 'react'
-import { Redirect, Route, Router, Switch } from 'react-router-dom'
-import { useFetchPublicData, useFetchProfile } from 'state/hooks'
-import { useWallet } from "@binance-chain/bsc-use-wallet"
-import Menu from 'components/Menu'
-import PageLoader from 'components/PageLoader'
-import Pools from 'views/Pools'
-import ToastListener from 'components/ToastListener'
-import history from 'routerHistory'
-import GlobalStyle from 'style/Global'
+import useEagerConnect from 'hooks/useEagerConnect'
+import { usePollCoreFarmData, usePollBlockNumber } from 'state/hooks' // disabled: useFetchProfile
+import GlobalStyle from './style/Global'
+import Menu from './components/Menu'
+import SuspenseWithChunkError from './components/SuspenseWithChunkError'
+import ToastListener from './components/ToastListener'
+import PageLoader from './components/PageLoader'
+import EasterEgg from './components/EasterEgg'
+import Pools from './views/Pools'
+import history from './routerHistory'
 
 // Route-based code splitting
-// Only pool is included in the main bundle because of it's the most visited page'
+// Only pool is included in the main bundle because of it's the most visited page
 const Home = lazy(() => import('./views/Home'))
-const Bakery = lazy(() => import('./views/Bakery'))
+const Farms = lazy(() => import('./views/Farms'))
 const NotFound = lazy(() => import('./views/NotFound'))
-const Profile = lazy(() => import('./views/Profile'))
+// const Lottery = lazy(() => import('./views/Lottery'))
+// const Ifos = lazy(() => import('./views/Ifos'))
+// const Collectibles = lazy(() => import('./views/Collectibles'))
+// const Teams = lazy(() => import('./views/Teams'))
+// const Team = lazy(() => import('./views/Teams/Team'))
+// const Profile = lazy(() => import('./views/Profile'))
+// const TradingCompetition = lazy(() => import('./views/TradingCompetition'))
+// const Predictions = lazy(() => import('./views/Predictions'))
 
-
-// This config is required for number formating
+// This config is required for number formatting
 BigNumber.config({
   EXPONENTIAL_AT: 1000,
   DECIMAL_PLACES: 80,
 })
 
 const App: React.FC = () => {
-  const { account, connect } = useWallet()
-
-  // Monkey patch warn() because of web3 flood
-  // To be removed when web3 1.3.5 is released
-  useEffect(() => {
-    console.warn = () => null
-  }, [])
-
-  useEffect(() => {
-    if (!account && window.localStorage.getItem('accountStatus')) {
-      connect('injected')
-    }
-  }, [account, connect])
-
-  useFetchPublicData()
-  useFetchProfile()
+  usePollBlockNumber()
+  useEagerConnect()
+  // useFetchProfile()
+  usePollCoreFarmData()
 
   return (
     <Router history={history}>
       <ResetCSS />
       <GlobalStyle />
       <Menu>
-        <Suspense fallback={<PageLoader />}>
+        <SuspenseWithChunkError fallback={<PageLoader />}>
           <Switch>
             <Route path="/" exact>
               <Home />
             </Route>
             <Route path="/bakery">
-              <Bakery />
+              <Farms />
             </Route>
             <Route path="/pools">
-              <Bakery />
+              <Pools />
             </Route>
-            {/* <Route path="/profile">
-              <Profile />
-            </Route> */}
             {/* Redirect */}
             <Route path="/staking">
               <Redirect to="/pools" />
             </Route>
-            <Route path = "/sugar">
-              <Redirect to = "/pools" />
-            </Route>
-             {/* 404 */}
+            {/* 404 */}
             <Route component={NotFound} />
           </Switch>
-        </Suspense>
+        </SuspenseWithChunkError>
       </Menu>
+      <EasterEgg iterations={2} />
       <ToastListener />
     </Router>
   )

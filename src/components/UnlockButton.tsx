@@ -1,14 +1,16 @@
 import React from 'react'
-import { Button, useWalletModal } from 'easybakeswap-uikit'
-import { useWallet } from '@binance-chain/bsc-use-wallet'
+import { Button, useWalletModal } from 'easybake-uikit'
+import useAuth from 'hooks/useAuth'
+import { useTranslation } from 'contexts/Localization'
 
 const UnlockButton = (props) => {
-  const { connect, reset } = useWallet()
-  const { onPresentConnectModal } = useWalletModal(connect, reset)
+  const { t } = useTranslation()
+  const { login, logout } = useAuth()
+  const { onPresentConnectModal } = useWalletModal(login, logout)
 
   return (
     <Button onClick={onPresentConnectModal} {...props}>
-      Unlock Wallet
+      {t('Unlock Wallet')}
     </Button>
   )
 }

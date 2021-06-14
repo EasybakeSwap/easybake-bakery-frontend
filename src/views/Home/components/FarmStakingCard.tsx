@@ -1,18 +1,20 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { Heading, Card, CardBody, Button, Flex } from 'easybakeswap-uikit' // UPDATE
-import { useWallet } from '@binance-chain/bsc-use-wallet' // UPDATE
-import { useAllHarvest } from 'hooks/useHarvest'
+import { Heading, Card, CardBody, Button } from 'easybake-uikit'
+import { harvest } from 'utils/callHelpers'
+import { useWeb3React } from '@web3-react/core'
+import { useTranslation } from 'contexts/Localization'
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'
+import { useMasterchef } from 'hooks/useContract'
 import UnlockButton from 'components/UnlockButton'
-import OvenHarvestBalance from './OvenHarvestBalance'
-import OvenWalletBalance from './OvenWalletBalance'
+import CakeHarvestBalance from './CakeHarvestBalance'
+import CakeWalletBalance from './CakeWalletBalance'
 
 const StyledFarmStakingCard = styled(Card)`
-  background-image: url('/images/lilac.png');
+  background-image: url('/images/cake-bg.svg');
   background-repeat: no-repeat;
-  background-position: center;
-  min-height: 180px;
+  background-position: top right;
+  min-height: 376px;
 `
 
 const Block = styled.div`
@@ -34,91 +36,57 @@ const Actions = styled.div`
 
 const FarmedStakingCard = () => {
   const [pendingTx, setPendingTx] = useState(false)
-  const { account } = useWallet()
+  const { account } = useWeb3React()
+  const { t } = useTranslation()
   const farmsWithBalance = useFarmsWithBalance()
+  const masterChefContract = useMasterchef()
   const balancesWithValue = farmsWithBalance.filter((balanceType) => balanceType.balance.toNumber() > 0)
-
-  const { onReward } = useAllHarvest(balancesWithValue.map((farmWithBalance) => farmWithBalance.pid))
 
   const harvestAllFarms = useCallback(async () => {
     setPendingTx(true)
-    try {
-      await onReward()
-    } catch (error) {
-      // TODO: find a way to handle when the user rejects transaction or it fails
-    } finally {
-      setPendingTx(false)
-    }
-  }, [onReward])
-
-  const addWatchOvenToken = useCallback(async () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const provider = window.ethereum
-    if (provider) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const farmWithBalance of balancesWithValue) {
       try {
-        // wasAdded is a boolean. Like any RPC method, an error may be thrown.
-        const wasAdded = await provider.request({
-          method: 'wallet_watchAsset',
-          params: {
-            type: 'ERC20',
-            options: {
-              // Rinkeby address
-              address: '0x95b3B3E534DA76CBa9DEd682eedf8724eF8e38aB',
-              symbol: 'OVEN',
-              decimals: '18',
-              // Need to fix Icon - might be due to testnet*
-              image: 'https://raw.githubusercontent.com/EasybakeSwap/easybake-bakery-frontend/prod/public/logo.png',
-            },
-          },
-        })
-
-        if (wasAdded) {
-          console.log('Token was added')
-        }
+        // eslint-disable-next-line no-await-in-loop
+        await harvest(masterChefContract, farmWithBalance.pid, account)
       } catch (error) {
         // TODO: find a way to handle when the user rejects transaction or it fails
       }
     }
-  }, [])
+    setPendingTx(false)
+  }, [account, balancesWithValue, masterChefContract])
 
   return (
     <StyledFarmStakingCard>
       <CardBody>
-        <Heading size="xl" mb="24px" style={{ textAlign: 'center' }}>
-          EasyBake $OVEN
+        <Heading scale="xl" mb="24px">
+          {t('Farms & Staking')}
         </Heading>
-        {/* <CardImage src="/images/donut.svg" alt="cupcake logo" width={64} height={64} /> */}
-        <Block style={{ textAlign: 'center' }}>
-          <OvenHarvestBalance />
-          <Label style={{ textAlign: 'center' }}>{'OVEN to Claim'}</Label>
+        <CardImage src="/images/cake.svg" alt="cake logo" width={64} height={64} />
+        <Block>
+          <Label>{t('CAKE to Harvest')}:</Label>
+          <CakeHarvestBalance />
         </Block>
-        <Block style={{ textAlign: 'center' }}>
-          <OvenWalletBalance />
-          <Label style={{ textAlign: 'center' }}>{'OVEN in Wallet'}</Label>
+        <Block>
+          <Label>{t('CAKE in Wallet')}:</Label>
+          <CakeWalletBalance />
         </Block>
-        <Flex justifyContent="center">
-          <Button size="sm" onClick={addWatchOvenToken}>
-            Add Oven Token &nbsp;
-            <img
-              style={{ marginLeft: 8 }}
-              width={16}
-              src="https://raw.githubusercontent.com/EasybakeSwap/easybake-bakery-frontend/prod/public/images/wallet/metamask.png"
-            />
-          </Button>
-        </Flex>
         <Actions>
           {account ? (
             <Button
               id="harvest-all"
               disabled={balancesWithValue.length <= 0 || pendingTx}
               onClick={harvestAllFarms}
-              fullWidth
+              width="100%"
             >
-              {pendingTx ? 'Collecting OVEN' : `CLAIM (${balancesWithValue.length})`}
+              {pendingTx
+                ? t('Collecting CAKE')
+                : t('Harvest all (%count%)', {
+                    count: balancesWithValue.length,
+                  })}
             </Button>
           ) : (
-            <UnlockButton fullWidth />
+            <UnlockButton width="100%" />
           )}
         </Actions>
       </CardBody>
