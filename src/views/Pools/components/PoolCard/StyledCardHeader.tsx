@@ -1,7 +1,6 @@
 import React from 'react'
 import { CardHeader, Heading, Text, Flex, Image } from 'easybake-uikit'
 import styled from 'styled-components'
-import { useTranslation } from 'contexts/Localization'
 
 const Wrapper = styled(CardHeader)<{ isFinished?: boolean; background?: string }>`
   background: ${({ isFinished, background, theme }) =>
@@ -16,7 +15,6 @@ const StyledCardHeader: React.FC<{
   isFinished?: boolean
   isStaking?: boolean
 }> = ({ earningTokenSymbol, stakingTokenSymbol, isFinished = false, isAutoVault = false, isStaking = false }) => {
-  const { t } = useTranslation()
   const poolImageSrc = isAutoVault
     ? `oven-ovenvault.svg`
     : `${earningTokenSymbol}-${stakingTokenSymbol}.svg`.toLocaleLowerCase()

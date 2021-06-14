@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { Flex, Skeleton, Text } from 'easybake-uikit'
 import styled from 'styled-components'
-import { useTranslation } from 'contexts/Localization'
 import BigNumber from 'bignumber.js'
 import Balance from 'components/Balance'
 import { Pool } from 'state/types'
@@ -18,28 +17,27 @@ const StyledCell = styled(BaseCell)`
 `
 
 const TotalStakedCell: React.FC<TotalStakedCellProps> = ({ pool }) => {
-  const { t } = useTranslation()
   const { sousId, stakingToken, totalStaked, isAutoVault } = pool
   const { totalOvenInVault } = useOvenVault()
 
-  const isManualCakePool = sousId === 0
+  const isManualOvenPool = sousId === 0
 
   const totalStakedBalance = useMemo(() => {
     if (isAutoVault) {
       return getBalanceNumber(totalOvenInVault, stakingToken.decimals)
     }
-    if (isManualCakePool) {
-      const manualCakeTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalOvenInVault)
-      return getBalanceNumber(manualCakeTotalMinusAutoVault, stakingToken.decimals)
+    if (isManualOvenPool) {
+      const manualOvenTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalOvenInVault)
+      return getBalanceNumber(manualOvenTotalMinusAutoVault, stakingToken.decimals)
     }
     return getBalanceNumber(totalStaked, stakingToken.decimals)
-  }, [isAutoVault, totalOvenInVault, isManualCakePool, totalStaked, stakingToken.decimals])
+  }, [isAutoVault, totalOvenInVault, isManualOvenPool, totalStaked, stakingToken.decimals])
 
   return (
     <StyledCell role="cell">
       <CellContent>
         <Text fontSize="12px" color="textSubtle" textAlign="left">
-          {t('Total staked')}
+          Total staked
         </Text>
         {totalStakedBalance ? (
           <Flex height="100%" alignItems="center">

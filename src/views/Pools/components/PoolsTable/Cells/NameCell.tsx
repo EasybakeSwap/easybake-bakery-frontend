@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { Text, Image, useMatchBreakpoints } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
 import { useOvenVault } from 'state/hooks'
 import { Pool } from 'state/types'
 import { BIG_ZERO } from 'utils/bigNumber'
@@ -23,12 +22,9 @@ const StyledCell = styled(BaseCell)`
 `
 
 const NameCell: React.FC<NameCellProps> = ({ pool }) => {
-  const { t } = useTranslation()
   const { isXs, isSm } = useMatchBreakpoints()
   const { sousId, stakingToken, earningToken, userData, isFinished, isAutoVault } = pool
-  const {
-    userData: { userShares },
-  } = useOvenVault()
+  const {userData: { userShares }, } = useOvenVault()
   const hasVaultShares = userShares && userShares.gt(0)
 
   const stakingTokenSymbol = stakingToken.symbol
@@ -41,16 +37,16 @@ const NameCell: React.FC<NameCellProps> = ({ pool }) => {
 
   const showStakedTag = isAutoVault ? hasVaultShares : isStaked
 
-  let title = `${t('Earn')} ${earningTokenSymbol}`
-  let subtitle = `${t('Stake')} ${stakingTokenSymbol}`
+  let title = `Earn ${earningTokenSymbol}`
+  let subtitle = `Stake ${stakingTokenSymbol}`
   const showSubtitle = sousId !== 0 || (sousId === 0 && !isXs && !isSm)
 
   if (isAutoVault) {
-    title = t('Auto OVEN')
-    subtitle = t('Automatic restaking')
+    title = 'Auto OVEN'
+    subtitle = 'Automatic restaking'
   } else if (isManualOvenPool) {
-    title = t('Manual OVEN')
-    subtitle = `${t('Earn')} OVEN ${t('Stake').toLocaleLowerCase()} OVEN`
+    title = 'Manual OVEN'
+    subtitle = `Earn OVEN Stake OVEN`
   }
 
   return (
@@ -59,7 +55,7 @@ const NameCell: React.FC<NameCellProps> = ({ pool }) => {
       <CellContent>
         {showStakedTag && (
           <Text fontSize="12px" bold color={isFinished ? 'failure' : 'secondary'} textTransform="uppercase">
-            {t('Staked')}
+            Staked
           </Text>
         )}
         <Text bold={!isXs && !isSm} small={isXs || isSm}>
