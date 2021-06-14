@@ -14,7 +14,7 @@ import React, { useState, useCallback } from 'react'
 // import PurchaseWarningModal from 'views/Lottery/components/TicketCard/PurchaseWarningModal'
 // import BuyTicketModal from 'views/Lottery/components/TicketCard/BuyTicketModal'
 // import UnlockButton from 'components/UnlockButton'
-// import CakeWinnings from './CakeWinnings'
+// import OvenWinnings from './OvenWinnings'
 // import LotteryJackpot from './LotteryJackpot'
 
 // const StyledLotteryCard = styled(Card)`
@@ -100,7 +100,7 @@ import React, { useState, useCallback } from 'react'
 //         <CardImage src="/images/ticket.svg" alt="cake logo" width={64} height={64} />
 //         <Block>
 //           <Label>{t('CAKE to Collect')}:</Label>
-//           <CakeWinnings claimAmount={claimAmount} />
+//           <OvenWinnings claimAmount={claimAmount} />
 //         </Block>
 //         <Block>
 //           <Label>{t('Total jackpot this round')}:</Label>

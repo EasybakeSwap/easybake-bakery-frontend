@@ -7,8 +7,8 @@ import { useTranslation } from 'contexts/Localization'
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'
 import { useMasterchef } from 'hooks/useContract'
 import UnlockButton from 'components/UnlockButton'
-import CakeHarvestBalance from './CakeHarvestBalance'
-import CakeWalletBalance from './CakeWalletBalance'
+import OvenHarvestBalance from './OvenHarvestBalance'
+import OvenWalletBalance from './OvenWalletBalance'
 
 const StyledFarmStakingCard = styled(Card)`
   background-image: url('/images/cake-bg.svg');
@@ -60,16 +60,16 @@ const FarmedStakingCard = () => {
     <StyledFarmStakingCard>
       <CardBody>
         <Heading scale="xl" mb="24px">
-          {t('Farms & Staking')}
+          {t('Baking & Staking')}
         </Heading>
-        <CardImage src="/images/cake.svg" alt="cake logo" width={64} height={64} />
+        <CardImage src="/images/OVEN.svg" alt="oven logo" width={64} height={64} />
         <Block>
-          <Label>{t('CAKE to Harvest')}:</Label>
-          <CakeHarvestBalance />
+          <Label>{t('OVEN to Harvest')}:</Label>
+          <OvenHarvestBalance />
         </Block>
         <Block>
-          <Label>{t('CAKE in Wallet')}:</Label>
-          <CakeWalletBalance />
+          <Label>{t('OVEN in Wallet')}:</Label>
+          <OvenWalletBalance />
         </Block>
         <Actions>
           {account ? (
@@ -80,7 +80,7 @@ const FarmedStakingCard = () => {
               width="100%"
             >
               {pendingTx
-                ? t('Collecting CAKE')
+                ? t('Collecting OVEN')
                 : t('Harvest all (%count%)', {
                     count: balancesWithValue.length,
                   })}

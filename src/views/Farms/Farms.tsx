@@ -395,7 +395,7 @@ const Farms: React.FC = () => {
         </ControlContainer>
         {renderContent()}
         <div ref={loadMoreRef} />
-        <StyledImage src="/images/3dpan.png" alt="Pancake illustration" width={120} height={103} />
+        <StyledImage src="/images/OVEN.svg" alt="OVEN illustration" width={120} height={103} />
       </Page>
     </>
   )

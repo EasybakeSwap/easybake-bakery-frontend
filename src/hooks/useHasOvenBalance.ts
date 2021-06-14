@@ -3,11 +3,11 @@ import { getOvenAddress } from 'utils/addressHelpers'
 import useTokenBalance from './useTokenBalance'
 
 /**
- * A hook to check if a wallet's CAKE balance is at least the amount passed in
+ * A hook to check if a wallet's OVEN balance is at least the amount passed in
  */
-const useHasCakeBalance = (minimumBalance: BigNumber) => {
+const useHasOvenBalance = (minimumBalance: BigNumber) => {
   const { balance: cakeBalance } = useTokenBalance(getOvenAddress())
   return cakeBalance.gte(minimumBalance)
 }
 
-export default useHasCakeBalance
+export default useHasOvenBalance

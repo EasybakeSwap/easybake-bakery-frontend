@@ -74,7 +74,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
   const handleWithdrawal = async (convertedStakeAmount: BigNumber) => {
     setPendingTx(true)
     const shareStakeToWithdraw = convertOvenToShares(convertedStakeAmount, pricePerFullShare)
-    // trigger withdrawAll function if the withdrawal will leave 0.000001 CAKE or less
+    // trigger withdrawAll function if the withdrawal will leave 0.000001 OVEN or less
     const triggerWithdrawAllThreshold = new BigNumber(1000000000000)
     const sharesRemaining = userShares.minus(shareStakeToWithdraw.sharesAsBigNumber)
     const isWithdrawingAll = sharesRemaining.lte(triggerWithdrawAllThreshold)
@@ -159,12 +159,12 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
 
   return (
     <Modal
-      title={isRemovingStake ? t('Unstake') : t('Stake in Pool')}
+      title={isRemovingStake ? 'Unstake' : 'Stake'}
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
     >
       <Flex alignItems="center" justifyContent="space-between" mb="8px">
-        <Text bold>{isRemovingStake ? t('Unstake') : t('Stake')}:</Text>
+        <Text bold>{isRemovingStake ? 'Unstake' : 'Stake'}:</Text>
         <Flex alignItems="center" minWidth="70px">
           <Image src={`/images/tokens/${stakingToken.symbol}.png`} width={24} height={24} alt={stakingToken.symbol} />
           <Text ml="4px" bold>
@@ -179,7 +179,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
         // decimals={stakingToken.decimals} FIX **
       />
       <Text mt="8px" ml="auto" color="textSubtle" fontSize="12px" mb="8px">
-        {t('Balance: %balance%', { balance: getFullDisplayBalance(stakingMax, stakingToken.decimals) })}
+        Balance {getFullDisplayBalance(stakingMax, stakingToken.decimals)}
       </Text>
       <Slider
         min={0}

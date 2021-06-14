@@ -5,7 +5,7 @@ import { useTranslation } from 'contexts/Localization'
 import Page from 'components/layout/Page'
 import FarmStakingCard from 'views/Home/components/FarmStakingCard'
 // import LotteryCard from 'views/Home/components/LotteryCard'
-import CakeStats from 'views/Home/components/CakeStats'
+import OvenStats from 'views/Home/components/OvenStats'
 import TotalValueLockedCard from 'views/Home/components/TotalValueLockedCard'
 import EarnAPRCard from 'views/Home/components/EarnAPRCard'
 import EarnAssetCard from 'views/Home/components/EarnAssetCard'
@@ -89,12 +89,12 @@ const Home: React.FC = () => {
 
   return (
     <Page>
-      <Hero>
+      {/* <Hero> */}
         <Heading as="h1" scale="xl" mb="24px" color="secondary">
-          {t('PancakeSwap')}
+          {t('EasyBake')}
         </Heading>
         <Text>{t('The #1 AMM and yield farm on Ethereum Smart Chain.')}</Text>
-      </Hero>
+      {/* </Hero> */}
       <div>
         <Cards>
           <FarmStakingCard />
@@ -106,7 +106,7 @@ const Home: React.FC = () => {
           <WinCard />
         </CTACards>
         <Cards>
-          <CakeStats />
+          <OvenStats />
           <TotalValueLockedCard />
         </Cards>
       </div>

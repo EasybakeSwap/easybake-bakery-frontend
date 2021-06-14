@@ -8,13 +8,13 @@ import { usePriceOvenUsdt } from 'state/hooks'
 import styled from 'styled-components'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import CardValue from './CardValue'
-import CardBusdValue from './CardBusdValue'
+import CardUsdtValue from './CardUsdtValue'
 
 const Block = styled.div`
   margin-bottom: 24px;
 `
 
-const CakeHarvestBalance = () => {
+const OvenHarvestBalance = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const allEarnings = useAllEarnings()
@@ -26,7 +26,7 @@ const CakeHarvestBalance = () => {
     return accum + earningNumber.div(DEFAULT_TOKEN_DECIMAL).toNumber()
   }, 0)
   const ovenPriceUsdt = usePriceOvenUsdt()
-  const earningsBusd = new BigNumber(earningsSum).multipliedBy(ovenPriceUsdt).toNumber()
+  const earningsUsdt = new BigNumber(earningsSum).multipliedBy(ovenPriceUsdt).toNumber()
 
   if (!account) {
     return (
@@ -39,9 +39,9 @@ const CakeHarvestBalance = () => {
   return (
     <Block>
       <CardValue value={earningsSum} lineHeight="1.5" />
-      {ovenPriceUsdt.gt(0) && <CardBusdValue value={earningsBusd} />}
+      {ovenPriceUsdt.gt(0) && <CardUsdtValue value={earningsUsdt} />}
     </Block>
   )
 }
 
-export default CakeHarvestBalance
+export default OvenHarvestBalance

@@ -7,22 +7,22 @@ import { BigNumber } from 'bignumber.js'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import CardValue from './CardValue'
-import CardBusdValue from './CardBusdValue'
+import CardUsdtValue from './CardUsdtValue'
 
 const Block = styled.div`
   margin-bottom: 24px;
 `
 
-interface CakeWinningsProps {
+interface OvenWinningsProps {
   claimAmount: BigNumber
 }
 
-const CakeWinnings: React.FC<CakeWinningsProps> = ({ claimAmount }) => {
+const OvenWinnings: React.FC<OvenWinningsProps> = ({ claimAmount }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const cakeAmount = getBalanceNumber(claimAmount)
+  const ovenAmount = getBalanceNumber(claimAmount)
   const ovenPriceUsdt = usePriceOvenUsdt()
-  const claimAmountBusd = new BigNumber(cakeAmount).multipliedBy(ovenPriceUsdt).toNumber()
+  const claimAmountBusd = new BigNumber(ovenAmount).multipliedBy(ovenPriceUsdt).toNumber()
 
   if (!account) {
     return (
@@ -34,10 +34,10 @@ const CakeWinnings: React.FC<CakeWinningsProps> = ({ claimAmount }) => {
 
   return (
     <Block>
-      <CardValue value={cakeAmount} lineHeight="1.5" />
-      {ovenPriceUsdt.gt(0) && <CardBusdValue value={claimAmountBusd} decimals={2} />}
+      <CardValue value={ovenAmount} lineHeight="1.5" />
+      {ovenPriceUsdt.gt(0) && <CardUsdtValue value={claimAmountBusd} decimals={2} />}
     </Block>
   )
 }
 
-export default CakeWinnings
+export default OvenWinnings

@@ -120,7 +120,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
 
   const isMetaMaskInScope = !!(window as WindowChain).ethereum?.isMetaMask
   const tokenAddress = earningToken.address ? getAddress(earningToken.address) : ''
-  const imageSrc = `${BASE_URL}/images/tokens/${earningToken.symbol.toLowerCase()}.png`
+  const imageSrc = `${BASE_URL}/images/pools/${earningToken.symbol.toLowerCase()}.svg`
 
   const {
     totalOvenInVault,
@@ -128,13 +128,13 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
   } = useOvenVault()
 
   const performanceFeeAsDecimal = performanceFee && performanceFee / 100
-  const isManualCakePool = sousId === 0
+  const isManualOvenPool = sousId === 0
 
   const getTotalStakedBalance = () => {
     if (isAutoVault) {
       return getBalanceNumber(totalOvenInVault, stakingToken.decimals)
     }
-    if (isManualCakePool) {
+    if (isManualOvenPool) {
       const manualCakeTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalOvenInVault)
       return getBalanceNumber(manualCakeTotalMinusAutoVault, stakingToken.decimals)
     }
@@ -221,7 +221,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
         {(isXs || isSm || isMd) && totalStakedRow}
         {shouldShowBlockCountdown && blocksRow}
         <Flex mb="8px" justifyContent={['flex-end', 'flex-end', 'flex-start']}>
-          <LinkExternal href={`https://pancakeswap.info/token/${getAddress(earningToken.address)}`} bold={false}>
+          <LinkExternal href={`https://easybake.info/token/${getAddress(earningToken.address)}`} bold={false}>
             {t('Info site')}
           </LinkExternal>
         </Flex>
@@ -252,7 +252,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
       <ActionContainer>
         {showSubtitle && (
           <Text mt="4px" mb="16px" color="textSubtle">
-            {isAutoVault ? t('Automatic restaking') : `${t('Earn')} CAKE ${t('Stake').toLocaleLowerCase()} CAKE`}
+            {isAutoVault ? t('Automatic restaking') : `${t('Earn')} OVEN ${t('Stake').toLocaleLowerCase()} OVEN`}
           </Text>
         )}
         <Harvest {...pool} userDataLoaded={userDataLoaded} />

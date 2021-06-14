@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Box, CardBody, Flex, Text, useMatchBreakpoints } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
 import { useWeb3React } from '@web3-react/core'
 import UnlockButton from 'components/UnlockButton'
 import { useOvenVault } from 'state/hooks'
@@ -12,7 +11,7 @@ import CardFooter from '../PoolCard/CardFooter'
 import StyledCardHeader from '../PoolCard/StyledCardHeader'
 import VaultCardActions from './VaultCardActions'
 import UnstakingFeeCountdownRow from './UnstakingFeeCountdownRow'
-import RecentCakeProfitRow from './RecentOvenProfitRow'
+import RecentOvenProfitRow from './RecentOvenProfitRow'
 
 const StyledCardBody = styled(CardBody)<{ isLoading: boolean }>`
   min-height: ${({ isLoading }) => (isLoading ? '0' : '254px')};
@@ -24,7 +23,6 @@ interface OvenVaultProps {
 }
 
 const OvenVaultCard: React.FC<OvenVaultProps> = ({ pool, showStakedOnly }) => {
-  const { t } = useTranslation()
   const { isXl } = useMatchBreakpoints()
   const { account } = useWeb3React()
   const {
@@ -46,13 +44,13 @@ const OvenVaultCard: React.FC<OvenVaultProps> = ({ pool, showStakedOnly }) => {
         <StyledCardHeader
           isStaking={accountHasSharesStaked}
           isAutoVault
-          earningTokenSymbol="CAKE"
-          stakingTokenSymbol="CAKE"
+          earningTokenSymbol="OVEN"
+          stakingTokenSymbol="OVEN"
         />
         <StyledCardBody isLoading={isLoading}>
           <AprRow pool={pool} performanceFee={performanceFeeAsDecimal} />
           <Box mt="24px">
-            <RecentCakeProfitRow />
+            <RecentOvenProfitRow />
           </Box>
           <Box mt="8px">
             <UnstakingFeeCountdownRow />
@@ -63,7 +61,7 @@ const OvenVaultCard: React.FC<OvenVaultProps> = ({ pool, showStakedOnly }) => {
             ) : (
               <>
                 <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>
-                  {t('Start earning')}
+                  Start earning
                 </Text>
                 <UnlockButton />
               </>

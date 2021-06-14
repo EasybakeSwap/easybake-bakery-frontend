@@ -9,9 +9,9 @@ import useToast from './useToast'
 const useGetProfileCosts = () => {
   const { t } = useTranslation()
   const [costs, setCosts] = useState({
-    numberCakeToReactivate: BIG_ZERO,
-    numberCakeToRegister: BIG_ZERO,
-    numberCakeToUpdate: BIG_ZERO,
+    numberOvenToReactivate: BIG_ZERO,
+    numberOvenToRegister: BIG_ZERO,
+    numberOvenToUpdate: BIG_ZERO,
   })
   const { toastError } = useToast()
 
@@ -19,19 +19,19 @@ const useGetProfileCosts = () => {
     const fetchCosts = async () => {
       try {
         const profileContract = getProfileContract()
-        const [numberCakeToReactivate, numberCakeToRegister, numberCakeToUpdate] = await makeBatchRequest([
-          profileContract.methods.numberCakeToReactivate().call,
-          profileContract.methods.numberCakeToRegister().call,
-          profileContract.methods.numberCakeToUpdate().call,
+        const [numberOvenToReactivate, numberOvenToRegister, numberOvenToUpdate] = await makeBatchRequest([
+          profileContract.methods.numberOvenToReactivate().call,
+          profileContract.methods.numberOvenToRegister().call,
+          profileContract.methods.numberOvenToUpdate().call,
         ])
 
         setCosts({
-          numberCakeToReactivate: new BigNumber(numberCakeToReactivate as string),
-          numberCakeToRegister: new BigNumber(numberCakeToRegister as string),
-          numberCakeToUpdate: new BigNumber(numberCakeToUpdate as string),
+          numberOvenToReactivate: new BigNumber(numberOvenToReactivate as string),
+          numberOvenToRegister: new BigNumber(numberOvenToRegister as string),
+          numberOvenToUpdate: new BigNumber(numberOvenToUpdate as string),
         })
       } catch (error) {
-        toastError(t('Error'), t('Could not retrieve CAKE costs for profile'))
+        toastError(t('Error'), t('Could not retrieve OVEN costs for profile'))
       }
     }
 

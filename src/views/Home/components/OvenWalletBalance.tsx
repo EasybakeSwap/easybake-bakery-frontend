@@ -8,9 +8,9 @@ import { getBalanceNumber } from 'utils/formatBalance'
 import { usePriceOvenUsdt } from 'state/hooks'
 import { BigNumber } from 'bignumber.js'
 import CardValue from './CardValue'
-import CardBusdValue from './CardBusdValue'
+import CardUsdtValue from './CardUsdtValue'
 
-const CakeWalletBalance = () => {
+const OvenWalletBalance = () => {
   const { t } = useTranslation()
   const { balance: cakeBalance } = useTokenBalance(getOvenAddress())
   const ovenPriceUsdt = usePriceOvenUsdt()
@@ -28,9 +28,9 @@ const CakeWalletBalance = () => {
   return (
     <>
       <CardValue value={getBalanceNumber(cakeBalance)} decimals={4} fontSize="24px" lineHeight="36px" />
-      {ovenPriceUsdt.gt(0) ? <CardBusdValue value={busdBalance} /> : <br />}
+      {ovenPriceUsdt.gt(0) ? <CardUsdtValue value={busdBalance} /> : <br />}
     </>
   )
 }
 
-export default CakeWalletBalance
+export default OvenWalletBalance

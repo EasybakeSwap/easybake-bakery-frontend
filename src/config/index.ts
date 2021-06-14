@@ -13,7 +13,7 @@ BigNumber.config({
 // 10 OVEN per block goes to OVEN syrup pool
 // 12 OVEN per block goes to Yield farms and lottery
 // OVEN_PER_BLOCK in config/index.ts = 40 as we only change the amount sent to the burn pool which is effectively a farm.
-// OVEN/Block in components/CakeStats.tsx = 22 (40 - Amount sent to burn pool)
+// OVEN/Block in components/OvenStats.tsx = 22 (40 - Amount sent to burn pool)
 
 
 export const SECONDS_PER_MONTH = 2629800

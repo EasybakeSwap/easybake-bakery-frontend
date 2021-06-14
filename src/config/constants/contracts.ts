@@ -16,7 +16,7 @@ export default {
     1: '',
   },
   multiCall: {
-    4: '0x1605d633e30f430d54162232571475c620c69da5', // ?
+    4: '0xE0F40eD27AAFAc0babfB2553bd4BBa021fD9f46D', // June 14th 2021 (v2 Multicall)
     1: '',
   },
   ovenVault: {

@@ -11,7 +11,7 @@ export const fetchPublicVaultData = async () => {
       ovenVaultContract.methods.getPricePerFullShare().call,
       ovenVaultContract.methods.totalShares().call,
       ovenVaultContract.methods.calculateHarvestCakeRewards().call,
-      ovenVaultContract.methods.calculateTotalPendingCakeRewards().call,
+      ovenVaultContract.methods.calculateTotalpendingOvenRewards().call,
     ])
     const totalSharesAsBigNumber = new BigNumber(shares as string)
     const sharePriceAsBigNumber = new BigNumber(sharePrice as string)
