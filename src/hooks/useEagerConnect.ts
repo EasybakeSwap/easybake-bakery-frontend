@@ -1,15 +1,47 @@
+// x
+
+// export function useEagerConnect() {
+//   const { activate, deactivate } = useWeb3React()
+
+//   const [tried, setTried] = useState(false)
+
+//   useEffect(() => {
+//     injected.isAuthorized().then((isAuthorized: boolean) => {
+//       if (isAuthorized) {
+//         activate(injected, undefined, true).catch(() => {
+//           setTried(true)
+//         })
+//       } else {
+//         setTried(true)
+//       }
+//     })
+//   }, []) // intentionally only running on mount (make sure it's only mounted once :)) // intentionally only running on mount (make sure it's only mounted once :))
+
+//   // if the connection worked, wait until we get confirmation of that to flip the flag
+//   useEffect(() => {
+//     if (!tried && active) {
+//       setTried(true)
+//     }
+//   }, [tried, active])
+//   return tried
+// }
+
+// export default useEagerConnect
+
+
+
 import { useEffect } from 'react'
-import { connectorLocalStorageKey, ConnectorNames } from 'easybake-uikit'
+import { connectorLocalStorageKey, ConnectorNames } from 'maki-uikit'
 import useAuth from 'hooks/useAuth'
 
-const _binanceChainListener = async () =>
+const _hecoListener = async () =>
   new Promise<void>((resolve) =>
-    Object.defineProperty(window, 'EthereumChain', {
+    Object.defineProperty(window, 'HuobiChain', {
       get() {
-        return this.bsc
+        return this.heco
       },
-      set(bsc) {
-        this.bsc = bsc
+      set(heco) {
+        this.heco = heco
 
         resolve()
       },
@@ -23,13 +55,13 @@ const useEagerConnect = () => {
     const connectorId = window.localStorage.getItem(connectorLocalStorageKey) as ConnectorNames
 
     if (connectorId) {
-      const isConnectorEthereumChain = connectorId === ConnectorNames.BSC
-      const isEthereumChainDefined = Reflect.has(window, 'EthereumChain')
+      const isConnectorHuobiChain = connectorId === ConnectorNames.Injected
+      const isHuobiChainDefined = Reflect.has(window, 'HuobiChain')
 
-      // Currently BSC extension doesn't always inject in time.
+      // Currently HECO extension doesn't always inject in time.
       // We must check to see if it exists, and if not, wait for it before proceeding.
-      if (isConnectorEthereumChain && !isEthereumChainDefined) {
-        _binanceChainListener().then(() => login(connectorId))
+      if (isConnectorHuobiChain && !isHuobiChainDefined) {
+        _hecoListener().then(() => login(connectorId))
 
         return
       }

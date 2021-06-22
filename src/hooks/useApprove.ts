@@ -6,7 +6,6 @@ import BigNumber from 'bignumber.js'
 import { useAppDispatch } from 'state'
 import { updateUserAllowance } from 'state/actions'
 import { approve } from 'utils/callHelpers'
-import { useTranslation } from 'contexts/Localization'
 import { useMasterchef, useOven, useSousChef, useLottery, useOvenVaultContract } from './useContract'
 import useToast from './useToast'
 import useLastUpdated from './useLastUpdated'
@@ -32,7 +31,6 @@ export const useApprove = (lpContract: Contract) => {
 export const useSousApprove = (lpContract: Contract, sousId, earningTokenSymbol) => {
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { toastSuccess, toastError } = useToast()
-  const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
   const sousChefContract = useSousChef(sousId)
@@ -44,29 +42,29 @@ export const useSousApprove = (lpContract: Contract, sousId, earningTokenSymbol)
       dispatch(updateUserAllowance(sousId, account))
       if (tx) {
         toastSuccess(
-          t('Contract Enabled'),
-          t('You can now stake in the %symbol% pool!', { symbol: earningTokenSymbol }),
+          ('Contract Enabled'),
+          // eslint-disable-next-line
+          ('You can now stake in the pool: ' + { symbol: earningTokenSymbol }),
         )
         setRequestedApproval(false)
       } else {
         // user rejected tx or didn't go thru
-        toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+        toastError(('Error'), ('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
         setRequestedApproval(false)
       }
     } catch (e) {
       console.error(e)
-      toastError(t('Error'), e?.message)
+      toastError(('Error'), e?.message)
     }
-  }, [account, dispatch, lpContract, sousChefContract, sousId, earningTokenSymbol, t, toastError, toastSuccess])
+  }, [account, dispatch, lpContract, sousChefContract, sousId, earningTokenSymbol, toastError, toastSuccess])
 
   return { handleApprove, requestedApproval }
 }
 
-// Approve OVEN auto pool
+// Approve MAKI auto pool
 export const useVaultApprove = (setLastUpdated: () => void) => {
   const { account } = useWeb3React()
   const [requestedApproval, setRequestedApproval] = useState(false)
-  const { t } = useTranslation()
   const { toastSuccess, toastError } = useToast()
   const ovenVaultContract = useOvenVaultContract()
   const ovenContract = useOven()
@@ -79,13 +77,13 @@ export const useVaultApprove = (setLastUpdated: () => void) => {
         setRequestedApproval(true)
       })
       .on('receipt', () => {
-        toastSuccess(t('Contract Enabled'), t('You can now stake in the %symbol% vault!', { symbol: 'OVEN' }))
+        toastSuccess('Contract Enabled', 'You can now stake in the MAKI vault!')
         setLastUpdated()
         setRequestedApproval(false)
       })
       .on('error', (error) => {
         console.error(error)
-        toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+        toastError('Error', 'Please try again. Confirm the transaction and make sure you are paying enough gas!')
         setRequestedApproval(false)
       })
   }
@@ -135,12 +133,12 @@ export const useLotteryApprove = () => {
 }
 
 // Approve an IFO
-export const useIfoApprove = (tokenContract: Contract, spenderAddress: string) => {
-  const { account } = useWeb3React()
-  const onApprove = useCallback(async () => {
-    const tx = await tokenContract.methods.approve(spenderAddress, ethers.constants.MaxUint256).send({ from: account })
-    return tx
-  }, [account, spenderAddress, tokenContract])
+// export const useIfoApprove = (tokenContract: Contract, spenderAddress: string) => {
+//   const { account } = useWeb3React()
+//   const onApprove = useCallback(async () => {
+//     const tx = await tokenContract.methods.approve(spenderAddress, ethers.constants.MaxUint256).send({ from: account })
+//     return tx
+//   }, [account, spenderAddress, tokenContract])
 
-  return onApprove
-}
+//   return onApprove
+// }

@@ -2,157 +2,103 @@ import Web3 from 'web3'
 import { AbiItem } from 'web3-utils'
 import web3NoAccount from 'utils/web3'
 import { poolsConfig } from 'config/constants'
-// import { PoolCategory } from 'config/constants/types'
+import { PoolCategory } from 'config/constants/types'
+import { DEFAULT_GAS_PRICE } from 'config'
 
+// -----------------
 // Addresses
+// -----------------
 import {
   getAddress,
-  getPancakeProfileAddress,
-  getPancakeRabbitsAddress,
+  getOvenAddress,
+  getMasterChefAddress,
+  getOvenVaultAddress,
+  getMulticallAddress,
+  getProfileAddress,
   getBunnyFactoryAddress,
   getBunnySpecialAddress,
-  getOvenAddress,
-  getLotteryAddress,
-  getLotteryTicketAddress,
-  getLotteryV2Address,
-  getMasterChefAddress,
-  getPointCenterIfoAddress,
   getClaimRefundAddress,
-  getTradingCompetitionAddress,
-  getEasterNftAddress,
-  getOvenVaultAddress,
-  getPredictionsAddress,
-  getChainlinkOracleAddress,
+  getPointCenterIfoAddress
 } from 'utils/addressHelpers'
 
-// ABI
-
-// Using
+// -----------------
+//  ABIs
+// -----------------
+// Standards
 import erc20Abi from 'config/abi/erc20.json'
 import erc721Abi from 'config/abi/erc721.json'
 import lpTokenAbi from 'config/abi/easybake_v2_lp.json'
+
+// Native contracts
 import ovenAbi from 'config/abi/oven.json'
 import masterChef from 'config/abi/masterchef.json'
 import sousChef from 'config/abi/sousChef.json'
-import ovenVaultAbi from 'config/abi/ovenVault.json'
+import sousChefHt from 'config/abi/sousChef.json'
+import ovenVaultAbi from 'config/abi/ovenVault.json' // NEEDS TO BE UPDATED W/ MULTICALL V2
+import multiCall from 'config/abi/Multicall.json' // NEEDS TO BE UPDATED W/ MULTICALL V2
 
-import { DEFAULT_GAS_PRICE, TESTNET_CHAIN_ID } from 'config'
+// Not implemented yet
+import profileAbi from 'config/abi/pancakeProfile.json'
+import bunnyFactoryAbi from 'config/abi/oven.json' // 'config/abi/bunnyFactory.json'
+import bunnySpecialAbi from 'config/abi/oven.json' // 'config/abi/bunnySpecial.json'
+import claimRefundAbi from 'config/abi/oven.json' // 'config/abi/claimRefund.json'
+import pointCenterIfo from 'config/abi/oven.json' // 'config/abi/pointCenterIfo.json'
+
+// Settings
 import { getSettings, getGasPriceInWei } from './settings'
 
-// Unused
-// import profileABI from 'config/abi/pancakeProfile.json'
-// import pancakeRabbitsAbi from 'config/abi/pancakeRabbits.json'
-// import bunnyFactoryAbi from 'config/abi/bunnyFactory.json'
-// import bunnySpecialAbi from 'config/abi/bunnySpecial.json'
-// import ifoV1Abi from 'config/abi/ifoV1.json'
-// import ifoV2Abi from 'config/abi/ifoV2.json'
-// import pointCenterIfo from 'config/abi/pointCenterIfo.json'
-// import lotteryAbi from 'config/abi/lottery.json'
-// import lotteryTicketAbi from 'config/abi/lotteryNft.json'
-// import lotteryV2Abi from 'config/abi/lotteryV2.json'
-// import claimRefundAbi from 'config/abi/claimRefund.json'
-// import tradingCompetitionAbi from 'config/abi/tradingCompetition.json'
-// import easterNftAbi from 'config/abi/easterNft.json'
-// import predictionsAbi from 'config/abi/predictions.json'
-// import chainlinkOracleAbi from 'config/abi/chainlinkOracle.json'
-
-
-export const getDefaultGasPrice = () => {
-  const chainId = process.env.REACT_APP_CHAIN_ID
-  if (chainId === TESTNET_CHAIN_ID) {
-    return 10
-  }
-  return DEFAULT_GAS_PRICE
-}
-
-// Helpers
-
-const getContract = (abi: any, address: string, web3?: Web3, account?: string) => {
+// -----------------
+//  Functions
+// -----------------
+export const getContract = (abi: any, address: string, web3?: Web3, account?: string) => {
   const _web3 = web3 ?? web3NoAccount
-  const gasPrice = account ? getSettings(account).gasPrice : getDefaultGasPrice()
+  const gasPrice = account ? getSettings(account).gasPrice : DEFAULT_GAS_PRICE
 
   return new _web3.eth.Contract(abi as unknown as AbiItem, address, {
     gasPrice: getGasPriceInWei(gasPrice).toString(),
   })
 }
-
 export const getErc20Contract = (address: string, web3?: Web3) => {
   return getContract(erc20Abi, address, web3)
 }
-
 export const getErc721Contract = (address: string, web3?: Web3) => {
   return getContract(erc721Abi, address, web3)
 }
-
 export const getLpContract = (address: string, web3?: Web3) => {
   return getContract(lpTokenAbi, address, web3)
 }
-
-// Native Contracts
-
-// Implemented
-
 export const getOvenContract = (web3?: Web3) => {
   return getContract(ovenAbi, getOvenAddress(), web3)
 }
-
-export const getMasterchefContract = (web3?: Web3) => {
-  return getContract(masterChef, getMasterChefAddress(), web3)
-}
-
 export const getOvenVaultContract = (web3?: Web3) => {
   return getContract(ovenVaultAbi, getOvenVaultAddress(), web3)
 }
-
-export const getSouschefContract = (id: number, web3?: Web3) => {
+export const getMasterchefContract = (web3?: Web3) => {
+  return getContract(masterChef, getMasterChefAddress(), web3)
+}
+export const getSousChefContract = (id: number, web3?: Web3) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
-  return getContract(sousChef, getAddress(config.contractAddress), web3)
+  const abi = config.poolCategory === PoolCategory.ETH ? sousChefHt : sousChef
+  return getContract(abi, getAddress(config.contractAddress), web3)
 }
 
-// Awaiting Implementation
+export const getMulticallContract = (web3?: Web3) => {
+  return getContract(multiCall, getMulticallAddress(), web3)
+}
 
-export const getPointCenterIfoContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getPointCenterIfoAddress(), web3)
-}
-export const getIfoV1Contract = (address: string, web3?: Web3) => {
-  return getContract(erc20Abi, address, web3)
-}
-export const getIfoV2Contract = (address: string, web3?: Web3) => {
-  return getContract(erc20Abi, address, web3)
-}
+// Not implemented yet - here to avoid errors
 export const getProfileContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getPancakeProfileAddress(), web3)
-}
-export const getPancakeRabbitContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getPancakeRabbitsAddress(), web3)
+  return getContract(profileAbi, getProfileAddress(), web3)
 }
 export const getBunnyFactoryContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getBunnyFactoryAddress(), web3)
+  return getContract(bunnyFactoryAbi, getBunnyFactoryAddress(), web3)
 }
 export const getBunnySpecialContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getBunnySpecialAddress(), web3)
-}
-export const getLotteryContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getLotteryAddress(), web3)
-}
-export const getLotteryTicketContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getLotteryTicketAddress(), web3)
-}
-export const getLotteryV2Contract = (web3?: Web3) => {
-  return getContract(erc20Abi, getLotteryV2Address(), web3)
+  return getContract(bunnySpecialAbi, getBunnySpecialAddress(), web3)
 }
 export const getClaimRefundContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getClaimRefundAddress(), web3)
+  return getContract(claimRefundAbi, getClaimRefundAddress(), web3)
 }
-export const getTradingCompetitionContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getTradingCompetitionAddress(), web3)
-}
-export const getEasterNftContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getEasterNftAddress(), web3)
-}
-export const getPredictionsContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getPredictionsAddress(), web3)
-}
-export const getChainlinkOracleContract = (web3?: Web3) => {
-  return getContract(erc20Abi, getChainlinkOracleAddress(), web3)
+export const getPointCenterIfoContract = (web3?: Web3) => {
+  return getContract(pointCenterIfo, getPointCenterIfoAddress(), web3)
 }

@@ -10,8 +10,8 @@ export const fetchPublicVaultData = async () => {
     const [sharePrice, shares, estimatedOvenBountyReward, totalPendingOvenHarvest] = await makeBatchRequest([
       ovenVaultContract.methods.getPricePerFullShare().call,
       ovenVaultContract.methods.totalShares().call,
-      ovenVaultContract.methods.calculateHarvestCakeRewards().call,
-      ovenVaultContract.methods.calculateTotalpendingOvenRewards().call,
+      ovenVaultContract.methods.calculateHarvestOvenRewards().call,
+      ovenVaultContract.methods.calculateTotalPendingOvenRewards().call,
     ])
     const totalSharesAsBigNumber = new BigNumber(shares as string)
     const sharePriceAsBigNumber = new BigNumber(sharePrice as string)

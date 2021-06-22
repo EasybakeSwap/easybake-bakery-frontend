@@ -13,7 +13,7 @@ export interface AprProps {
   lpLabel: string
   tokenAddress?: Address
   quoteTokenAddress?: Address
-  cakePrice: BigNumber
+  ovenPrice: BigNumber
   originalValue: number
   hideButton?: boolean
 }
@@ -45,7 +45,7 @@ const Apr: React.FC<AprProps> = ({
   lpLabel,
   tokenAddress,
   quoteTokenAddress,
-  cakePrice,
+  ovenPrice,
   originalValue,
   hideButton = false,
 }) => {
@@ -58,7 +58,7 @@ const Apr: React.FC<AprProps> = ({
         <>
           <AprWrapper>{value}%</AprWrapper>
           {!hideButton && (
-            <ApyButton lpLabel={lpLabel} cakePrice={cakePrice} apr={originalValue} addLiquidityUrl={addLiquidityUrl} />
+            <ApyButton lpLabel={lpLabel} ovenPrice={ovenPrice} apr={originalValue} addLiquidityUrl={addLiquidityUrl} />
           )}
         </>
       ) : (

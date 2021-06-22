@@ -9,7 +9,7 @@ import tokens from 'config/constants/tokens'
 import pools from 'config/constants/pools'
 import sousChefABI from 'config/abi/sousChef.json'
 import { multicallv2 } from './multicall'
-import { getWeb3WithArchivedNodeProvider } from './web3'
+import { web3WithArchivedNodeProvider } from './web3'
 import { getBalanceAmount } from './formatBalance'
 import { BIG_TEN, BIG_ZERO } from './bigNumber'
 
@@ -140,13 +140,12 @@ const WETH_TOKEN = new Token(chainId, tokens.weth.address[chainId], 18)
 const OVEN_ETH_TOKEN = new Token(chainId, getAddress(ovenEthFarm.lpAddresses), 18)
 
 /**
- * Returns the total OVEN staked in the OVEN-ETH LP
+ * Returns the total MAKI staked in the MAKI-HT LP
  */
 export const getUserStakeInOvenEthLp = async (account: string, block?: number) => {
   try {
-    const archivedWeb3 = getWeb3WithArchivedNodeProvider()
-    const masterContract = getMasterchefContract(archivedWeb3)
-    const ovenEthContract = getLpContract(getAddress(ovenEthFarm.lpAddresses), archivedWeb3)
+    const masterContract = getMasterchefContract(web3WithArchivedNodeProvider)
+    const ovenEthContract = getLpContract(getAddress(ovenEthFarm.lpAddresses), web3WithArchivedNodeProvider)
     const totalSupplyLP = await ovenEthContract.methods.totalSupply().call(undefined, block)
     const reservesLP = await ovenEthContract.methods.getReserves().call(undefined, block)
     const ovenEthBalance = await masterContract.methods.userInfo(ovenEthPid, account).call(undefined, block)
@@ -164,7 +163,7 @@ export const getUserStakeInOvenEthLp = async (account: string, block?: number) =
 
     return new BigNumber(ovenLPBalance.toSignificant(18))
   } catch (error) {
-    console.error(`OVEN-ETH LP error: ${error}`)
+    console.error(`MAKI-HT LP error: ${error}`)
     return BIG_ZERO
   }
 }
@@ -172,15 +171,14 @@ export const getUserStakeInOvenEthLp = async (account: string, block?: number) =
 /**
  * Gets the oven staked in the main pool
  */
-export const getUserStakeInCakePool = async (account: string, block?: number) => {
+export const getUserStakeInOvenPool = async (account: string, block?: number) => {
   try {
-    const archivedWeb3 = getWeb3WithArchivedNodeProvider()
-    const masterContract = getMasterchefContract(archivedWeb3)
+    const masterContract = getMasterchefContract(web3WithArchivedNodeProvider)
     const response = await masterContract.methods.userInfo(0, account).call(undefined, block)
 
     return getBalanceAmount(new BigNumber(response.amount))
   } catch (error) {
-    console.error('Error getting stake in OVEN pool', error)
+    console.error('Error getting stake in MAKI pool', error)
     return BIG_ZERO
   }
 }
@@ -191,7 +189,7 @@ export const getUserStakeInCakePool = async (account: string, block?: number) =>
 export const getUserStakeInPools = async (account: string, block?: number) => {
   try {
     const multicallOptions = {
-      web3: getWeb3WithArchivedNodeProvider(),
+      web3: web3WithArchivedNodeProvider,
       blockNumber: block,
       requireSuccess: false,
     }

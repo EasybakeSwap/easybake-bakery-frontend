@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { SECONDS_PER_YEAR, OVEN_PER_YEAR } from 'config'
+import { BLOCKS_PER_YEAR, OVEN_PER_YEAR } from 'config'
 
 /**
  * Get the APR value in %
@@ -15,7 +15,7 @@ export const getPoolApr = (
   totalStaked: number,
   tokensPerSecond: number,
 ): number => {
-  const totalRewardPricePerYear = new BigNumber(rewardTokenPrice).times(tokensPerSecond).times(SECONDS_PER_YEAR)
+  const totalRewardPricePerYear = new BigNumber(rewardTokenPrice).times(tokensPerSecond).times(BLOCKS_PER_YEAR)
   const totalStakingTokenInPool = new BigNumber(stakingTokenPrice).times(totalStaked)
   const apr = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100)
   return apr.isNaN() || !apr.isFinite() ? null : apr.toNumber()
@@ -24,13 +24,13 @@ export const getPoolApr = (
 /**
  * Get farm APR value in %
  * @param poolWeight allocationPoint / totalAllocationPoint
- * @param ovenPriceUsd Oven price in USD
+ * @param ovenPriceå Oven price in USD
  * @param poolLiquidityUsd Total pool liquidity in USD
  * @returns
  */
-export const getFarmApr = (poolWeight: BigNumber, ovenPriceUsd: BigNumber, poolLiquidityUsd: BigNumber): number => {
+export const getFarmApr = (poolWeight: BigNumber, ovenPrice: BigNumber, poolLiquidityUsd: BigNumber): number => {
   const yearlyOvenRewardAllocation = OVEN_PER_YEAR.times(poolWeight)
-  const apr = yearlyOvenRewardAllocation.times(ovenPriceUsd).div(poolLiquidityUsd).times(100)
+  const apr = yearlyOvenRewardAllocation.times(ovenPrice).div(poolLiquidityUsd).times(100)
   return apr.isNaN() || !apr.isFinite() ? null : apr.toNumber()
 }
 

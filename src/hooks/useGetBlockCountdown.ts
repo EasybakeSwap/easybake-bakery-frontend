@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { BSC_BLOCK_TIME } from 'config'
-import { getWeb3NoAccount } from 'utils/web3'
+import { HECO_BLOCK_TIME } from 'config'
+import web3NoAccount from 'utils/web3'
 
 /**
  * Returns a countdown in seconds of a given block
@@ -11,11 +11,10 @@ const useBlockCountdown = (blockNumber: number) => {
 
   useEffect(() => {
     const startCountdown = async () => {
-      const web3 = getWeb3NoAccount()
-      const currentBlock = await web3.eth.getBlockNumber()
+      const currentBlock = await web3NoAccount.eth.getBlockNumber()
 
       if (blockNumber > currentBlock) {
-        setSecondsRemaining((blockNumber - currentBlock) * BSC_BLOCK_TIME)
+        setSecondsRemaining((blockNumber - currentBlock) * HECO_BLOCK_TIME)
 
         // Clear previous interval
         if (timer.current) {

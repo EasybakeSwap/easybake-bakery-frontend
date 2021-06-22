@@ -1,7 +1,8 @@
-import react from 'react'
+import react from 'react' // for disabling file
+
 // import { Campaign } from 'config/constants/types'
 // import { getPointCenterIfoContract } from 'utils/contractHelpers'
-// // import ifosList from 'config/constants/ifo'
+// import ifosList from 'config/constants/ifo'
 // import { campaignMap } from 'config/constants/campaigns'
 // import { Achievement, TranslatableText } from 'state/types'
 // import makeBatchRequest from './makeBatchRequest'

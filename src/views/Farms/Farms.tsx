@@ -104,7 +104,7 @@ const Farms: React.FC = () => {
   const { pathname } = useLocation()
   const { t } = useTranslation()
   const { data: farmsLP, userDataLoaded } = useFarms()
-  const cakePrice = usePriceOvenUsdt()
+  const ovenPrice = usePriceOvenUsdt()
   const [query, setQuery] = useState('')
   const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, { localStorageKey: 'pancake_farm_view' })
   const { account } = useWeb3React()
@@ -148,7 +148,7 @@ const Farms: React.FC = () => {
           return farm
         }
         const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.usdtPrice)
-        const apr = isActive ? getFarmApr(new BigNumber(farm.poolWeight), cakePrice, totalLiquidity) : 0
+        const apr = isActive ? getFarmApr(new BigNumber(farm.poolWeight), ovenPrice, totalLiquidity) : 0
 
         return { ...farm, apr, liquidity: totalLiquidity }
       })
@@ -161,7 +161,7 @@ const Farms: React.FC = () => {
       }
       return farmsToDisplayWithAPR
     },
-    [cakePrice, query, isActive],
+    [ovenPrice, query, isActive],
   )
 
   const handleChangeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -257,7 +257,7 @@ const Farms: React.FC = () => {
         lpLabel,
         tokenAddress,
         quoteTokenAddress,
-        cakePrice,
+        ovenPrice,
         originalValue: farm.apr,
       },
       farm: {
@@ -316,17 +316,17 @@ const Farms: React.FC = () => {
         <FlexLayout>
           <Route exact path={`${path}`}>
             {farmsStakedMemoized.map((farm) => (
-              <FarmCard key={farm.pid} farm={farm} cakePrice={cakePrice} account={account} removed={false} />
+              <FarmCard key={farm.pid} farm={farm} ovenPrice={ovenPrice} account={account} removed={false} />
             ))}
           </Route>
           <Route exact path={`${path}/history`}>
             {farmsStakedMemoized.map((farm) => (
-              <FarmCard key={farm.pid} farm={farm} cakePrice={cakePrice} account={account} removed />
+              <FarmCard key={farm.pid} farm={farm} ovenPrice={ovenPrice} account={account} removed />
             ))}
           </Route>
           <Route exact path={`${path}/archived`}>
             {farmsStakedMemoized.map((farm) => (
-              <FarmCard key={farm.pid} farm={farm} cakePrice={cakePrice} account={account} removed />
+              <FarmCard key={farm.pid} farm={farm} ovenPrice={ovenPrice} account={account} removed />
             ))}
           </Route>
         </FlexLayout>

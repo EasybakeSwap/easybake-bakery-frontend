@@ -1,6 +1,6 @@
+
 import { useCallback } from 'react'
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
-import { NoBscProviderError } from '@binance-chain/bsc-connector'
 import {
   NoEthereumProviderError,
   UserRejectedRequestError as UserRejectedRequestErrorInjected,
@@ -9,7 +9,7 @@ import {
   UserRejectedRequestError as UserRejectedRequestErrorWalletConnect,
   WalletConnectConnector,
 } from '@web3-react/walletconnect-connector'
-import { ConnectorNames, connectorLocalStorageKey } from 'easybake-uikit'
+import { ConnectorNames, connectorLocalStorageKey } from 'maki-uikit'
 import { connectorsByName } from 'utils/web3React'
 import { setupNetwork } from 'utils/wallet'
 import useToast from 'hooks/useToast'
@@ -24,8 +24,8 @@ const useAuth = () => {
   const { toastError } = useToast()
 
   const login = useCallback(
-    (connectorID: ConnectorNames) => {
-      const connector = connectorsByName[connectorID]
+    (connectorId: ConnectorNames) => {
+      const connector = connectorsByName.injected
       if (connector) {
         activate(connector, async (error: Error) => {
           if (error instanceof UnsupportedChainIdError) {
@@ -35,24 +35,24 @@ const useAuth = () => {
             }
           } else {
             window.localStorage.removeItem(connectorLocalStorageKey)
-            if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
-              toastError(t('Provider Error'), t('No provider was found'))
+            if (error instanceof NoEthereumProviderError) {
+              toastError(t('Provider Error'), t('Provider Not Found'))
             } else if (
               error instanceof UserRejectedRequestErrorInjected ||
               error instanceof UserRejectedRequestErrorWalletConnect
             ) {
-              if (connector instanceof WalletConnectConnector) {
+              if (connectorId === connectorsByName.walletconnect) { // instanceof WalletConnectConnector) {
                 const walletConnector = connector as WalletConnectConnector
                 walletConnector.walletConnectProvider = null
               }
-              toastError(t('Authorization Error'), t('Please authorize to access your account'))
+              toastError(t('Authorization Error'), t('Please Authorize Account Access'))
             } else {
               toastError(error.name, error.message)
             }
           }
         })
       } else {
-        toastError(t('Unable to find connector'), t('The connector config is wrong'))
+        toastError(t('No Connector Found'), t('Invalid Connector Config'))
       }
     },
     [t, activate, toastError],

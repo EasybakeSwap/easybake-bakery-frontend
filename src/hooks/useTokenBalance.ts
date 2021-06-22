@@ -24,13 +24,12 @@ const useTokenBalance = (tokenAddress: string) => {
     balance: BIG_ZERO,
     fetchStatus: NOT_FETCHED,
   })
-  const web3 = useWeb3()
   const { account } = useWeb3React()
   const { fastRefresh } = useRefresh()
 
   useEffect(() => {
     const fetchBalance = async () => {
-      const contract = getErc20Contract(tokenAddress, web3)
+      const contract = getErc20Contract(tokenAddress)
       try {
         const res = await contract.methods.balanceOf(account).call()
         setBalanceState({ balance: new BigNumber(res), fetchStatus: SUCCESS })
@@ -46,7 +45,7 @@ const useTokenBalance = (tokenAddress: string) => {
     if (account) {
       fetchBalance()
     }
-  }, [account, tokenAddress, web3, fastRefresh, SUCCESS, FAILED])
+  }, [account, tokenAddress, fastRefresh, SUCCESS, FAILED])
 
   return balanceState
 }
@@ -57,8 +56,8 @@ export const useTotalSupply = () => {
 
   useEffect(() => {
     async function fetchTotalSupply() {
-      const cakeContract = getOvenContract()
-      const supply = await cakeContract.methods.totalSupply().call()
+      const ovenContract = getOvenContract()
+      const supply = await ovenContract.methods.totalSupply().call()
       setTotalSupply(new BigNumber(supply))
     }
 
@@ -71,22 +70,21 @@ export const useTotalSupply = () => {
 export const useBurnedBalance = (tokenAddress: string) => {
   const [balance, setBalance] = useState(BIG_ZERO)
   const { slowRefresh } = useRefresh()
-  const web3 = useWeb3()
 
   useEffect(() => {
     const fetchBalance = async () => {
-      const contract = getErc20Contract(tokenAddress, web3)
+      const contract = getErc20Contract(tokenAddress)
       const res = await contract.methods.balanceOf('0x000000000000000000000000000000000000dEaD').call()
       setBalance(new BigNumber(res))
     }
 
     fetchBalance()
-  }, [web3, tokenAddress, slowRefresh])
+  }, [tokenAddress, slowRefresh])
 
   return balance
 }
 
-export const useGetBnbBalance = () => {
+export const useGetHtBalance = () => {
   const [balance, setBalance] = useState(BIG_ZERO)
   const { account } = useWeb3React()
   const { lastUpdated, setLastUpdated } = useLastUpdated()

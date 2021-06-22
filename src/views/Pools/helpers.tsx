@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { Pool } from 'state/types'
-import { getRoi, tokenEarnedPerThousandDollarsCompounding } from 'utils/compoundApyHelpers'
-import { getBalanceNumber, getFullDisplayBalance, getDecimalAmount } from 'utils/formatBalance'
+import { getRoi, tokenEarnedPerThousandDollarsCompounding } from '../../utils/compoundApyHelpers'
+import { getBalanceNumber, getFullDisplayBalance, getDecimalAmount } from '../../utils/formatBalance'
 
 export const convertSharesToOven = (
   shares: BigNumber,

@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react'
-import { Language } from '@pancakeswap/uikit' // FIX ** TODO: REMOVE; HERE FOR NOW (A LOT OF CODE)
+import { Language } from 'maki-uikit'
 import { EN, languages } from 'config/localization/languages'
 import translations from 'config/localization/translations.json'
 import { ContextApi, ContextData, ProviderState } from './types'

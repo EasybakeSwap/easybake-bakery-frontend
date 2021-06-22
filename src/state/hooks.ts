@@ -7,7 +7,7 @@ import { useAppDispatch } from 'state'
 // import { Team } from 'config/constants/types'
 // import Nfts from 'config/constants/nfts'
 import { farmsConfig } from 'config/constants'
-import { getWeb3NoAccount } from 'utils/web3'
+import web3NoAccount from 'utils/web3'
 import { getBalanceAmount } from 'utils/formatBalance'
 import { BIG_ZERO } from 'utils/bigNumber'
 import useRefresh from 'hooks/useRefresh'
@@ -21,7 +21,7 @@ import {
   fetchOvenVaultFees,
   setBlock,
 } from './actions'
-import { State, Farm, Pool, FarmsState } from './types' // disabled: ProfileState, AchievementState,
+import { State, Farm, Pool, FarmsState } from './types' // Removed: TeamsState, AchievementState, ProfileState
 // import { fetchProfile } from './profile'
 // import { fetchTeam, fetchTeams } from './teams'
 // import { fetchAchievements } from './achievements'
@@ -34,7 +34,6 @@ import { fetchFarmUserDataAsync, nonArchivedFarms } from './farms'
 export const usePollFarmsData = (includeArchive = false) => {
   const dispatch = useAppDispatch()
   const { slowRefresh } = useRefresh()
-  const web3 = getWeb3NoAccount()
   const { account } = useWeb3React()
 
   useEffect(() => {
@@ -46,36 +45,34 @@ export const usePollFarmsData = (includeArchive = false) => {
     if (account) {
       dispatch(fetchFarmUserDataAsync({ account, pids }))
     }
-  }, [includeArchive, dispatch, slowRefresh, web3, account])
+  }, [includeArchive, dispatch, slowRefresh, account])
 }
 
 /**
  * Fetches the "core" farm data used globally
- * 251 = OVEN-BNB LP
- * 252 = BUSD-BNB LP
+ * 1 = MAKI-HT LP
+ * 4 = HUSD-HT LP
  */
 export const usePollCoreFarmData = () => {
   const dispatch = useAppDispatch()
   const { fastRefresh } = useRefresh()
-  const web3 = getWeb3NoAccount()
 
   useEffect(() => {
-    dispatch(fetchFarmsPublicDataAsync([251, 252]))
-  }, [dispatch, fastRefresh, web3])
+    dispatch(fetchFarmsPublicDataAsync([1, 4]))
+  }, [dispatch, fastRefresh])
 }
 
 export const usePollBlockNumber = () => {
   const dispatch = useAppDispatch()
-  const web3 = getWeb3NoAccount()
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const blockNumber = await web3.eth.getBlockNumber()
+      const blockNumber = await web3NoAccount.eth.getBlockNumber()
       dispatch(setBlock(blockNumber))
     }, 6000)
 
     return () => clearInterval(interval)
-  }, [dispatch, web3])
+  }, [dispatch])
 }
 
 // Farms
@@ -114,20 +111,20 @@ export const useFarmFromTokenSymbol = (tokenSymbol: string, preferredQuoteTokens
 }
 
 // Return the base token price for a farm, from a given pid
-export const useUsdtPriceFromPid = (pid: number): BigNumber => {
+export const useHusdPriceFromPid = (pid: number): BigNumber => {
   const farm = useFarmFromPid(pid)
   return farm && new BigNumber(farm.token.usdtPrice)
 }
 
-export const useUsdtPriceFromToken = (tokenSymbol: string): BigNumber => {
+export const useHusdPriceFromToken = (tokenSymbol: string): BigNumber => {
   const tokenFarm = useFarmFromTokenSymbol(tokenSymbol)
-  const tokenPrice = useUsdtPriceFromPid(tokenFarm?.pid)
+  const tokenPrice = useHusdPriceFromPid(tokenFarm?.pid)
   return tokenPrice
 }
 
 export const useLpTokenPrice = (symbol: string) => {
   const farm = useFarmFromLpSymbol(symbol)
-  const farmTokenPriceInUsd = useUsdtPriceFromPid(farm.pid)
+  const farmTokenPriceInUsd = useHusdPriceFromPid(farm.pid)
   let lpTokenPrice = BIG_ZERO
 
   if (farm.lpTotalSupply && farm.lpTotalInQuoteToken) {
@@ -148,17 +145,16 @@ export const useLpTokenPrice = (symbol: string) => {
 export const useFetchPublicPoolsData = () => {
   const dispatch = useAppDispatch()
   const { slowRefresh } = useRefresh()
-  const web3 = getWeb3NoAccount()
 
   useEffect(() => {
     const fetchPoolsPublicData = async () => {
-      const blockNumber = await web3.eth.getBlockNumber()
+      const blockNumber = await web3NoAccount.eth.getBlockNumber()
       dispatch(fetchPoolsPublicDataAsync(blockNumber))
     }
 
     fetchPoolsPublicData()
     dispatch(fetchPoolsStakingLimitsAsync())
-  }, [dispatch, slowRefresh, web3])
+  }, [dispatch, slowRefresh])
 }
 
 export const usePools = (account): { pools: Pool[]; userDataLoaded: boolean } => {
@@ -326,13 +322,13 @@ export const useOvenVault = () => {
 // }
 
 export const usePriceEthUsdt = (): BigNumber => {
-  const bnbBusdFarm = useFarmFromPid(1) // FIX ** add ETH/USDT pool
-  return new BigNumber(bnbBusdFarm.quoteToken.usdtPrice)
+  const ethUsdtFarm = useFarmFromPid(4) // USDT-ETH LP
+  return new BigNumber(ethUsdtFarm.quoteToken.usdtPrice)
 }
 
 export const usePriceOvenUsdt = (): BigNumber => {
-  const ovenEthFarm = useFarmFromPid(0)
-  return new BigNumber(ovenEthFarm.token.usdtPrice)
+  const ovenUsdtFarm = useFarmFromPid(3) // OVEN-USDT LP
+  return new BigNumber(ovenUsdtFarm.token.usdtPrice)
 }
 
 // Block
@@ -450,7 +446,7 @@ export const useInitialBlock = () => {
 //   return new BigNumber(lastOraclePrice)
 // }
 
-// Collectibles
+// // Collectibles
 // export const useGetCollectibles = () => {
 //   const { account } = useWeb3React()
 //   const dispatch = useAppDispatch()
@@ -469,5 +465,5 @@ export const useInitialBlock = () => {
 //     isLoading,
 //     tokenIds: data,
 //     nftsInWallet: Nfts.filter((nft) => identifiers.includes(nft.identifier)),
-//   }
+  // }
 // }

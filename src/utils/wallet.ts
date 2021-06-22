@@ -1,14 +1,14 @@
 // Set of helper functions to facilitate wallet setup
 
-import { BASE_ETHERSCAN_URL } from 'config'
+import { BASE_HECO_INFO_URL } from 'config'
 import { nodes } from './getRpcUrl'
 
 /**
- * Prompt the user to add BSC as a network on Metamask, or switch to BSC if the wallet is on a different network
+ * Prompt the user to add HECO as a network on Metamask, or switch to HECO if the wallet is on a different network
  * @returns {boolean} true if the setup succeeded, false otherwise
  */
 export const setupNetwork = async () => {
-  const provider = (window as WindowChain).ethereum
+  const provider = (window as WindowChain).huobi
   if (provider) {
     const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10)
     try {
@@ -17,14 +17,14 @@ export const setupNetwork = async () => {
         params: [
           {
             chainId: `0x${chainId.toString(16)}`,
-            chainName: 'Ethereum Smart Chain Mainnet',
+            chainName: 'Huobi Smart Chain Mainnet',
             nativeCurrency: {
-              name: 'BNB',
-              symbol: 'bnb',
+              name: 'Huobi Token',
+              symbol: 'HT',
               decimals: 18,
             },
             rpcUrls: nodes,
-            blockExplorerUrls: [`${BASE_ETHERSCAN_URL}/`],
+            blockExplorerUrls: [`${BASE_HECO_INFO_URL}/`],
           },
         ],
       })
@@ -34,7 +34,7 @@ export const setupNetwork = async () => {
       return false
     }
   } else {
-    console.error("Can't setup the BSC network on metamask because window.ethereum is undefined")
+    console.error("Can't setup the HECO network on metamask because window.ethereum is undefined")
     return false
   }
 }
@@ -47,16 +47,16 @@ export const setupNetwork = async () => {
  * @param tokenImage
  * @returns {boolean} true if the token has been added, false otherwise
  */
-export const registerToken = async (
+ export const registerToken = async (
   tokenAddress: string,
   tokenSymbol: string,
   tokenDecimals: number,
   tokenImage: string,
 ) => {
-  const tokenAdded = await (window as WindowChain).ethereum.request({
+  const tokenAdded = await (window as WindowChain).huobi.request({
     method: 'wallet_watchAsset',
     params: {
-      type: 'ERC20',
+      type: 'HRC20',
       options: {
         address: tokenAddress,
         symbol: tokenSymbol,

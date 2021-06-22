@@ -108,7 +108,7 @@ const config: MenuEntry[] = [
       },
       {
         label: 'Docs',
-        href: 'docs.easybake.finance',
+        href: 'http://docs.easybake.finance',
       },
       {
         label: 'Blog',

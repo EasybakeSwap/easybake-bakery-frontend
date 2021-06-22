@@ -86,7 +86,7 @@ describe('Parser', () => {
         contractAddress: undefined,
         poolCategory: undefined,
         projectLink: 'https://blink.wink.org',
-        tokenPerBlock: undefined,
+        tokensPerSecond: undefined,
         sortOrder: undefined,
         harvest: undefined,
         isFinished: undefined,

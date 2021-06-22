@@ -1,118 +1,118 @@
 import { useCallback, useState, useEffect } from 'react'
-// import { useWeb3React } from '@web3-react/core'
-// import BigNumber from 'bignumber.js'
-// import { useLottery, useLotteryTicket } from 'hooks/useContract'
-// import { BIG_ZERO } from 'utils/bigNumber'
-// import useRefresh from './useRefresh'
-// import {
-//   getTotalRewards,
-//   getTotalClaim,
-//   getMatchingRewardLength,
-//   getWinningNumbers,
-//   getTickets,
-// } from '../utils/lotteryUtils'
-// import useLastUpdated from './useLastUpdated'
+import { useWeb3React } from '@web3-react/core'
+import BigNumber from 'bignumber.js'
+import { useLottery, useLotteryTicket } from 'hooks/useContract'
+import { BIG_ZERO } from 'utils/bigNumber'
+import useRefresh from './useRefresh'
+import {
+  getTotalRewards,
+  getTotalClaim,
+  getMatchingRewardLength,
+  getWinningNumbers,
+  getTickets,
+} from '../utils/lotteryUtils'
+import useLastUpdated from './useLastUpdated'
 
-// const useTickets = (lotteryNumber = null) => {
-//   const [tickets, setTickets] = useState([])
-//   const { account } = useWeb3React()
-//   const ticketsContract = useLotteryTicket()
-//   const lotteryContract = useLottery()
-//   const { fastRefresh } = useRefresh()
+const useTickets = (lotteryNumber = null) => {
+  const [tickets, setTickets] = useState([])
+  const { account } = useWeb3React()
+  const ticketsContract = useLotteryTicket()
+  const lotteryContract = useLottery()
+  const { fastRefresh } = useRefresh()
 
-//   useEffect(() => {
-//     const fetchBalance = async () => {
-//       const res = await getTickets(lotteryContract, ticketsContract, account, lotteryNumber)
-//       setTickets(res)
-//     }
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const res = await getTickets(lotteryContract, ticketsContract, account, lotteryNumber)
+      setTickets(res)
+    }
 
-//     if (account && lotteryContract && ticketsContract) {
-//       fetchBalance()
-//     }
-//   }, [account, lotteryContract, ticketsContract, fastRefresh, lotteryNumber])
+    if (account && lotteryContract && ticketsContract) {
+      fetchBalance()
+    }
+  }, [account, lotteryContract, ticketsContract, fastRefresh, lotteryNumber])
 
-//   return tickets
-// }
+  return tickets
+}
 
-// export const useTotalRewards = () => {
-//   const [rewards, setRewards] = useState(BIG_ZERO)
-//   const lotteryContract = useLottery()
-//   const { fastRefresh } = useRefresh()
+export const useTotalRewards = () => {
+  const [rewards, setRewards] = useState(BIG_ZERO)
+  const lotteryContract = useLottery()
+  const { fastRefresh } = useRefresh()
 
-//   useEffect(() => {
-//     const fetchBalance = async () => {
-//       const res = await getTotalRewards(lotteryContract)
-//       setRewards(new BigNumber(res))
-//     }
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const res = await getTotalRewards(lotteryContract)
+      setRewards(new BigNumber(res))
+    }
 
-//     if (lotteryContract) {
-//       fetchBalance()
-//     }
-//   }, [lotteryContract, fastRefresh])
+    if (lotteryContract) {
+      fetchBalance()
+    }
+  }, [lotteryContract, fastRefresh])
 
-//   return rewards
-// }
+  return rewards
+}
 
-// export const useTotalClaim = () => {
-//   const [claimAmount, setClaimAmount] = useState(BIG_ZERO)
-//   const [claimLoading, setClaimLoading] = useState(false)
-//   const { account } = useWeb3React()
-//   const ticketsContract = useLotteryTicket()
-//   const lotteryContract = useLottery()
-//   const { lastUpdated, setLastUpdated } = useLastUpdated()
+export const useTotalClaim = () => {
+  const [claimAmount, setClaimAmount] = useState(BIG_ZERO)
+  const [claimLoading, setClaimLoading] = useState(false)
+  const { account } = useWeb3React()
+  const ticketsContract = useLotteryTicket()
+  const lotteryContract = useLottery()
+  const { lastUpdated, setLastUpdated } = useLastUpdated()
 
-//   const fetchBalance = useCallback(async () => {
-//     setClaimLoading(true)
-//     const claim = await getTotalClaim(lotteryContract, ticketsContract, account)
-//     setClaimAmount(claim)
-//     setClaimLoading(false)
-//   }, [account, lotteryContract, ticketsContract])
+  const fetchBalance = useCallback(async () => {
+    setClaimLoading(true)
+    const claim = await getTotalClaim(lotteryContract, ticketsContract, account)
+    setClaimAmount(claim)
+    setClaimLoading(false)
+  }, [account, lotteryContract, ticketsContract])
 
-//   useEffect(() => {
-//     if (account && lotteryContract && ticketsContract) {
-//       fetchBalance()
-//     }
-//   }, [account, fetchBalance, lotteryContract, ticketsContract, lastUpdated])
+  useEffect(() => {
+    if (account && lotteryContract && ticketsContract) {
+      fetchBalance()
+    }
+  }, [account, fetchBalance, lotteryContract, ticketsContract, lastUpdated])
 
-//   return { claimLoading, claimAmount, setLastUpdated }
-// }
+  return { claimLoading, claimAmount, setLastUpdated }
+}
 
-// export const useWinningNumbers = () => {
-//   const [winningNumbers, setWinningNumbers] = useState([0, 0, 0, 0])
-//   const lotteryContract = useLottery()
-//   const { fastRefresh } = useRefresh()
+export const useWinningNumbers = () => {
+  const [winningNumbers, setWinningNumbers] = useState([0, 0, 0, 0])
+  const lotteryContract = useLottery()
+  const { fastRefresh } = useRefresh()
 
-//   useEffect(() => {
-//     const fetchBalance = async () => {
-//       const rewards = await getWinningNumbers(lotteryContract)
-//       setWinningNumbers(rewards)
-//     }
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const rewards = await getWinningNumbers(lotteryContract)
+      setWinningNumbers(rewards)
+    }
 
-//     if (lotteryContract) {
-//       fetchBalance()
-//     }
-//   }, [fastRefresh, lotteryContract, setWinningNumbers])
+    if (lotteryContract) {
+      fetchBalance()
+    }
+  }, [fastRefresh, lotteryContract, setWinningNumbers])
 
-//   return winningNumbers
-// }
+  return winningNumbers
+}
 
-// export const useMatchingRewardLength = (numbers) => {
-//   const [matchingNumbers, setMatchingNumbers] = useState(0)
-//   const lotteryContract = useLottery()
-//   const { fastRefresh } = useRefresh()
+export const useMatchingRewardLength = (numbers) => {
+  const [matchingNumbers, setMatchingNumbers] = useState(0)
+  const lotteryContract = useLottery()
+  const { fastRefresh } = useRefresh()
 
-//   useEffect(() => {
-//     const fetchBalance = async () => {
-//       const matchedNumbers = await getMatchingRewardLength(lotteryContract, numbers)
-//       setMatchingNumbers(matchedNumbers)
-//     }
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const matchedNumbers = await getMatchingRewardLength(lotteryContract, numbers)
+      setMatchingNumbers(matchedNumbers)
+    }
 
-//     if (lotteryContract) {
-//       fetchBalance()
-//     }
-//   }, [lotteryContract, numbers, fastRefresh])
+    if (lotteryContract) {
+      fetchBalance()
+    }
+  }, [lotteryContract, numbers, fastRefresh])
 
-//   return matchingNumbers
-// }
+  return matchingNumbers
+}
 
-// export default useTickets
+export default useTickets

@@ -215,7 +215,7 @@ export interface PredictionUser {
   address: string
   block: number
   totalBets: number
-  totalBNB: number
+  totalHT: number
 }
 
 export interface RoundData {
@@ -264,7 +264,7 @@ export interface State {
   farms: FarmsState
   pools: PoolsState
   // predictions: PredictionsState
-  // profile: ProfileState
+  // profile: ProfileState // Disabled until implemented
   // teams: TeamsState
   // collectibles: CollectiblesState
 }

@@ -1,37 +1,40 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import BigNumber from 'bignumber.js'
-import { getProfileContract } from 'utils/contractHelpers'
-import makeBatchRequest from 'utils/makeBatchRequest'
 import { BIG_ZERO } from 'utils/bigNumber'
+import { multicallv2 } from 'utils/multicall'
+import profileABI from 'config/abi/pancakeProfile.json'
+import { getProfileAddress } from 'utils/addressHelpers'
 import useToast from './useToast'
 
 const useGetProfileCosts = () => {
   const { t } = useTranslation()
   const [costs, setCosts] = useState({
-    numberOvenToReactivate: BIG_ZERO,
-    numberOvenToRegister: BIG_ZERO,
-    numberOvenToUpdate: BIG_ZERO,
+    numberMakiToReactivate: BIG_ZERO,
+    numberMakiToRegister: BIG_ZERO,
+    numberMakiToUpdate: BIG_ZERO,
   })
   const { toastError } = useToast()
 
   useEffect(() => {
     const fetchCosts = async () => {
       try {
-        const profileContract = getProfileContract()
-        const [numberOvenToReactivate, numberOvenToRegister, numberOvenToUpdate] = await makeBatchRequest([
-          profileContract.methods.numberOvenToReactivate().call,
-          profileContract.methods.numberOvenToRegister().call,
-          profileContract.methods.numberOvenToUpdate().call,
-        ])
+        const calls = ['numberMakiToReactivate', 'numberMakiToRegister', 'numberMakiToUpdate'].map((method) => ({
+          address: getProfileAddress(),
+          name: method,
+        }))
+        const [[numberMakiToReactivate], [numberMakiToRegister], [numberMakiToUpdate]] = await multicallv2(
+          profileABI,
+          calls,
+        )
 
         setCosts({
-          numberOvenToReactivate: new BigNumber(numberOvenToReactivate as string),
-          numberOvenToRegister: new BigNumber(numberOvenToRegister as string),
-          numberOvenToUpdate: new BigNumber(numberOvenToUpdate as string),
+          numberMakiToReactivate: new BigNumber(numberMakiToReactivate.toString()),
+          numberMakiToRegister: new BigNumber(numberMakiToRegister.toString()),
+          numberMakiToUpdate: new BigNumber(numberMakiToUpdate.toString()),
         })
       } catch (error) {
-        toastError(t('Error'), t('Could not retrieve OVEN costs for profile'))
+        toastError(t('Error'), t('Could not retrieve MAKI costs for profile'))
       }
     }
 
