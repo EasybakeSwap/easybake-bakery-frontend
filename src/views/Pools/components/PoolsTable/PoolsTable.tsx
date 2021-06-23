@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { Button, ChevronUpIcon } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import { Pool } from 'state/types'
 import PoolRow from './PoolRow'
 
@@ -35,7 +35,7 @@ const ScrollButtonContainer = styled.div`
 `
 
 const PoolsTable: React.FC<PoolsTableProps> = ({ pools, userDataLoaded, account }) => {
-  const { t } = useTranslation()
+  
   const tableWrapperEl = useRef<HTMLDivElement>(null)
   const scrollToTop = (): void => {
     tableWrapperEl.current.scrollIntoView({
@@ -55,7 +55,7 @@ const PoolsTable: React.FC<PoolsTableProps> = ({ pools, userDataLoaded, account 
         ))}
         <ScrollButtonContainer>
           <Button variant="text" onClick={scrollToTop}>
-            {t('To Top')}
+            {('To Top')}
             <ChevronUpIcon color="primary" />
           </Button>
         </ScrollButtonContainer>

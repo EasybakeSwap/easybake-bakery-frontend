@@ -1,6 +1,7 @@
+import { BscConnector } from '@binance-chain/bsc-connector'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import { ConnectorNames } from 'maki-uikit'
+import { ConnectorNames } from 'easybake-uikit'
 import Web3 from 'web3'
 import getNodeUrl from './getRpcUrl'
 
@@ -20,6 +21,7 @@ const walletconnect = new WalletConnectConnector({
 export const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletconnect,
+  [ConnectorNames.BSC]: BscConnector,
 }
 
 export const getLibrary = (provider): Web3 => {

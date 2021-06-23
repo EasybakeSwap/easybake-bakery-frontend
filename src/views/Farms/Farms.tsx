@@ -6,10 +6,10 @@ import { Image, Heading, RowType, Toggle, Text } from 'easybake-uikit'
 import styled from 'styled-components'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
-import { useFarms, usePollFarmsData, usePriceOvenUsdt } from 'state/hooks'
+import { useFarms, usePollFarmsData, usePriceOvenUsdc } from 'state/hooks'
 import usePersistState from 'hooks/usePersistState'
 import { Farm } from 'state/types'
-import { useTranslation } from 'contexts/Localization'
+
 import { getBalanceNumber } from 'utils/formatBalance'
 import { getFarmApr } from 'utils/apr'
 import { orderBy } from 'lodash'
@@ -102,9 +102,9 @@ const NUMBER_OF_FARMS_VISIBLE = 12
 const Farms: React.FC = () => {
   const { path } = useRouteMatch()
   const { pathname } = useLocation()
-  const { t } = useTranslation()
+  
   const { data: farmsLP, userDataLoaded } = useFarms()
-  const ovenPrice = usePriceOvenUsdt()
+  const ovenPrice = usePriceOvenUsdc()
   const [query, setQuery] = useState('')
   const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, { localStorageKey: 'pancake_farm_view' })
   const { account } = useWeb3React()
@@ -144,10 +144,10 @@ const Farms: React.FC = () => {
   const farmsList = useCallback(
     (farmsToDisplay: Farm[]): FarmWithStakedValue[] => {
       let farmsToDisplayWithAPR: FarmWithStakedValue[] = farmsToDisplay.map((farm) => {
-        if (!farm.lpTotalInQuoteToken || !farm.quoteToken.usdtPrice) {
+        if (!farm.lpTotalInQuoteToken || !farm.quoteToken.usdcPrice) {
           return farm
         }
-        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.usdtPrice)
+        const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteToken.usdcPrice)
         const apr = isActive ? getFarmApr(new BigNumber(farm.poolWeight), ovenPrice, totalLiquidity) : 0
 
         return { ...farm, apr, liquidity: totalLiquidity }
@@ -342,10 +342,10 @@ const Farms: React.FC = () => {
     <>
       <PageHeader>
         <Heading as="h1" scale="xxl" color="secondary" mb="24px">
-          {t('Farms')}
+          {('Farms')}
         </Heading>
         <Heading scale="lg" color="text">
-          {t('Stake Liquidity Pool (LP) tokens to earn.')}
+          {('Stake Liquidity Pool (LP) tokens to earn.')}
         </Heading>
       </PageHeader>
       <Page>
@@ -354,33 +354,33 @@ const Farms: React.FC = () => {
             <ToggleView viewMode={viewMode} onToggle={(mode: ViewMode) => setViewMode(mode)} />
             <ToggleWrapper>
               <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
-              <Text> {t('Staked only')}</Text>
+              <Text> {('Staked only')}</Text>
             </ToggleWrapper>
             <FarmTabButtons hasStakeInFinishedFarms={stakedInactiveFarms.length > 0} />
           </ViewControls>
           <FilterContainer>
             <LabelWrapper>
-              <Text textTransform="uppercase">{t('Sort by')}</Text>
+              <Text textTransform="uppercase">{('Sort by')}</Text>
               <Select
                 options={[
                   {
-                    label: t('Hot'),
+                    label: 'Hot',
                     value: 'hot',
                   },
                   {
-                    label: t('APR'),
+                    label: 'APR',
                     value: 'apr',
                   },
                   {
-                    label: t('Multiplier'),
+                    label: 'Multiplier',
                     value: 'multiplier',
                   },
                   {
-                    label: t('Earned'),
+                    label: 'Earned',
                     value: 'earned',
                   },
                   {
-                    label: t('Liquidity'),
+                    label: 'Liquidity',
                     value: 'liquidity',
                   },
                 ]}
@@ -388,7 +388,7 @@ const Farms: React.FC = () => {
               />
             </LabelWrapper>
             <LabelWrapper style={{ marginLeft: 16 }}>
-              <Text textTransform="uppercase">{t('Search')}</Text>
+              <Text textTransform="uppercase">{('Search')}</Text>
               <SearchInput onChange={handleChangeQuery} placeholder="Search Farms" />
             </LabelWrapper>
           </FilterContainer>

@@ -33,16 +33,16 @@ import lpTokenAbi from 'config/abi/easybake_v2_lp.json'
 import ovenAbi from 'config/abi/oven.json'
 import masterChef from 'config/abi/masterchef.json'
 import sousChef from 'config/abi/sousChef.json'
-import sousChefHt from 'config/abi/sousChef.json'
+import sousChefEth from 'config/abi/sousChefEth.json'
 import ovenVaultAbi from 'config/abi/ovenVault.json' // NEEDS TO BE UPDATED W/ MULTICALL V2
 import multiCall from 'config/abi/Multicall.json' // NEEDS TO BE UPDATED W/ MULTICALL V2
 
 // Not implemented yet
 import profileAbi from 'config/abi/pancakeProfile.json'
-import bunnyFactoryAbi from 'config/abi/oven.json' // 'config/abi/bunnyFactory.json'
-import bunnySpecialAbi from 'config/abi/oven.json' // 'config/abi/bunnySpecial.json'
-import claimRefundAbi from 'config/abi/oven.json' // 'config/abi/claimRefund.json'
-import pointCenterIfo from 'config/abi/oven.json' // 'config/abi/pointCenterIfo.json'
+import bunnyFactoryAbi from 'config/abi/bunnyFactory.json'
+import bunnySpecialAbi from 'config/abi/bunnySpecial.json'
+import claimRefundAbi from 'config/abi/claimRefund.json'
+import pointCenterIfo from 'config/abi/pointCenterIfo.json'
 
 // Settings
 import { getSettings, getGasPriceInWei } from './settings'
@@ -78,7 +78,7 @@ export const getMasterchefContract = (web3?: Web3) => {
 }
 export const getSousChefContract = (id: number, web3?: Web3) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
-  const abi = config.poolCategory === PoolCategory.ETH ? sousChefHt : sousChef
+  const abi = config.poolCategory === PoolCategory.ETH ? sousChefEth : sousChef
   return getContract(abi, getAddress(config.contractAddress), web3)
 }
 

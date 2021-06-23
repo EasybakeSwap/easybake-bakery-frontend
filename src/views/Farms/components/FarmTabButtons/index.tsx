@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useLocation, Link, useRouteMatch } from 'react-router-dom'
 import { ButtonMenu, ButtonMenuItem, NotificationDot } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 
 interface FarmTabButtonsProps {
   hasStakeInFinishedFarms: boolean
@@ -11,7 +11,7 @@ interface FarmTabButtonsProps {
 const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms }) => {
   const { url } = useRouteMatch()
   const location = useLocation()
-  const { t } = useTranslation()
+  
 
   let activeIndex
   switch (location.pathname) {
@@ -33,11 +33,11 @@ const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms
     <Wrapper>
       <ButtonMenu activeIndex={activeIndex} scale="sm" variant="subtle">
         <ButtonMenuItem as={Link} to={`${url}`}>
-          {t('Live')}
+          {('Live')}
         </ButtonMenuItem>
         <NotificationDot show={hasStakeInFinishedFarms}>
           <ButtonMenuItem as={Link} to={`${url}/history`}>
-            {t('Finished')}
+            {('Finished')}
           </ButtonMenuItem>
         </NotificationDot>
       </ButtonMenu>

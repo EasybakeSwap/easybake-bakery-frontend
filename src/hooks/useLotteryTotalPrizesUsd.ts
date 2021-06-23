@@ -1,15 +1,15 @@
 import react from 'react' // to disable file
 
-// import { usePriceMakiHusd } from 'state/hooks'
+// import { usePriceOvenUsdc } from 'state/hooks'
 // import { getBalanceNumber } from 'utils/formatBalance'
 // import { useTotalRewards } from './useTickets'
 
 // const useLotteryTotalPrizesUsd = () => {
 //   const totalRewards = useTotalRewards()
-//   const totalMaki = getBalanceNumber(totalRewards)
-//   const makiPriceHusd = usePriceMakiHusd()
+//   const totalOven = getBalanceNumber(totalRewards)
+//   const ovenPriceUsdc = usePriceOvenUsdc()
 
-//   return totalMaki * makiPriceHusd.toNumber()
+//   return totalOven * ovenPriceUsdc.toNumber()
 // }
 
 // export default useLotteryTotalPrizesUsd

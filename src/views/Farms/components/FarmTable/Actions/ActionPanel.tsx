@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { keyframes, css } from 'styled-components'
-import { useTranslation } from 'contexts/Localization'
+
 import { LinkExternal, Text } from 'easybake-uikit'
 import { FarmWithStakedValue } from 'views/Farms/components/FarmCard/FarmCard'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
@@ -139,7 +139,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
 }) => {
   const farm = details
 
-  const { t } = useTranslation()
+  
   const isActive = farm.multiplier !== '0X'
   const { quoteToken, token, dual } = farm
   const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('PANCAKE', '')
@@ -149,20 +149,20 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   })
   const lpAddress = farm.lpAddresses[process.env.REACT_APP_CHAIN_ID]
   const bsc = getEtherscanAddressUrl(lpAddress)
-  const info = `https://pancakeswap.info/pair/${lpAddress}`
+  const info = `https://info.easybake.finance/pair/${lpAddress}`
 
   return (
     <Container expanded={expanded}>
       <InfoContainer>
         {isActive && (
           <StakeContainer>
-            <StyledLinkExternal href={`https://exchange.pancakeswap.finance/#/add/${liquidityUrlPathParts}`}>
-              {t('Get %symbol%', { symbol: lpLabel })}
+            <StyledLinkExternal href={`https://swap.easybake.finance/#/add/${liquidityUrlPathParts}`}>
+              { 'Get:' + { lpLabel } }
             </StyledLinkExternal>
           </StakeContainer>
         )}
-        <StyledLinkExternal href={bsc}>{t('View Contract')}</StyledLinkExternal>
-        <StyledLinkExternal href={info}>{t('See Pair Info')}</StyledLinkExternal>
+        <StyledLinkExternal href={bsc}>{('View Contract')}</StyledLinkExternal>
+        <StyledLinkExternal href={info}>{('See Pair Info')}</StyledLinkExternal>
         <TagsContainer>
           {farm.isCommunity ? <CommunityTag /> : <CoreTag />}
           {dual ? <DualTag /> : null}
@@ -170,15 +170,15 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
       </InfoContainer>
       <ValueContainer>
         <ValueWrapper>
-          <Text>{t('APR')}</Text>
+          <Text>{('APR')}</Text>
           <Apr {...apr} />
         </ValueWrapper>
         <ValueWrapper>
-          <Text>{t('Multiplier')}</Text>
+          <Text>{('Multiplier')}</Text>
           <Multiplier {...multiplier} />
         </ValueWrapper>
         <ValueWrapper>
-          <Text>{t('Liquidity')}</Text>
+          <Text>{('Liquidity')}</Text>
           <Liquidity {...liquidity} />
         </ValueWrapper>
       </ValueContainer>

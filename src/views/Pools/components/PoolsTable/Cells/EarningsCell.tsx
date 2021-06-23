@@ -8,7 +8,7 @@ import { BIG_ZERO } from 'utils/bigNumber'
 import { formatNumber, getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
 import Balance from 'components/Balance'
 import { useOvenVault } from 'state/hooks'
-import { useTranslation } from 'contexts/Localization'
+
 import { getOvenVaultEarnings } from 'views/Pools/helpers'
 import BaseCell, { CellContent } from './BaseCell'
 import CollectModal from '../../PoolCard/Modals/CollectModal'
@@ -31,7 +31,7 @@ const HelpIconWrapper = styled.div`
 `
 
 const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoaded }) => {
-  const { t } = useTranslation()
+  
   const { isXs, isSm } = useMatchBreakpoints()
   const { sousId, earningToken, poolCategory, userData, earningTokenPrice, isAutoVault } = pool
   const isManualOvenPool = sousId === 0
@@ -72,7 +72,7 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
     <>
       <Balance fontSize="16px" value={autoOvenToDisplay} decimals={3} bold unit=" OVEN" />
       <Balance fontSize="16px" value={autoUsdToDisplay} decimals={2} bold prefix="~$" />
-      {t('Earned since your last action')}
+      {('Earned since your last action')}
       <Text>{dateStringToDisplay}</Text>
     </>,
     { placement: 'bottom' },

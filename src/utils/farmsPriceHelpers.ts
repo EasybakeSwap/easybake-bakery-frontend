@@ -6,7 +6,7 @@ import { Farm } from 'state/types'
  * @param preferredQuoteTokens Array of preferred quote tokens
  * @returns A preferred farm, if found - or the first element of the farms array
  */
-export const filterFarmsByQuoteToken = (farms: Farm[], preferredQuoteTokens: string[] = ['HUSD', 'WHT']): Farm => {
+export const filterFarmsByQuoteToken = (farms: Farm[], preferredQuoteTokens: string[] = ['USDC', 'WETH']): Farm => {
   const preferredFarm = farms.find((farm) => {
     return preferredQuoteTokens.some((quoteToken) => {
       return farm.quoteToken.symbol === quoteToken

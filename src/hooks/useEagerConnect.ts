@@ -31,7 +31,7 @@
 
 
 import { useEffect } from 'react'
-import { connectorLocalStorageKey, ConnectorNames } from 'maki-uikit'
+import { connectorLocalStorageKey, ConnectorNames } from 'easybake-uikit'
 import useAuth from 'hooks/useAuth'
 
 const _hecoListener = async () =>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'contexts/Localization'
+
 import BigNumber from 'bignumber.js'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { multicallv2 } from 'utils/multicall'
@@ -8,38 +8,38 @@ import { getProfileAddress } from 'utils/addressHelpers'
 import useToast from './useToast'
 
 const useGetProfileCosts = () => {
-  const { t } = useTranslation()
+  
   const [costs, setCosts] = useState({
-    numberMakiToReactivate: BIG_ZERO,
-    numberMakiToRegister: BIG_ZERO,
-    numberMakiToUpdate: BIG_ZERO,
+    numberOvenToReactivate: BIG_ZERO,
+    numberOvenToRegister: BIG_ZERO,
+    numberOvenToUpdate: BIG_ZERO,
   })
   const { toastError } = useToast()
 
   useEffect(() => {
     const fetchCosts = async () => {
       try {
-        const calls = ['numberMakiToReactivate', 'numberMakiToRegister', 'numberMakiToUpdate'].map((method) => ({
+        const calls = ['numberOvenToReactivate', 'numberOvenToRegister', 'numberOvenToUpdate'].map((method) => ({
           address: getProfileAddress(),
           name: method,
         }))
-        const [[numberMakiToReactivate], [numberMakiToRegister], [numberMakiToUpdate]] = await multicallv2(
+        const [[numberOvenToReactivate], [numberOvenToRegister], [numberOvenToUpdate]] = await multicallv2(
           profileABI,
           calls,
         )
 
         setCosts({
-          numberMakiToReactivate: new BigNumber(numberMakiToReactivate.toString()),
-          numberMakiToRegister: new BigNumber(numberMakiToRegister.toString()),
-          numberMakiToUpdate: new BigNumber(numberMakiToUpdate.toString()),
+          numberOvenToReactivate: new BigNumber(numberOvenToReactivate.toString()),
+          numberOvenToRegister: new BigNumber(numberOvenToRegister.toString()),
+          numberOvenToUpdate: new BigNumber(numberOvenToUpdate.toString()),
         })
       } catch (error) {
-        toastError(t('Error'), t('Could not retrieve MAKI costs for profile'))
+        toastError('Error: Could not retrieve OVEN costs for profile')
       }
     }
 
     fetchCosts()
-  }, [setCosts, toastError, t])
+  }, [setCosts, toastError])
 
   return costs
 }

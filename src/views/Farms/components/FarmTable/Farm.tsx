@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useFarmUser } from 'state/hooks'
-import { useTranslation } from 'contexts/Localization'
+
 import { Text, Image } from 'easybake-uikit'
 import { getBalanceNumber } from 'utils/formatBalance'
 
@@ -33,14 +33,14 @@ const Container = styled.div`
 
 const Farm: React.FunctionComponent<FarmProps> = ({ image, label, pid }) => {
   const { stakedBalance } = useFarmUser(pid)
-  const { t } = useTranslation()
+  
   const rawStakedBalance = getBalanceNumber(stakedBalance)
 
   const handleRenderFarming = (): JSX.Element => {
     if (rawStakedBalance) {
       return (
         <Text color="secondary" fontSize="12px" bold textTransform="uppercase">
-          {t('Farming')}
+          {('Farming')}
         </Text>
       )
     }

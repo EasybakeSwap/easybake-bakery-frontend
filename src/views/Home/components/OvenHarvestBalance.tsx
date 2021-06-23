@@ -2,9 +2,9 @@ import React from 'react'
 import { Text } from 'easybake-uikit'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
-import { useTranslation } from 'contexts/Localization'
+
 import useAllEarnings from 'hooks/useAllEarnings'
-import { usePriceOvenUsdt } from 'state/hooks'
+import { usePriceOvenUsdc } from 'state/hooks'
 import styled from 'styled-components'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import CardValue from './CardValue'
@@ -15,7 +15,7 @@ const Block = styled.div`
 `
 
 const OvenHarvestBalance = () => {
-  const { t } = useTranslation()
+  
   const { account } = useWeb3React()
   const allEarnings = useAllEarnings()
   const earningsSum = allEarnings.reduce((accum, earning) => {
@@ -25,13 +25,13 @@ const OvenHarvestBalance = () => {
     }
     return accum + earningNumber.div(DEFAULT_TOKEN_DECIMAL).toNumber()
   }, 0)
-  const ovenPriceUsdt = usePriceOvenUsdt()
-  const earningsUsdt = new BigNumber(earningsSum).multipliedBy(ovenPriceUsdt).toNumber()
+  const ovenPriceUsdc = usePriceOvenUsdc()
+  const earningsUsdt = new BigNumber(earningsSum).multipliedBy(ovenPriceUsdc).toNumber()
 
   if (!account) {
     return (
       <Text color="textDisabled" style={{ lineHeight: '76px' }}>
-        {t('Locked')}
+        {('Locked')}
       </Text>
     )
   }
@@ -39,7 +39,7 @@ const OvenHarvestBalance = () => {
   return (
     <Block>
       <CardValue value={earningsSum} lineHeight="1.5" />
-      {ovenPriceUsdt.gt(0) && <CardUsdtValue value={earningsUsdt} />}
+      {ovenPriceUsdc.gt(0) && <CardUsdtValue value={earningsUsdt} />}
     </Block>
   )
 }

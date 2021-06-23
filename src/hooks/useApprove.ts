@@ -61,7 +61,7 @@ export const useSousApprove = (lpContract: Contract, sousId, earningTokenSymbol)
   return { handleApprove, requestedApproval }
 }
 
-// Approve MAKI auto pool
+// Approve OVEN auto pool
 export const useVaultApprove = (setLastUpdated: () => void) => {
   const { account } = useWeb3React()
   const [requestedApproval, setRequestedApproval] = useState(false)
@@ -77,7 +77,7 @@ export const useVaultApprove = (setLastUpdated: () => void) => {
         setRequestedApproval(true)
       })
       .on('receipt', () => {
-        toastSuccess('Contract Enabled', 'You can now stake in the MAKI vault!')
+        toastSuccess('Contract Enabled', 'You can now stake in the OVEN vault!')
         setLastUpdated()
         setRequestedApproval(false)
       })

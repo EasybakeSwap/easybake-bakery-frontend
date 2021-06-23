@@ -140,7 +140,7 @@ const WETH_TOKEN = new Token(chainId, tokens.weth.address[chainId], 18)
 const OVEN_ETH_TOKEN = new Token(chainId, getAddress(ovenEthFarm.lpAddresses), 18)
 
 /**
- * Returns the total MAKI staked in the MAKI-HT LP
+ * Returns the total OVEN staked in the OVEN-HT LP
  */
 export const getUserStakeInOvenEthLp = async (account: string, block?: number) => {
   try {
@@ -163,7 +163,7 @@ export const getUserStakeInOvenEthLp = async (account: string, block?: number) =
 
     return new BigNumber(ovenLPBalance.toSignificant(18))
   } catch (error) {
-    console.error(`MAKI-HT LP error: ${error}`)
+    console.error(`OVEN-HT LP error: ${error}`)
     return BIG_ZERO
   }
 }
@@ -178,7 +178,7 @@ export const getUserStakeInOvenPool = async (account: string, block?: number) =>
 
     return getBalanceAmount(new BigNumber(response.amount))
   } catch (error) {
-    console.error('Error getting stake in MAKI pool', error)
+    console.error('Error getting stake in OVEN pool', error)
     return BIG_ZERO
   }
 }

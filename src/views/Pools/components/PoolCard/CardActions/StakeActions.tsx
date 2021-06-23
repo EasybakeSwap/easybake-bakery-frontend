@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex, Text, Button, IconButton, AddIcon, MinusIcon, useModal, Skeleton, useTooltip } from 'easybake-uikit'
 import BigNumber from 'bignumber.js'
-import { useTranslation } from 'contexts/Localization'
+
 import { getBalanceNumber } from 'utils/formatBalance'
 import { Pool } from 'state/types'
 import Balance from 'components/Balance'
@@ -26,7 +26,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
   isLoading = false,
 }) => {
   const { stakingToken, stakingTokenPrice, stakingLimit, isFinished, userData } = pool
-  const { t } = useTranslation()
+  
   const stakedTokenBalance = getBalanceNumber(stakedBalance, stakingToken.decimals)
   const stakedTokenDollarBalance = getBalanceNumber(
     stakedBalance.multipliedBy(stakingTokenPrice),
@@ -105,7 +105,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
       </Flex>
     ) : (
       <Button disabled={isFinished} onClick={stakingTokenBalance.gt(0) ? onPresentStake : onPresentTokenRequired}>
-        {t('Stake')}
+        {('Stake')}
       </Button>
     )
   }

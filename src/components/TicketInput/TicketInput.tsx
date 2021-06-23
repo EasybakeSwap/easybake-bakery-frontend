@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Flex, Input, InputProps } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 
 interface TokenInputProps extends InputProps {
   max: number | string
@@ -13,7 +13,7 @@ interface TokenInputProps extends InputProps {
 }
 
 const TicketInput: React.FC<TokenInputProps> = ({ max, symbol, availableSymbol, onChange, onSelectMax, value }) => {
-  const { t } = useTranslation()
+  
 
   return (
     <>
@@ -24,12 +24,12 @@ const TicketInput: React.FC<TokenInputProps> = ({ max, symbol, availableSymbol, 
           <StyledTokenSymbol>{symbol}</StyledTokenSymbol>
           <StyledSpacer />
           <Button scale="sm" onClick={onSelectMax}>
-            {t('Max')}
+            Max
           </Button>
         </StyledTokenAdornmentWrapper>
       </Flex>
       <StyledMaxText>
-        {t('%num% %symbol% Available', { num: max.toLocaleString(), symbol: availableSymbol })}
+        { max.toLocaleString()} { availableSymbol } Available
       </StyledMaxText>
     </>
   )

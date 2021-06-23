@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useTranslation } from 'contexts/Localization'
+
 import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-router'
 import { DEFAULT_META, getCustomMeta } from 'config/constants/meta'
-import { usePriceOvenUsdt } from 'state/hooks'
+import { usePriceOvenUsdc } from 'state/hooks'
 import Container from './Container'
 
 const StyledPage = styled(Container)`
@@ -24,9 +24,9 @@ const StyledPage = styled(Container)`
 `
 
 const PageMeta = () => {
-  const { t } = useTranslation()
+  
   const { pathname } = useLocation()
-  const ovenPriceUsd = usePriceOvenUsdt()
+  const ovenPriceUsd = usePriceOvenUsdc()
   const ovenPriceUsdDisplay = ovenPriceUsd.gt(0)
     ? `$${ovenPriceUsd.toNumber().toLocaleString(undefined, {
         minimumFractionDigits: 3,
@@ -34,7 +34,7 @@ const PageMeta = () => {
       })}`
     : ''
 
-  const pageMeta = getCustomMeta(pathname, t) || {}
+  const pageMeta = getCustomMeta(pathname) || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
   const pageTitle = ovenPriceUsdDisplay ? [title, ovenPriceUsdDisplay].join(' - ') : title
 

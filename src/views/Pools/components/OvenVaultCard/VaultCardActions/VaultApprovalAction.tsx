@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, AutoRenewIcon, Skeleton } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import { useVaultApprove } from 'hooks/useApprove'
 
 interface ApprovalActionProps {
@@ -9,7 +9,7 @@ interface ApprovalActionProps {
 }
 
 const VaultApprovalAction: React.FC<ApprovalActionProps> = ({ isLoading = false, setLastUpdated }) => {
-  const { t } = useTranslation()
+  
 
   const { handleApprove, requestedApproval } = useVaultApprove(setLastUpdated)
 
@@ -25,7 +25,7 @@ const VaultApprovalAction: React.FC<ApprovalActionProps> = ({ isLoading = false,
           onClick={handleApprove}
           width="100%"
         >
-          {t('Enable')}
+          {('Enable')}
         </Button>
       )}
     </>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, AutoRenewIcon, Skeleton } from 'easybake-uikit'
 import { useSousApprove } from 'hooks/useApprove'
-import { useTranslation } from 'contexts/Localization'
+
 import { useERC20 } from 'hooks/useContract'
 import { getAddress } from 'utils/addressHelpers'
 import { Pool } from 'state/types'
@@ -13,7 +13,7 @@ interface ApprovalActionProps {
 
 const ApprovalAction: React.FC<ApprovalActionProps> = ({ pool, isLoading = false }) => {
   const { sousId, stakingToken, earningToken } = pool
-  const { t } = useTranslation()
+  
   const stakingTokenContract = useERC20(stakingToken.address ? getAddress(stakingToken.address) : '')
   const { handleApprove, requestedApproval } = useSousApprove(stakingTokenContract, sousId, earningToken.symbol)
 
@@ -29,7 +29,7 @@ const ApprovalAction: React.FC<ApprovalActionProps> = ({ pool, isLoading = false
           onClick={handleApprove}
           width="100%"
         >
-          {t('Enable')}
+          {('Enable')}
         </Button>
       )}
     </>

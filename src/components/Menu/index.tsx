@@ -2,19 +2,18 @@ import React from 'react'
 import { Menu as UikitMenu } from 'easybake-uikit'
 import { useWeb3React } from '@web3-react/core'
 import { languageList } from 'config/localization/languages'
-import { useTranslation } from 'contexts/Localization'
+
 import useTheme from 'hooks/useTheme'
 import useAuth from 'hooks/useAuth'
-import { usePriceOvenUsdt } from 'state/hooks'
+import { usePriceOvenUsdc } from 'state/hooks'
 import config from './config'
 
 const Menu = (props) => {
   const { account } = useWeb3React()
   const { login, logout } = useAuth()
   const { isDark, toggleTheme } = useTheme()
-  const ovenPriceUsd = usePriceOvenUsdt()
+  const ovenPriceUsd = usePriceOvenUsdc()
   // const { profile } = useProfile()
-  const { currentLanguage, setLanguage } = useTranslation()
 
   return (
     <UikitMenu
@@ -23,9 +22,7 @@ const Menu = (props) => {
       logout={logout}
       isDark={isDark}
       toggleTheme={toggleTheme}
-      currentLang={currentLanguage.code}
       langs={languageList}
-      setLang={setLanguage}
       ovenPriceUsd={ovenPriceUsd.toNumber()}
       links={config}
       // profile={{

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text, ChevronDownIcon } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import BaseCell from './BaseCell'
 
 interface ExpandActionCellProps {
@@ -29,7 +29,7 @@ const ArrowIcon = styled(ChevronDownIcon)<{ toggled: boolean }>`
 `
 
 const TotalStakedCell: React.FC<ExpandActionCellProps> = ({ expanded, isFullLayout }) => {
-  const { t } = useTranslation()
+  
   return (
     <StyledCell role="cell">
       {isFullLayout && (

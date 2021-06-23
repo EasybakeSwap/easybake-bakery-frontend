@@ -2,7 +2,7 @@ import React from 'react'
 import { Flex, Text, Button, Heading, useModal, Skeleton } from 'easybake-uikit'
 import BigNumber from 'bignumber.js'
 import { Token } from 'config/constants/types'
-import { useTranslation } from 'contexts/Localization'
+
 import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
 import Balance from 'components/Balance'
 import CollectModal from '../Modals/CollectModal'
@@ -24,7 +24,7 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
   earningTokenPrice,
   isLoading = false,
 }) => {
-  const { t } = useTranslation()
+  
   const earningTokenBalance = getBalanceNumber(earnings, earningToken.decimals)
   const formattedBalance = formatNumber(earningTokenBalance, 3, 3)
 

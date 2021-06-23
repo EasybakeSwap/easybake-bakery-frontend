@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Modal, Text, Flex, Image, Button, Slider, BalanceInput, AutoRenewIcon, Link } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import { BASE_EXCHANGE_URL } from 'config'
 import { useSousStake } from 'hooks/useStake'
 import { useSousUnstake } from 'hooks/useUnstake'
@@ -34,7 +34,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
   onDismiss,
 }) => {
   const { sousId, stakingToken, userData, stakingLimit, earningToken } = pool
-  const { t } = useTranslation()
+  
   const { theme } = useTheme()
   const { onStake } = useSousStake(sousId, isEthPool)
   const { onUnstake } = useSousUnstake(sousId, pool.enableEmergencyWithdraw)
@@ -89,7 +89,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
       try {
         await onUnstake(stakeAmount, stakingToken.decimals)
         toastSuccess(
-          `${t('Unstaked')}!`,
+          `${('Unstaked')}!`,
           t('Your %symbol% earnings have also been harvested to your wallet!', {
             symbol: earningToken.symbol,
           }),
@@ -105,7 +105,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
         // staking
         await onStake(stakeAmount, stakingToken.decimals)
         toastSuccess(
-          `${t('Staked')}!`,
+          `${('Staked')}!`,
           t('Your %symbol% funds have been staked in the pool!', {
             symbol: stakingToken.symbol,
           }),
@@ -127,7 +127,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
     >
       {stakingLimit.gt(0) && !isRemovingStake && (
         <Text color="secondary" bold mb="24px" style={{ textAlign: 'center' }} fontSize="16px">
-          {t('Max stake for this pool: %amount% %token%', {
+          {('Max stake for this pool: %amount% %token%', {
             amount: getFullDisplayBalance(stakingLimit, stakingToken.decimals, 0),
             token: stakingToken.symbol,
           })}
@@ -151,14 +151,14 @@ const StakeModal: React.FC<StakeModalProps> = ({
       />
       {hasReachedStakeLimit && (
         <Text color="failure" fontSize="12px" style={{ textAlign: 'right' }} mt="4px">
-          {t('Maximum total stake: %amount% %token%', {
+          {('Maximum total stake: %amount% %token%', {
             amount: getFullDisplayBalance(new BigNumber(stakingLimit), stakingToken.decimals, 0),
             token: stakingToken.symbol,
           })}
         </Text>
       )}
       <Text ml="auto" color="textSubtle" fontSize="12px" mb="8px">
-        {t('Balance: %balance%', {
+        {('Balance: %balance%', {
           balance: getFullDisplayBalance(getCalculatedStakingLimit(), stakingToken.decimals),
         })}
       </Text>
@@ -175,7 +175,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
         <PercentageButton onClick={() => handleChangePercent(25)}>25%</PercentageButton>
         <PercentageButton onClick={() => handleChangePercent(50)}>50%</PercentageButton>
         <PercentageButton onClick={() => handleChangePercent(75)}>75%</PercentageButton>
-        <PercentageButton onClick={() => handleChangePercent(100)}>{t('Max')}</PercentageButton>
+        <PercentageButton onClick={() => handleChangePercent(100)}>{('Max')}</PercentageButton>
       </Flex>
       <Button
         isLoading={pendingTx}
@@ -189,7 +189,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
       {!isRemovingStake && (
         <StyledLink external href={BASE_EXCHANGE_URL}>
           <Button width="100%" mt="8px" variant="secondary">
-            {t('Get %symbol%', { symbol: stakingToken.symbol })}
+            {('Get %symbol%', { symbol: stakingToken.symbol })}
           </Button>
         </StyledLink>
       )}

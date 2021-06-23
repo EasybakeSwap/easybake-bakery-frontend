@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Text, useMatchBreakpoints } from 'easybake-uikit'
 import { Pool } from 'state/types'
-import { useTranslation } from 'contexts/Localization'
+
 import BaseCell, { CellContent } from './BaseCell'
 import Apr from '../Apr'
 
@@ -19,7 +19,7 @@ const StyledCell = styled(BaseCell)`
 `
 
 const AprCell: React.FC<AprCellProps> = ({ pool, performanceFee }) => {
-  const { t } = useTranslation()
+  
   const { isXs, isSm } = useMatchBreakpoints()
   const { isAutoVault } = pool
   return (

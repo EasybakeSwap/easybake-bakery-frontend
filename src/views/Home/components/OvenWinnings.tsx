@@ -1,11 +1,11 @@
 import React from 'react'
 import { getBalanceNumber } from 'utils/formatBalance'
-import { usePriceOvenUsdt } from 'state/hooks'
+import { usePriceOvenUsdc } from 'state/hooks'
 import { Text } from 'easybake-uikit'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from 'bignumber.js'
 import styled from 'styled-components'
-import { useTranslation } from 'contexts/Localization'
+
 import CardValue from './CardValue'
 import CardUsdtValue from './CardUsdtValue'
 
@@ -18,16 +18,16 @@ interface OvenWinningsProps {
 }
 
 const OvenWinnings: React.FC<OvenWinningsProps> = ({ claimAmount }) => {
-  const { t } = useTranslation()
+  
   const { account } = useWeb3React()
   const ovenAmount = getBalanceNumber(claimAmount)
-  const ovenPriceUsdt = usePriceOvenUsdt()
-  const claimAmountBusd = new BigNumber(ovenAmount).multipliedBy(ovenPriceUsdt).toNumber()
+  const ovenPriceUsdc = usePriceOvenUsdc()
+  const claimAmountBusd = new BigNumber(ovenAmount).multipliedBy(ovenPriceUsdc).toNumber()
 
   if (!account) {
     return (
       <Text color="textDisabled" style={{ lineHeight: '76px' }}>
-        {t('Locked')}
+        {('Locked')}
       </Text>
     )
   }
@@ -35,7 +35,7 @@ const OvenWinnings: React.FC<OvenWinningsProps> = ({ claimAmount }) => {
   return (
     <Block>
       <CardValue value={ovenAmount} lineHeight="1.5" />
-      {ovenPriceUsdt.gt(0) && <CardUsdtValue value={claimAmountBusd} decimals={2} />}
+      {ovenPriceUsdc.gt(0) && <CardUsdtValue value={claimAmountBusd} decimals={2} />}
     </Block>
   )
 }

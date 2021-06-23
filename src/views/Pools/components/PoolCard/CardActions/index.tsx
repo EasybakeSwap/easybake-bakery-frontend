@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { Flex, Text, Box } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import { PoolCategory } from 'config/constants/types'
 import { Pool } from 'state/types'
 import ApprovalAction from './ApprovalAction'
@@ -23,7 +23,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
   const { sousId, stakingToken, earningToken, harvest, poolCategory, userData, earningTokenPrice } = pool
   // Pools using native BNB behave differently than pools using a token
   const isEthPool = poolCategory === PoolCategory.ETH
-  const { t } = useTranslation()
+  
   const allowance = userData?.allowance ? new BigNumber(userData.allowance) : BIG_ZERO
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO
@@ -41,7 +41,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
                 {`${earningToken.symbol} `}
               </InlineText>
               <InlineText color="textSubtle" textTransform="uppercase" bold fontSize="12px">
-                {t('Earned')}
+                {('Earned')}
               </InlineText>
             </Box>
             <HarvestActions

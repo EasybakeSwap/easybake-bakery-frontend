@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Modal, Text, Flex, Image, Button, Slider, BalanceInput, AutoRenewIcon } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import { useWeb3React } from '@web3-react/core'
 import { BASE_EXCHANGE_URL } from 'config'
 import { useAppDispatch } from 'state'
 import { BIG_TEN } from 'utils/bigNumber'
-import { useOvenVault, usePriceOvenUsdt } from 'state/hooks'
+import { useOvenVault, usePriceOvenUsdc } from 'state/hooks'
 import { useOvenVaultContract } from 'hooks/useContract'
 import useTheme from 'hooks/useTheme'
 import useWithdrawalFeeTimer from 'hooks/ovenVault/useWithdrawalFeeTimer'
@@ -38,16 +38,16 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
     userData: { lastDepositedTime, userShares },
     pricePerFullShare,
   } = useOvenVault()
-  const { t } = useTranslation()
+  
   const { theme } = useTheme()
   const { toastSuccess, toastError } = useToast()
   const [pendingTx, setPendingTx] = useState(false)
   const [stakeAmount, setStakeAmount] = useState('')
   const [percent, setPercent] = useState(0)
   const { hasUnstakingFee } = useWithdrawalFeeTimer(parseInt(lastDepositedTime, 10), userShares)
-  const ovenPriceUsdt = usePriceOvenUsdt()
+  const ovenPriceUsdc = usePriceOvenUsdc()
   const usdValueStaked =
-    ovenPriceUsdt.gt(0) && stakeAmount ? formatNumber(new BigNumber(stakeAmount).times(ovenPriceUsdt).toNumber()) : ''
+    ovenPriceUsdc.gt(0) && stakeAmount ? formatNumber(new BigNumber(stakeAmount).times(ovenPriceUsdc).toNumber()) : ''
 
   const handleStakeInputChange = (input: string) => {
     if (input) {
@@ -175,7 +175,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
       <BalanceInput
         value={stakeAmount}
         onUserInput={handleStakeInputChange}
-        currencyValue={ovenPriceUsdt.gt(0) && `~${usdValueStaked || 0} USD`}
+        currencyValue={ovenPriceUsdc.gt(0) && `~${usdValueStaked || 0} USD`}
         // decimals={stakingToken.decimals} FIX **
       />
       <Text mt="8px" ml="auto" color="textSubtle" fontSize="12px" mb="8px">
@@ -201,7 +201,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
           75%
         </StyledButton>
         <StyledButton scale="xs" mx="2px" p="4px 16px" variant="tertiary" onClick={() => handleChangePercent(100)}>
-          {t('Max')}
+          {('Max')}
         </StyledButton>
       </Flex>
       {isRemovingStake && hasUnstakingFee && (
@@ -218,7 +218,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
       </Button>
       {!isRemovingStake && (
         <Button mt="8px" as="a" external href={BASE_EXCHANGE_URL} variant="secondary">
-          {t('Get %symbol%', { symbol: stakingToken.symbol })}
+          {('Get %symbol%', { symbol: stakingToken.symbol })}
         </Button>
       )}
     </Modal>

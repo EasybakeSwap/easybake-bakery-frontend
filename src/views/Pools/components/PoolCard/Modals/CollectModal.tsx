@@ -11,7 +11,7 @@ import {
   HelpIcon,
   useTooltip,
 } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import useTheme from 'hooks/useTheme'
 import { useSousHarvest } from 'hooks/useHarvest'
 import { useSousStake } from 'hooks/useStake'
@@ -39,7 +39,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
   isCompoundPool = false,
   onDismiss,
 }) => {
-  const { t } = useTranslation()
+  
   const { theme } = useTheme()
   const { toastSuccess, toastError } = useToast()
   const { onReward } = useSousHarvest(sousId, isEthPool)
@@ -48,8 +48,8 @@ const CollectModal: React.FC<CollectModalProps> = ({
   const [shouldCompound, setShouldCompound] = useState(isCompoundPool)
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     <>
-      <Text mb="12px">{t('Compound: collect and restake OVEN into pool.')}</Text>
-      <Text>{t('Harvest: collect OVEN and send to wallet')}</Text>
+      <Text mb="12px">{('Compound: collect and restake OVEN into pool.')}</Text>
+      <Text>{('Harvest: collect OVEN and send to wallet')}</Text>
     </>,
     { placement: 'bottom-end', tooltipOffset: [20, 10] },
   )
@@ -61,7 +61,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
       try {
         await onStake(fullBalance, earningToken.decimals)
         toastSuccess(
-          `${t('Compounded')}!`,
+          `${('Compounded')}!`,
           t('Your %symbol% earnings have been re-invested into the pool!', { symbol: earningToken.symbol }),
         )
         setPendingTx(false)
@@ -75,7 +75,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
       try {
         await onReward()
         toastSuccess(
-          `${t('Harvested')}!`,
+          `${('Harvested')}!`,
           t('Your %symbol% earnings have been sent to your wallet!', { symbol: earningToken.symbol }),
         )
         setPendingTx(false)
@@ -101,8 +101,8 @@ const CollectModal: React.FC<CollectModalProps> = ({
             variant="subtle"
             onItemClick={(index) => setShouldCompound(!index)}
           >
-            <ButtonMenuItem as="button">{t('Compound')}</ButtonMenuItem>
-            <ButtonMenuItem as="button">{t('Harvest')}</ButtonMenuItem>
+            <ButtonMenuItem as="button">{('Compound')}</ButtonMenuItem>
+            <ButtonMenuItem as="button">{('Harvest')}</ButtonMenuItem>
           </ButtonMenu>
           <Flex ml="10px" ref={targetRef}>
             <HelpIcon color="textSubtle" />
@@ -130,7 +130,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
         {pendingTx ? t('Confirming') : t('Confirm')}
       </Button>
       <Button variant="text" onClick={onDismiss} pb="0px">
-        {t('Close Window')}
+        {('Close Window')}
       </Button>
     </Modal>
   )

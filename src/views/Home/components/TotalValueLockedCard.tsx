@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Card, CardBody, Heading, Skeleton } from 'easybake-uikit' // disabled: Text
-import { useTranslation } from 'contexts/Localization'
+
 // import { useGetStats } from 'hooks/api'
 
 const StyledTotalValueLockedCard = styled(Card)`
@@ -11,7 +11,7 @@ const StyledTotalValueLockedCard = styled(Card)`
 `
 
 const TotalValueLockedCard = () => {
-  const { t } = useTranslation()
+  
   // const data = useGetStats()
   // const tvl = data ? data.tvl.toLocaleString('en-US', { maximumFractionDigits: 0 }) : null
 
@@ -19,12 +19,12 @@ const TotalValueLockedCard = () => {
     <StyledTotalValueLockedCard>
       <CardBody>
         <Heading scale="lg" mb="24px">
-          {t('Total Value Locked (TVL)')}
+          {('Total Value Locked (TVL)')}
         </Heading>
         {/* {data ? (
           <>
             <Heading scale="xl">{`$${tvl}`}</Heading>
-            <Text color="textSubtle">{t('Across all LPs and Sugar Pools')}</Text>
+            <Text color="textSubtle">{('Across all LPs and Sugar Pools')}</Text>
           </>
         ) : ( */}
           <Skeleton height={66} />

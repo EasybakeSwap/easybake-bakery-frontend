@@ -1,19 +1,19 @@
 import React from 'react'
 import { Flex, Text } from 'easybake-uikit'
 import { useWeb3React } from '@web3-react/core'
-import { useTranslation } from 'contexts/Localization'
-import { useOvenVault, usePriceOvenUsdt } from 'state/hooks'
+
+import { useOvenVault, usePriceOvenUsdc } from 'state/hooks'
 import { getOvenVaultEarnings } from 'views/Pools/helpers'
 import RecentOvenProfitBalance from './RecentOvenProfitBalance'
 
 const RecentOvenProfitCountdownRow = () => {
-  const { t } = useTranslation()
+  
   const { account } = useWeb3React()
   const {
     pricePerFullShare,
     userData: { ovenAtLastUserAction, userShares, lastUserActionTime },
   } = useOvenVault()
-  const ovenPriceBusd = usePriceOvenUsdt()
+  const ovenPriceBusd = usePriceOvenUsdc()
   const { hasAutoEarnings, autoOvenToDisplay, autoUsdToDisplay } = getOvenVaultEarnings(
     account,
     ovenAtLastUserAction,
@@ -28,7 +28,7 @@ const RecentOvenProfitCountdownRow = () => {
 
   return (
     <Flex alignItems="center" justifyContent="space-between">
-      <Text fontSize="14px">{`${t('Recent OVEN profit')}:`}</Text>
+      <Text fontSize="14px">{`${('Recent OVEN profit')}:`}</Text>
       {hasAutoEarnings && (
         <RecentOvenProfitBalance
           ovenToDisplay={autoOvenToDisplay}

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { HelpIcon, Text, Skeleton, useTooltip } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import BigNumber from 'bignumber.js'
 
 const ReferenceElement = styled.div`
@@ -36,9 +36,9 @@ const Liquidity: React.FunctionComponent<LiquidityProps> = ({ liquidity }) => {
     ) : (
       <Skeleton width={60} />
     )
-  const { t } = useTranslation()
+  
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
-    t('Total value of the funds in this farm’s liquidity pool'),
+    'Total value of the funds in this farm’s liquidity pool',
     { placement: 'top-end', tooltipOffset: [20, 10] },
   )
 

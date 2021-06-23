@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useCallback, useState } from 'react'
 import { kebabCase } from 'lodash'
-import { Toast, toastTypes } from 'maki-uikit'
+import { Toast, toastTypes } from 'easybake-uikit'
 import { ToastContextApi } from './types'
 
 export const ToastsContext = createContext<ToastContextApi>(undefined)
@@ -30,17 +30,17 @@ export const ToastsProvider: React.FC = ({ children }) => {
     [setToasts],
   )
 
-  const toastError = (title: string, description?: ReactNode) => {
-    return toast({ title, description, type: toastTypes.DANGER })
+  const toastError = (title: string) => {
+    return toast({ title, type: toastTypes.DANGER })
   }
-  const toastInfo = (title: string, description?: ReactNode) => {
-    return toast({ title, description, type: toastTypes.INFO })
+  const toastInfo = (title: string) => {
+    return toast({ title, type: toastTypes.INFO })
   }
-  const toastSuccess = (title: string, description?: ReactNode) => {
-    return toast({ title, description, type: toastTypes.SUCCESS })
+  const toastSuccess = (title: string) => {
+    return toast({ title, type: toastTypes.SUCCESS })
   }
-  const toastWarning = (title: string, description?: ReactNode) => {
-    return toast({ title, description, type: toastTypes.WARNING })
+  const toastWarning = (title: string) => {
+    return toast({ title, type: toastTypes.WARNING })
   }
   const clear = () => setToasts([])
   const remove = (id: string) => {

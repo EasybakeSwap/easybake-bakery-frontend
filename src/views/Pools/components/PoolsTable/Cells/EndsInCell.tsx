@@ -5,7 +5,6 @@ import { getEtherscanBlockCountdownUrl } from 'utils/etherscan'
 import { Pool } from 'state/types'
 import { useBlock } from 'state/hooks'
 import Balance from 'components/Balance'
-import { useTranslation } from 'contexts/Localization'
 import { getPoolBlockInfo } from 'views/Pools/helpers'
 import BaseCell, { CellContent } from './BaseCell'
 
@@ -20,7 +19,6 @@ const StyledCell = styled(BaseCell)`
 const EndsInCell: React.FC<FinishCellProps> = ({ pool }) => {
   const { sousId, totalStaked, endBlock, isFinished } = pool
   const { currentBlock } = useBlock()
-  const { t } = useTranslation()
 
   const { shouldShowBlockCountdown, blocksUntilStart, blocksRemaining, hasPoolStarted, blocksToDisplay } =
     getPoolBlockInfo(pool, currentBlock)
@@ -32,7 +30,7 @@ const EndsInCell: React.FC<FinishCellProps> = ({ pool }) => {
       <Flex flex="1.3">
         <Balance fontSize="16px" value={blocksToDisplay} decimals={0} />
         <Text ml="4px" textTransform="lowercase">
-          {t('Blocks')}
+          {('Blocks')}
         </Text>
       </Flex>
       <Flex flex="1">

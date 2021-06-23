@@ -4,7 +4,7 @@ import React, { useState, useCallback } from 'react'
 // import { useWeb3React } from '@web3-react/core'
 // import { getOvenAddress } from 'utils/addressHelpers'
 // import { getBalanceNumber } from 'utils/formatBalance'
-// import { useTranslation } from 'contexts/Localization'
+// 
 // import useGetLotteryHasDrawn from 'hooks/useGetLotteryHasDrawn'
 // import useTokenBalance from 'hooks/useTokenBalance'
 // import { useMultiClaimLottery } from 'hooks/useBuyLottery'
@@ -49,7 +49,7 @@ import React, { useState, useCallback } from 'react'
 //   const { account } = useWeb3React()
 //   const lotteryHasDrawn = useGetLotteryHasDrawn()
 //   const [requestClaim, setRequestedClaim] = useState(false)
-//   const { t } = useTranslation()
+//   
 //   const allowance = useLotteryAllowance()
 //   const [onPresentApprove] = useModal(<PurchaseWarningModal />)
 //   const { claimAmount, setLastUpdated } = useTotalClaim()
@@ -75,16 +75,16 @@ import React, { useState, useCallback } from 'react'
 //     if (!allowance.toNumber()) {
 //       return (
 //         <Button width="100%" disabled={requestedApproval} onClick={handleApprove}>
-//           {t('Approve CAKE')}
+//           {('Approve CAKE')}
 //         </Button>
 //       )
 //     }
 //     if (lotteryHasDrawn) {
-//       return <Button disabled> {t('On sale soon')}</Button>
+//       return <Button disabled> {('On sale soon')}</Button>
 //     }
 //     return (
 //       <Button id="dashboard-buy-tickets" variant="secondary" onClick={onPresentBuy}>
-//         {t('Buy Tickets')}
+//         {('Buy Tickets')}
 //       </Button>
 //     )
 //   }
@@ -95,15 +95,15 @@ import React, { useState, useCallback } from 'react'
 //     <StyledLotteryCard>
 //       <CardBody>
 //         <Heading scale="xl" mb="24px">
-//           {t('Your Lottery Winnings')}
+//           {('Your Lottery Winnings')}
 //         </Heading>
 //         <CardImage src="/images/ticket.svg" alt="cake logo" width={64} height={64} />
 //         <Block>
-//           <Label>{t('CAKE to Collect')}:</Label>
+//           <Label>{('CAKE to Collect')}:</Label>
 //           <OvenWinnings claimAmount={claimAmount} />
 //         </Block>
 //         <Block>
-//           <Label>{t('Total jackpot this round')}:</Label>
+//           <Label>{('Total jackpot this round')}:</Label>
 //           <LotteryJackpot />
 //         </Block>
 //         {account ? (
@@ -114,7 +114,7 @@ import React, { useState, useCallback } from 'react'
 //               onClick={handleClaim}
 //               style={{ marginRight: '8px' }}
 //             >
-//               {t('Collect Winnings')}
+//               {('Collect Winnings')}
 //             </Button>
 //             {renderLotteryTicketButtonBuyOrApprove()}
 //           </Actions>

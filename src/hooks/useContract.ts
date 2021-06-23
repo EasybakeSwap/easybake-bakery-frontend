@@ -19,7 +19,7 @@ import { PoolCategory } from 'config/constants/types'
 import erc20 from 'config/abi/erc20.json'
 import masterChef from 'config/abi/masterchef.json'
 import sousChef from 'config/abi/sousChef.json'
-import sousChefHt from 'config/abi/sousChef.json'
+import sousChefEth from 'config/abi/sousChefEth.json'
 import ovenVault from 'config/abi/ovenVault.json'
 import profile from 'config/abi/pancakeProfile.json'
 
@@ -59,7 +59,7 @@ export const useMasterchef = () => {
 
 export const useSousChef = (id) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
-  const rawAbi = config.poolCategory === PoolCategory.ETH ? sousChefHt : sousChef
+  const rawAbi = config.poolCategory === PoolCategory.ETH ? sousChefEth : sousChef
   const abi = (rawAbi as unknown) as AbiItem
   return useContract(abi, getAddress(config.contractAddress))
 }

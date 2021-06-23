@@ -1,7 +1,7 @@
+/* eslint-disable */
 import React from 'react'
 import styled from 'styled-components'
 import { Modal, Text, LinkExternal, Flex, Box } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
 import { tokenEarnedPerThousandDollarsCompounding, getRoi } from 'utils/compoundApyHelpers'
 
 interface ApyCalculatorModalProps {
@@ -40,7 +40,7 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
   compoundFrequency = 1,
   performanceFee = 0,
 }) => {
-  const { t } = useTranslation()
+  
   const oneThousandDollarsWorthOfToken = 1000 / tokenPrice
 
   const tokenEarnedPerThousand1D = tokenEarnedPerThousandDollarsCompounding({
@@ -77,26 +77,26 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
   })
 
   return (
-    <Modal title={t('ROI')} onDismiss={onDismiss}>
+    <Modal title={('ROI')} onDismiss={onDismiss}>
       <Grid>
         <GridHeaderItem>
           <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase" mb="12px">
-            {t('Timeframe')}
+            Timeframe
           </Text>
         </GridHeaderItem>
         <GridHeaderItem>
           <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase" mr="12px" ml="12px" mb="12px">
-            {t('ROI')}
+            ROI
           </Text>
         </GridHeaderItem>
         <GridHeaderItem>
           <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase" mb="12px">
-            {t('%symbol% per $1,000', { symbol: earningTokenSymbol })}
+            { earningTokenSymbol } per $1,000
           </Text>
         </GridHeaderItem>
         {/* 1 day row */}
         <GridItem>
-          <Text>{t('%num%d', { num: 1 })}</Text>
+          <Text> 1 </Text>
         </GridItem>
         <GridItem>
           <Text mr="12px" ml="12px">
@@ -111,7 +111,7 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
         </GridItem>
         {/* 7 day row */}
         <GridItem>
-          <Text>{t('%num%d', { num: 7 })}</Text>
+          <Text> 7 </Text>
         </GridItem>
         <GridItem>
           <Text mr="12px" ml="12px">
@@ -126,7 +126,7 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
         </GridItem>
         {/* 30 day row */}
         <GridItem>
-          <Text>{t('%num%d', { num: 30 })}</Text>
+          <Text> 30 </Text>
         </GridItem>
         <GridItem>
           <Text mr="12px" ml="12px">
@@ -142,7 +142,7 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
         </GridItem>
         {/* 365 day / APY row */}
         <GridItem style={{ maxWidth: '180px' }}>
-          <Text>{t('365d(APY)')}</Text>
+          <Text>{('365D(APY)')}</Text>
         </GridItem>
         <GridItem>
           <Text mr="12px" ml="12px">
@@ -160,14 +160,14 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
       <Flex justifyContent="center">
         <Box mb="28px" maxWidth="280px">
           <Text fontSize="12px" textAlign="center" color="textSubtle">
-            {t(
-              'Calculated based on current rates. Compounding %freq%x daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
-              { freq: compoundFrequency.toLocaleString() },
-            )}
+            
+              'Calculated based on current rates. Compounding daily. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns: ',
+              { compoundFrequency }
+            
           </Text>
           {performanceFee > 0 && (
             <Text mt="14px" fontSize="12px" textAlign="center" color="textSubtle">
-              {t('All estimated rates take into account this pool’s %fee%% performance fee', { fee: performanceFee })}
+              All estimated rates take into account this pool’s performance fee: { performanceFee }
             </Text>
           )}
         </Box>

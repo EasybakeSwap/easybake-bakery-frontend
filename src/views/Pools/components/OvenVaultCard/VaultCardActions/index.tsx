@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import styled from 'styled-components'
 import { Flex, Text, Box } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import { useCheckVaultApprovalStatus } from 'hooks/useApprove'
 import { Pool } from 'state/types'
 import { BIG_ZERO } from 'utils/bigNumber'
@@ -19,7 +19,7 @@ const OvenVaultCardActions: React.FC<{
   isLoading: boolean
 }> = ({ pool, accountHasSharesStaked, isLoading }) => {
   const { stakingToken, userData } = pool
-  const { t } = useTranslation()
+  
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
 
   const { isVaultApproved, setLastUpdated } = useCheckVaultApprovalStatus()

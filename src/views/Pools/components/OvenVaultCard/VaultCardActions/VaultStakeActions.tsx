@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex, Button, useModal, Skeleton } from 'easybake-uikit'
 import BigNumber from 'bignumber.js'
-import { useTranslation } from 'contexts/Localization'
+
 import { Pool } from 'state/types'
 import NotEnoughTokensModal from '../../PoolCard/Modals/NotEnoughTokensModal'
 import VaultStakeModal from '../VaultStakeModal'
@@ -21,7 +21,7 @@ const VaultStakeActions: React.FC<VaultStakeActionsProps> = ({
   isLoading = false,
 }) => {
   const { stakingToken } = pool
-  const { t } = useTranslation()
+  
   const [onPresentTokenRequired] = useModal(<NotEnoughTokensModal tokenSymbol={stakingToken.symbol} />)
   const [onPresentStake] = useModal(<VaultStakeModal stakingMax={stakingTokenBalance} pool={pool} />)
 
@@ -29,7 +29,7 @@ const VaultStakeActions: React.FC<VaultStakeActionsProps> = ({
     return accountHasSharesStaked ? (
       <HasSharesActions pool={pool} stakingTokenBalance={stakingTokenBalance} />
     ) : (
-      <Button onClick={stakingTokenBalance.gt(0) ? onPresentStake : onPresentTokenRequired}>{t('Stake')}</Button>
+      <Button onClick={stakingTokenBalance.gt(0) ? onPresentStake : onPresentTokenRequired}>{('Stake')}</Button>
     )
   }
 

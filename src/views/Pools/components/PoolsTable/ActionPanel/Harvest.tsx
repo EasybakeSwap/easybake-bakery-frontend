@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core'
 import { getOvenVaultEarnings } from 'views/Pools/helpers'
 import { PoolCategory } from 'config/constants/types'
 import { formatNumber, getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
-import { useTranslation } from 'contexts/Localization'
+
 import Balance from 'components/Balance'
 import { useOvenVault } from 'state/hooks'
 import { BIG_ZERO } from 'utils/bigNumber'
@@ -28,7 +28,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
   isAutoVault,
   earningTokenPrice,
 }) => {
-  const { t } = useTranslation()
+  
   const { account } = useWeb3React()
 
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO
@@ -80,7 +80,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
 
   const actionTitle = isAutoVault ? (
     <Text fontSize="12px" bold color="secondary" as="span" textTransform="uppercase">
-      {t('Recent OVEN profit')}
+      {('Recent OVEN profit')}
     </Text>
   ) : (
     <>
@@ -88,7 +88,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
         {earningToken.symbol}{' '}
       </Text>
       <Text fontSize="12px" bold color="textSubtle" as="span" textTransform="uppercase">
-        {t('Earned')}
+        {('Earned')}
       </Text>
     </>
   )

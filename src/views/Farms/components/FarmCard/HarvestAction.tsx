@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { Button, Flex, Heading } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import { useAppDispatch } from 'state'
 import { fetchFarmUserDataAsync } from 'state/farms'
 import { useHarvest } from 'hooks/useHarvest'
 import { getBalanceAmount } from 'utils/formatBalance'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { useWeb3React } from '@web3-react/core'
-import { usePriceOvenUsdt } from 'state/hooks'
+import { usePriceOvenUsdc } from 'state/hooks'
 import CardUsdtValue from '../../../Home/components/CardUsdtValue'
 
 interface FarmCardActionsProps {
@@ -18,10 +18,10 @@ interface FarmCardActionsProps {
 
 const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
   const { account } = useWeb3React()
-  const { t } = useTranslation()
+  
   const [pendingTx, setPendingTx] = useState(false)
   const { onReward } = useHarvest(pid)
-  const ovenPrice = usePriceOvenUsdt()
+  const ovenPrice = usePriceOvenUsdc()
   const dispatch = useAppDispatch()
   const rawEarningsBalance = account ? getBalanceAmount(earnings) : BIG_ZERO
   const displayBalance = rawEarningsBalance.toFixed(3, BigNumber.ROUND_DOWN)
@@ -43,7 +43,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
           setPendingTx(false)
         }}
       >
-        {t('Harvest')}
+        {('Harvest')}
       </Button>
     </Flex>
   )

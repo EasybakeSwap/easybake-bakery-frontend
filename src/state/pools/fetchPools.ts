@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import poolsConfig from 'config/constants/pools'
 import sousChefABI from 'config/abi/sousChef.json'
-import makiABI from 'config/abi/maki.json'
-import whtABI from 'config/abi/wht.json'
+import ovenABI from 'config/abi/oven.json'
+import wethABI from 'config/abi/weth.json'
 import multicall from 'utils/multicall'
 import { getAddress, getWethAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
@@ -26,11 +26,11 @@ export const fetchPoolsBlockLimits = async () => {
   const starts = await multicall(sousChefABI, callsStartBlock)
   const ends = await multicall(sousChefABI, callsEndBlock)
 
-  return poolsWithEnd.map((makiPoolConfig, index) => {
+  return poolsWithEnd.map((ovenPoolConfig, index) => {
     const startBlock = starts[index]
     const endBlock = ends[index]
     return {
-      sousId: makiPoolConfig.sousId,
+      sousId: ovenPoolConfig.sousId,
       startBlock: new BigNumber(startBlock).toJSON(),
       endBlock: new BigNumber(endBlock).toJSON(),
     }
@@ -38,10 +38,10 @@ export const fetchPoolsBlockLimits = async () => {
 }
 
 export const fetchPoolsTotalStaking = async () => {
-  const nonHtPools = poolsConfig.filter((p) => p.stakingToken.symbol !== 'HT')
-  const htPool = poolsConfig.filter((p) => p.stakingToken.symbol === 'HT')
+  const nonEthPools = poolsConfig.filter((p) => p.stakingToken.symbol !== 'ETH')
+  const ethPool = poolsConfig.filter((p) => p.stakingToken.symbol === 'ETH')
 
-  const callsNonHtPools = nonHtPools.map((poolConfig) => {
+  const callsNonEthPools = nonEthPools.map((poolConfig) => {
     return {
       address: getAddress(poolConfig.stakingToken.address),
       name: 'balanceOf',
@@ -49,7 +49,7 @@ export const fetchPoolsTotalStaking = async () => {
     }
   })
 
-  const callsHtPools = htPool.map((poolConfig) => {
+  const callsEthPools = ethPool.map((poolConfig) => {
     return {
       address: getWethAddress(),
       name: 'balanceOf',
@@ -57,17 +57,17 @@ export const fetchPoolsTotalStaking = async () => {
     }
   })
 
-  const nonHtPoolsTotalStaked = await multicall(makiABI, callsNonHtPools)
-  const htPoolsTotalStaked = await multicall(whtABI, callsHtPools)
+  const nonEthPoolsTotalStaked = await multicall(ovenABI, callsNonEthPools)
+  const ethPoolsTotalStaked = await multicall(wethABI, callsEthPools)
 
   return [
-    ...nonHtPools.map((p, index) => ({
+    ...nonEthPools.map((p, index) => ({
       sousId: p.sousId,
-      totalStaked: new BigNumber(nonHtPoolsTotalStaked[index]).toJSON(),
+      totalStaked: new BigNumber(nonEthPoolsTotalStaked[index]).toJSON(),
     })),
-    ...htPool.map((p, index) => ({
+    ...ethPool.map((p, index) => ({
       sousId: p.sousId,
-      totalStaked: new BigNumber(htPoolsTotalStaked[index]).toJSON(),
+      totalStaked: new BigNumber(ethPoolsTotalStaked[index]).toJSON(),
     })),
   ]
 }
@@ -86,7 +86,7 @@ export const fetchPoolsStakingLimits = async (
   poolsWithStakingLimit: number[],
 ): Promise<{ [key: string]: BigNumber }> => {
   const validPools = poolsConfig
-    .filter((p) => p.stakingToken.symbol !== 'HT' && !p.isFinished)
+    .filter((p) => p.stakingToken.symbol !== 'ETH' && !p.isFinished)
     .filter((p) => !poolsWithStakingLimit.includes(p.sousId))
 
   // Get the staking limit for each valid pool

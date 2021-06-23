@@ -2,25 +2,25 @@ import React from 'react'
 import { Text } from 'easybake-uikit'
 import { useWeb3React } from '@web3-react/core'
 import useTokenBalance from 'hooks/useTokenBalance'
-import { useTranslation } from 'contexts/Localization'
+
 import { getOvenAddress } from 'utils/addressHelpers'
 import { getBalanceNumber } from 'utils/formatBalance'
-import { usePriceOvenUsdt } from 'state/hooks'
+import { usePriceOvenUsdc } from 'state/hooks'
 import { BigNumber } from 'bignumber.js'
 import CardValue from './CardValue'
 import CardUsdtValue from './CardUsdtValue'
 
 const OvenWalletBalance = () => {
-  const { t } = useTranslation()
+  
   const { balance: cakeBalance } = useTokenBalance(getOvenAddress())
-  const ovenPriceUsdt = usePriceOvenUsdt()
-  const busdBalance = new BigNumber(getBalanceNumber(cakeBalance)).multipliedBy(ovenPriceUsdt).toNumber()
+  const ovenPriceUsdc = usePriceOvenUsdc()
+  const busdBalance = new BigNumber(getBalanceNumber(cakeBalance)).multipliedBy(ovenPriceUsdc).toNumber()
   const { account } = useWeb3React()
 
   if (!account) {
     return (
       <Text color="textDisabled" style={{ lineHeight: '54px' }}>
-        {t('Locked')}
+        {('Locked')}
       </Text>
     )
   }
@@ -28,7 +28,7 @@ const OvenWalletBalance = () => {
   return (
     <>
       <CardValue value={getBalanceNumber(cakeBalance)} decimals={4} fontSize="24px" lineHeight="36px" />
-      {ovenPriceUsdt.gt(0) ? <CardUsdtValue value={busdBalance} /> : <br />}
+      {ovenPriceUsdc.gt(0) ? <CardUsdtValue value={busdBalance} /> : <br />}
     </>
   )
 }

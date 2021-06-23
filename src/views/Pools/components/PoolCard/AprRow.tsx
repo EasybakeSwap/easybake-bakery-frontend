@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex, TooltipText, IconButton, useModal, CalculateIcon, Skeleton, useTooltip } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import Balance from 'components/Balance'
 import ApyCalculatorModal from 'components/ApyCalculatorModal'
 import { Pool } from 'state/types'
@@ -13,7 +13,7 @@ interface AprRowProps {
 }
 
 const AprRow: React.FC<AprRowProps> = ({ pool, performanceFee = 0 }) => {
-  const { t } = useTranslation()
+  
   const { stakingToken, earningToken, isFinished, apr, earningTokenPrice, isAutoVault } = pool
 
   const tooltipContent = isAutoVault
@@ -32,7 +32,7 @@ const AprRow: React.FC<AprRowProps> = ({ pool, performanceFee = 0 }) => {
     <ApyCalculatorModal
       tokenPrice={earningTokenPrice}
       apr={apr}
-      linkLabel={t('Get %symbol%', { symbol: stakingToken.symbol })}
+      linkLabel={('Get %symbol%', { symbol: stakingToken.symbol })}
       linkHref={apyModalLink || BASE_EXCHANGE_URL}
       earningTokenSymbol={earningToken.symbol}
       roundingDecimals={roundingDecimals}
@@ -44,7 +44,7 @@ const AprRow: React.FC<AprRowProps> = ({ pool, performanceFee = 0 }) => {
   return (
     <Flex alignItems="center" justifyContent="space-between">
       {tooltipVisible && tooltip}
-      <TooltipText ref={targetRef}>{isAutoVault ? `${t('APY')}:` : `${t('APR')}:`}</TooltipText>
+      <TooltipText ref={targetRef}>{isAutoVault ? `${('APY')}:` : `${('APR')}:`}</TooltipText>
       {isFinished || !apr ? (
         <Skeleton width="82px" height="32px" />
       ) : (

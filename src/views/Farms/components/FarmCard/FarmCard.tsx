@@ -5,7 +5,7 @@ import { Flex, Text, Skeleton } from 'easybake-uikit'
 import { Farm } from 'state/types'
 import { provider as ProviderType } from 'web3-core'
 import { getEtherscanAddressUrl } from 'utils/etherscan'
-import { useTranslation } from 'contexts/Localization'
+
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
@@ -78,7 +78,7 @@ interface FarmCardProps {
 }
 
 const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, account }) => {
-  const { t } = useTranslation()
+  
 
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
@@ -116,7 +116,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, account }
       />
       {!removed && (
         <Flex justifyContent="space-between" alignItems="center">
-          <Text>{t('APR')}:</Text>
+          <Text>{('APR')}:</Text>
           <Text bold style={{ display: 'flex', alignItems: 'center' }}>
             {farm.apr ? (
               <>
@@ -130,7 +130,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, account }
         </Flex>
       )}
       <Flex justifyContent="space-between">
-        <Text>{t('Earn')}:</Text>
+        <Text>{('Earn')}:</Text>
         <Text bold>{earnLabel}</Text>
       </Flex>
       <CardActionsContainer farm={farm} account={account} addLiquidityUrl={addLiquidityUrl} />
@@ -142,7 +142,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, removed, ovenPrice, account }
       <ExpandingWrapper expanded={showExpandableSection}>
         <DetailsSection
           removed={removed}
-          bscScanAddress={getEtherscanAddressUrl(farm.lpAddresses[process.env.REACT_APP_CHAIN_ID])}
+          etherscanAddress={getEtherscanAddressUrl(farm.lpAddresses[process.env.REACT_APP_CHAIN_ID])}
           infoAddress={`https://info.easybake.finance/pair/${lpAddress}`}
           totalValueFormatted={totalValueFormatted}
           lpLabel={lpLabel}

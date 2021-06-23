@@ -50,8 +50,8 @@ export const usePollFarmsData = (includeArchive = false) => {
 
 /**
  * Fetches the "core" farm data used globally
- * 1 = MAKI-HT LP
- * 4 = HUSD-HT LP
+ * 1 = OVEN-HT LP
+ * 4 = USDC-HT LP
  */
 export const usePollCoreFarmData = () => {
   const dispatch = useAppDispatch()
@@ -111,20 +111,20 @@ export const useFarmFromTokenSymbol = (tokenSymbol: string, preferredQuoteTokens
 }
 
 // Return the base token price for a farm, from a given pid
-export const useHusdPriceFromPid = (pid: number): BigNumber => {
+export const useUsdcPriceFromPid = (pid: number): BigNumber => {
   const farm = useFarmFromPid(pid)
-  return farm && new BigNumber(farm.token.usdtPrice)
+  return farm && new BigNumber(farm.token.usdcPrice)
 }
 
-export const useHusdPriceFromToken = (tokenSymbol: string): BigNumber => {
+export const useUsdcPriceFromToken = (tokenSymbol: string): BigNumber => {
   const tokenFarm = useFarmFromTokenSymbol(tokenSymbol)
-  const tokenPrice = useHusdPriceFromPid(tokenFarm?.pid)
+  const tokenPrice = useUsdcPriceFromPid(tokenFarm?.pid)
   return tokenPrice
 }
 
 export const useLpTokenPrice = (symbol: string) => {
   const farm = useFarmFromLpSymbol(symbol)
-  const farmTokenPriceInUsd = useHusdPriceFromPid(farm.pid)
+  const farmTokenPriceInUsd = useUsdcPriceFromPid(farm.pid)
   let lpTokenPrice = BIG_ZERO
 
   if (farm.lpTotalSupply && farm.lpTotalInQuoteToken) {
@@ -323,12 +323,12 @@ export const useOvenVault = () => {
 
 export const usePriceEthUsdt = (): BigNumber => {
   const ethUsdtFarm = useFarmFromPid(4) // USDT-ETH LP
-  return new BigNumber(ethUsdtFarm.quoteToken.usdtPrice)
+  return new BigNumber(ethUsdtFarm.quoteToken.usdcPrice)
 }
 
-export const usePriceOvenUsdt = (): BigNumber => {
+export const usePriceOvenUsdc = (): BigNumber => {
   const ovenUsdtFarm = useFarmFromPid(3) // OVEN-USDT LP
-  return new BigNumber(ovenUsdtFarm.token.usdtPrice)
+  return new BigNumber(ovenUsdtFarm.token.usdcPrice)
 }
 
 // Block

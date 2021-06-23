@@ -1,4 +1,3 @@
-import { ContextApi } from 'contexts/Localization/types'
 import { PageMeta } from './types'
 
 export const DEFAULT_META: PageMeta = {
@@ -9,19 +8,19 @@ export const DEFAULT_META: PageMeta = {
   image: '',
 }
 
-export const getCustomMeta = (path: string, t: ContextApi['t']): PageMeta => {
+export const getCustomMeta = (path: string): PageMeta => {
   switch (path) {
     case '/':
       return {
-        title: `${t('EasyBake')} | ${t('Home')}`,
+        title: `${('EasyBake')} | ${('Home')}`,
       }
     case '/bakery':
       return {
-        title: `${t('EasyBake')} | ${t('Bakery')}`,
+        title: `${('EasyBake')} | ${('Bakery')}`,
       }
     case '/pools':
       return {
-        title: `${t('EasyBake')} | ${t('Refinery')}`,
+        title: `${('EasyBake')} | ${('Refinery')}`,
       }
     default:
       return null

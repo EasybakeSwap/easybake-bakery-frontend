@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, TooltipText, useTooltip } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import Balance from 'components/Balance'
 
 interface RecentOvenProfitBalanceProps {
@@ -14,13 +14,13 @@ const RecentOvenProfitBalance: React.FC<RecentOvenProfitBalanceProps> = ({
   dollarValueToDisplay,
   dateStringToDisplay,
 }) => {
-  const { t } = useTranslation()
+  
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     <>
       <Balance fontSize="16px" value={ovenToDisplay} decimals={3} bold unit=" OVEN" />
       <Balance fontSize="16px" value={dollarValueToDisplay} decimals={2} bold prefix="~$" />
-      {t('Earned since your last action')}
+      {('Earned since your last action')}
       <Text>{dateStringToDisplay}</Text>
     </>,
     {

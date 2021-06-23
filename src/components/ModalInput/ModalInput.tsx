@@ -1,7 +1,8 @@
+/* eslint-disable */
 import React from 'react'
 import styled from 'styled-components'
 import { Text, Button, Input, InputProps, Flex, Link } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import { BigNumber } from 'bignumber.js'
 
 interface ModalInputProps {
@@ -68,7 +69,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
   inputTitle,
   decimals = 18,
 }) => {
-  const { t } = useTranslation()
+  
   const isBalanceZero = max === '0' || !max
 
   const displayBalance = (balance: string) => {
@@ -87,7 +88,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
       <StyledTokenInput isWarning={isBalanceZero}>
         <Flex justifyContent="space-between" pl="16px">
           <Text fontSize="14px">{inputTitle}</Text>
-          <Text fontSize="14px">{t('Balance: %balance%', { balance: displayBalance(max) })}</Text>
+          <Text fontSize="14px">Balance: { displayBalance(max) }</Text>
         </Flex>
         <Flex alignItems="flex-end" justifyContent="space-around">
           <StyledInput
@@ -100,16 +101,16 @@ const ModalInput: React.FC<ModalInputProps> = ({
             value={value}
           />
           <Button scale="sm" onClick={onSelectMax} mr="8px">
-            {t('Max')}
+            {('Max')}
           </Button>
           <Text fontSize="16px">{symbol}</Text>
         </Flex>
       </StyledTokenInput>
       {isBalanceZero && (
         <StyledErrorMessage fontSize="14px" color="failure">
-          {t('No tokens to stake')}:{' '}
+          {('No tokens to stake')}:{' '}
           <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
-            {t('Get %symbol%', { symbol })}
+          Get { symbol }
           </Link>
         </StyledErrorMessage>
       )}

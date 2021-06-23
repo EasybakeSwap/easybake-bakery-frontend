@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Heading, Card, CardBody, Button } from 'easybake-uikit'
 import { harvest } from 'utils/callHelpers'
 import { useWeb3React } from '@web3-react/core'
-import { useTranslation } from 'contexts/Localization'
+
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'
 import { useMasterchef } from 'hooks/useContract'
 import UnlockButton from 'components/UnlockButton'
@@ -37,7 +37,7 @@ const Actions = styled.div`
 const FarmedStakingCard = () => {
   const [pendingTx, setPendingTx] = useState(false)
   const { account } = useWeb3React()
-  const { t } = useTranslation()
+  
   const farmsWithBalance = useFarmsWithBalance()
   const masterChefContract = useMasterchef()
   const balancesWithValue = farmsWithBalance.filter((balanceType) => balanceType.balance.toNumber() > 0)
@@ -60,15 +60,15 @@ const FarmedStakingCard = () => {
     <StyledFarmStakingCard>
       <CardBody>
         <Heading scale="xl" mb="24px">
-          {t('Baking & Staking')}
+          {('Baking & Staking')}
         </Heading>
         <CardImage src="/images/OVEN.svg" alt="oven logo" width={64} height={64} />
         <Block>
-          <Label>{t('OVEN to Harvest')}:</Label>
+          <Label>{('OVEN to Harvest')}:</Label>
           <OvenHarvestBalance />
         </Block>
         <Block>
-          <Label>{t('OVEN in Wallet')}:</Label>
+          <Label>{('OVEN in Wallet')}:</Label>
           <OvenWalletBalance />
         </Block>
         <Actions>

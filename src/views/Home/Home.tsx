@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Heading, Text, BaseLayout } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import Page from 'components/layout/Page'
 import FarmStakingCard from 'views/Home/components/FarmStakingCard'
 // import LotteryCard from 'views/Home/components/LotteryCard'
@@ -85,15 +85,15 @@ const CTACards = styled(BaseLayout)`
 `
 
 const Home: React.FC = () => {
-  const { t } = useTranslation()
+  
 
   return (
     <Page>
       <Hero>
         <Heading as="h1" scale="xl" mb="24px" color="secondary">
-          {t('EasyBake')}
+          {('EasyBake')}
         </Heading>
-        <Text>{t('The #1 AMM and yield farm on Ethereum Smart Chain.')}</Text>
+        <Text>{('The #1 AMM and yield farm on Ethereum Smart Chain.')}</Text>
       </Hero>
       <div>
         <Cards>

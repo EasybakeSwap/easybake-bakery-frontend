@@ -2,7 +2,6 @@ import React from 'react'
 import { Box, ExpandableLabel, Flex } from 'easybake-uikit'
 import styled from 'styled-components'
 import usePersistState from 'hooks/usePersistState'
-import { useTranslation } from 'contexts/Localization'
 
 interface Props {
   id: string
@@ -24,14 +23,14 @@ const Content = styled.div<{ isVisible: boolean }>`
 `
 
 const Banner: React.FC<Props> = ({ id, title, defaultVisible = true, children, ...props }) => {
-  const { t } = useTranslation()
+  
   const [isVisible, setIsVisible] = usePersistState(defaultVisible, { localStorageKey: `banner-${id}` })
   return (
     <Wrapper isVisible={isVisible} {...props}>
       <Flex justifyContent="space-between" flexDirection={['column', 'row']}>
         {title}
         <ExpandableLabel expanded={isVisible} onClick={() => setIsVisible((prev) => !prev)}>
-          {isVisible ? t('Hide') : t('Details')}
+          {isVisible ? 'Hide' : 'Details' }
         </ExpandableLabel>
       </Flex>
       <Content isVisible={isVisible}>{children}</Content>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex, Text, TooltipText, useTooltip } from 'easybake-uikit'
-import { useTranslation } from 'contexts/Localization'
+
 import { useWeb3React } from '@web3-react/core'
 import useWithdrawalFeeTimer from 'hooks/ovenVault/useWithdrawalFeeTimer'
 import { useOvenVault } from 'state/hooks'
@@ -11,7 +11,7 @@ interface UnstakingFeeCountdownRowProps {
 }
 
 const UnstakingFeeCountdownRow: React.FC<UnstakingFeeCountdownRowProps> = ({ isTableVariant }) => {
-  const { t } = useTranslation()
+  
   const { account } = useWeb3React()
   const {
     userData: { lastDepositedTime, userShares },
@@ -21,12 +21,10 @@ const UnstakingFeeCountdownRow: React.FC<UnstakingFeeCountdownRowProps> = ({ isT
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     <>
       <Text bold mb="4px">
-        {t('Unstaking fee: %fee%%', { fee: feeAsDecimal })}
+        Unstaking fee: { feeAsDecimal }
       </Text>
       <Text>
-        {t(
-          'Only applies within 3 days of staking. Unstaking after 3 days will not include a fee. Timer resets every time you stake new OVEN in the pool.',
-        )}
+          Only applies within 3 days of staking. Unstaking after 3 days will not include a fee. Timer resets every time you stake new OVEN in the pool.
       </Text>
     </>,
     { placement: 'bottom-start' },

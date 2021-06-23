@@ -6,7 +6,7 @@ import { useWeb3React } from '@web3-react/core'
 import { Heading, Flex, Image, Text } from 'easybake-uikit'
 import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
-import { useTranslation } from 'contexts/Localization'
+
 import usePersistState from 'hooks/usePersistState'
 import { usePools, useFetchOvenVault, useFetchPublicPoolsData, usePollFarmsData, useOvenVault } from 'state/hooks'
 import { latinise } from 'utils/latinise'
@@ -52,7 +52,7 @@ const NUMBER_OF_POOLS_VISIBLE = 12
 
 const Pools: React.FC = () => {
   const location = useLocation()
-  const { t } = useTranslation()
+  
   const { account } = useWeb3React()
   const { pools: poolsWithoutAutoVault, userDataLoaded } = usePools(account)
   const [stakedOnly, setStakedOnly] = usePersistState(false, { localStorageKey: 'pancake_pool_staked' })
@@ -210,13 +210,13 @@ const Pools: React.FC = () => {
         <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
             <Heading as="h1" scale="xxl" color="secondary" mb="24px">
-              {t('Sugar Refinery')}
+              {('Sugar Refinery')}
             </Heading>
             <Heading scale="md" color="text">
-              {t('Refine your tokens to earn SUGAR')}
+              {('Refine your tokens to earn SUGAR')}
             </Heading>
             <Heading scale="md" color="text">
-              {t('High APR, low risk.')}
+              {('High APR, low risk.')}
             </Heading>
           </Flex>
           <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
@@ -237,25 +237,25 @@ const Pools: React.FC = () => {
           <SearchSortContainer>
             <Flex flexDirection="column" width="50%">
               <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
-                {t('Sort by')}
+                {('Sort by')}
               </Text>
               <ControlStretch>
                 <Select
                   options={[
                     {
-                      label: t('Hot'),
+                      label: ('Hot'),
                       value: 'hot',
                     },
                     {
-                      label: t('APR'),
+                      label: ('APR'),
                       value: 'apr',
                     },
                     {
-                      label: t('Earned'),
+                      label: ('Earned'),
                       value: 'earned',
                     },
                     {
-                      label: t('Total staked'),
+                      label: ('Total staked'),
                       value: 'totalStaked',
                     },
                   ]}
@@ -265,7 +265,7 @@ const Pools: React.FC = () => {
             </Flex>
             <Flex flexDirection="column" width="50%">
               <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
-                {t('Search')}
+                {('Search')}
               </Text>
               <ControlStretch>
                 <SearchInput onChange={handleChangeSearchQuery} placeholder="Search Pools" />
@@ -275,7 +275,7 @@ const Pools: React.FC = () => {
         </PoolControls>
         {showFinishedPools && (
           <Text fontSize="20px" color="failure" pb="32px">
-            {t('These pools are no longer distributing rewards. Please unstake your tokens.')}
+            {('These pools are no longer distributing rewards. Please unstake your tokens.')}
           </Text>
         )}
         {viewMode === ViewMode.CARD ? cardLayout : tableLayout}

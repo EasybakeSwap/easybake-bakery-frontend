@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { Button, Modal } from 'easybake-uikit'
 import ModalActions from 'components/ModalActions'
 import ModalInput from 'components/ModalInput'
-import { useTranslation } from 'contexts/Localization'
+
 import { getFullDisplayBalance } from 'utils/formatBalance'
 
 interface WithdrawModalProps {
@@ -16,7 +16,7 @@ interface WithdrawModalProps {
 const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max, tokenName = '' }) => {
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
-  const { t } = useTranslation()
+  
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(max)
   }, [max])
@@ -38,18 +38,18 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
   }, [fullBalance, setVal])
 
   return (
-    <Modal title={t('Unstake LP tokens')} onDismiss={onDismiss}>
+    <Modal title={('Unstake LP tokens')} onDismiss={onDismiss}>
       <ModalInput
         onSelectMax={handleSelectMax}
         onChange={handleChange}
         value={val}
         max={fullBalance}
         symbol={tokenName}
-        inputTitle={t('Unstake')}
+        inputTitle={('Unstake')}
       />
       <ModalActions>
         <Button variant="secondary" onClick={onDismiss} width="100%" disabled={pendingTx}>
-          {t('Cancel')}
+          {('Cancel')}
         </Button>
         <Button
           disabled={pendingTx || !valNumber.isFinite() || valNumber.eq(0) || valNumber.gt(fullBalanceNumber)}
@@ -61,7 +61,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
           }}
           width="100%"
         >
-          {pendingTx ? t('Pending Confirmation') : t('Confirm')}
+          {pendingTx ? 'Pending Confirmation' : 'Confirm'}
         </Button>
       </ModalActions>
     </Modal>

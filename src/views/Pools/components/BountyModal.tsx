@@ -8,7 +8,7 @@ import { getBalanceNumber } from 'utils/formatBalance'
 import { useOvenVaultContract } from 'hooks/useContract'
 import useTheme from 'hooks/useTheme'
 import useToast from 'hooks/useToast'
-import { useTranslation } from 'contexts/Localization'
+
 import UnlockButton from 'components/UnlockButton'
 import Balance from 'components/Balance'
 
@@ -36,7 +36,7 @@ const BountyModal: React.FC<BountyModalProps> = ({
   onDismiss,
   TooltipComponent,
 }) => {
-  const { t } = useTranslation()
+  
   const { account } = useWeb3React()
   const { theme } = useTheme()
   const { toastError, toastSuccess } = useToast()
@@ -73,10 +73,10 @@ const BountyModal: React.FC<BountyModalProps> = ({
   }
 
   return (
-    <Modal title={t('Claim Bounty')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
+    <Modal title={('Claim Bounty')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
       {tooltipVisible && tooltip}
       <Flex alignItems="flex-start" justifyContent="space-between">
-        <Text>{t('You’ll claim')}</Text>
+        <Text>{('You’ll claim')}</Text>
         <Flex flexDirection="column">
           <Balance bold value={ovenBountyToDisplay} decimals={7} unit=" CAKE" />
           <Text fontSize="12px" color="textSubtle">
@@ -94,13 +94,13 @@ const BountyModal: React.FC<BountyModalProps> = ({
       <Divider />
       <Flex alignItems="center" justifyContent="space-between">
         <Text fontSize="14px" color="textSubtle">
-          {t('Pool total pending yield')}
+          {('Pool total pending yield')}
         </Text>
         <Balance color="textSubtle" value={totalYieldToDisplay} unit=" CAKE" />
       </Flex>
       <Flex alignItems="center" justifyContent="space-between" mb="24px">
         <Text fontSize="14px" color="textSubtle">
-          {t('Bounty')}
+          {('Bounty')}
         </Text>
         <Text fontSize="14px" color="textSubtle">
           {callFeeAsDecimal}%
@@ -113,14 +113,14 @@ const BountyModal: React.FC<BountyModalProps> = ({
           onClick={handleConfirmClick}
           mb="28px"
         >
-          {t('Confirm')}
+          {('Confirm')}
         </Button>
       ) : (
         <UnlockButton mb="28px" />
       )}
       <Flex justifyContent="center" alignItems="center">
         <Text fontSize="16px" bold color="textSubtle" mr="4px">
-          {t('What’s this?')}
+          {('What’s this?')}
         </Text>
         <span ref={targetRef}>
           <HelpIcon color="textSubtle" />

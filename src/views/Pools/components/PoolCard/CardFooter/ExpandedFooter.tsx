@@ -2,7 +2,7 @@ import React from 'react'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
-import { useTranslation } from 'contexts/Localization'
+
 import {
   Flex,
   MetamaskIcon,
@@ -35,7 +35,7 @@ const ExpandedWrapper = styled(Flex)`
 `
 
 const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
-  const { t } = useTranslation()
+  
   const { currentBlock } = useBlock()
   const {
     totalOvenInVault,
@@ -73,7 +73,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
   return (
     <ExpandedWrapper flexDirection="column">
       <Flex mb="2px" justifyContent="space-between" alignItems="center">
-        <Text small>{t('Total staked')}:</Text>
+        <Text small>{('Total staked')}:</Text>
         <Flex alignItems="flex-start">
           {totalStaked ? (
             <>
@@ -97,7 +97,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
               <Skeleton width="54px" height="21px" />
             )}
             <Text ml="4px" color="primary" small textTransform="lowercase">
-              {t('Blocks')}
+              {('Blocks')}
             </Text>
             <TimerIcon ml="4px" color="primary" />
           </Flex>
@@ -107,7 +107,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
         <Flex mb="2px" justifyContent="space-between" alignItems="center">
           {tooltipVisible && tooltip}
           <TooltipText ref={targetRef} small>
-            {t('Performance Fee')}
+            {('Performance Fee')}
           </TooltipText>
           <Flex alignItems="center">
             <Text ml="4px" small>
@@ -118,7 +118,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
       )}
       <Flex mb="2px" justifyContent="flex-end">
         <LinkExternal bold={false} small href={earningToken.projectLink}>
-          {t('View Project Site')}
+          {('View Project Site')}
         </LinkExternal>
       </Flex>
       {poolContractAddress && (
@@ -128,7 +128,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
             small
             href={`${BASE_ETHERSCAN_URL}/address/${isAutoVault ? ovenVaultContractAddress : poolContractAddress}`}
           >
-            {t('View Contract')}
+            {('View Contract')}
           </LinkExternal>
         </Flex>
       )}
@@ -141,7 +141,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
             onClick={() => registerToken(tokenAddress, earningToken.symbol, earningToken.decimals, imageSrc)}
           >
             <Text color="primary" fontSize="14px">
-              {t('Add to Metamask')}
+              {('Add to Metamask')}
             </Text>
             <MetamaskIcon ml="4px" />
           </Button>
