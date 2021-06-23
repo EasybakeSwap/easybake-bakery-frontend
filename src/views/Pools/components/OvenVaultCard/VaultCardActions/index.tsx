@@ -34,7 +34,7 @@ const OvenVaultCardActions: React.FC<{
             bold
             fontSize="12px"
           >
-            {accountHasSharesStaked ? stakingToken.symbol : t('Stake')}{' '}
+            {accountHasSharesStaked ? stakingToken.symbol : 'Stake'}{' '}
           </InlineText>
           <InlineText
             color={accountHasSharesStaked ? 'textSubtle' : 'secondary'}
@@ -42,7 +42,7 @@ const OvenVaultCardActions: React.FC<{
             bold
             fontSize="12px"
           >
-            {accountHasSharesStaked ? t('Staked (compounding)') : `${stakingToken.symbol}`}
+            {accountHasSharesStaked ? 'Staked (compounding)' : `${stakingToken.symbol}`}
           </InlineText>
         </Box>
         {isVaultApproved ? (

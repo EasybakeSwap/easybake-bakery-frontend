@@ -34,7 +34,7 @@ const TotalStakedCell: React.FC<ExpandActionCellProps> = ({ expanded, isFullLayo
     <StyledCell role="cell">
       {isFullLayout && (
         <Text color="primary" bold>
-          {expanded ? t('Hide') : t('Details')}
+          {expanded ? 'Hide' : 'Details'}
         </Text>
       )}
       <ArrowIcon color="primary" toggled={expanded} />

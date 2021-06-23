@@ -49,13 +49,13 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
   const ovenVaultContractAddress = getOvenVaultAddress()
   const imageSrc = `${BASE_URL}/images/tokens/${earningToken.symbol.toLowerCase()}.png`
   const isMetaMaskInScope = !!(window as WindowChain).ethereum?.isMetaMask
-  const isManualCakePool = sousId === 0
+  const isManualOvenPool = sousId === 0
 
   const { shouldShowBlockCountdown, blocksUntilStart, blocksRemaining, hasPoolStarted, blocksToDisplay } =
     getPoolBlockInfo(pool, currentBlock)
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
-    t('Subtracted automatically from each yield harvest and burned.'),
+    'Subtracted automatically from each yield harvest and burned.',
     { placement: 'bottom-start' },
   )
 
@@ -63,9 +63,9 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
     if (isAutoVault) {
       return getBalanceNumber(totalOvenInVault, stakingToken.decimals)
     }
-    if (isManualCakePool) {
-      const manualCakeTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalOvenInVault)
-      return getBalanceNumber(manualCakeTotalMinusAutoVault, stakingToken.decimals)
+    if (isManualOvenPool) {
+      const manualOvenTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalOvenInVault)
+      return getBalanceNumber(manualOvenTotalMinusAutoVault, stakingToken.decimals)
     }
     return getBalanceNumber(totalStaked, stakingToken.decimals)
   }
@@ -73,7 +73,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
   return (
     <ExpandedWrapper flexDirection="column">
       <Flex mb="2px" justifyContent="space-between" alignItems="center">
-        <Text small>{('Total staked')}:</Text>
+        <Text small>Total staked:</Text>
         <Flex alignItems="flex-start">
           {totalStaked ? (
             <>
@@ -89,7 +89,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
       </Flex>
       {shouldShowBlockCountdown && (
         <Flex mb="2px" justifyContent="space-between" alignItems="center">
-          <Text small>{hasPoolStarted ? t('End') : t('Start')}:</Text>
+          <Text small>{hasPoolStarted ? 'End' : 'Start'}:</Text>
           <Flex alignItems="center">
             {blocksRemaining || blocksUntilStart ? (
               <Balance color="primary" fontSize="14px" value={blocksToDisplay} decimals={0} />
@@ -97,7 +97,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
               <Skeleton width="54px" height="21px" />
             )}
             <Text ml="4px" color="primary" small textTransform="lowercase">
-              {('Blocks')}
+              Blocks
             </Text>
             <TimerIcon ml="4px" color="primary" />
           </Flex>
@@ -107,7 +107,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
         <Flex mb="2px" justifyContent="space-between" alignItems="center">
           {tooltipVisible && tooltip}
           <TooltipText ref={targetRef} small>
-            {('Performance Fee')}
+            Performance Fee
           </TooltipText>
           <Flex alignItems="center">
             <Text ml="4px" small>
@@ -118,7 +118,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
       )}
       <Flex mb="2px" justifyContent="flex-end">
         <LinkExternal bold={false} small href={earningToken.projectLink}>
-          {('View Project Site')}
+          View Project Site
         </LinkExternal>
       </Flex>
       {poolContractAddress && (
@@ -128,7 +128,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
             small
             href={`${BASE_ETHERSCAN_URL}/address/${isAutoVault ? ovenVaultContractAddress : poolContractAddress}`}
           >
-            {('View Contract')}
+            View Contract
           </LinkExternal>
         </Flex>
       )}
@@ -141,7 +141,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
             onClick={() => registerToken(tokenAddress, earningToken.symbol, earningToken.decimals, imageSrc)}
           >
             <Text color="primary" fontSize="14px">
-              {('Add to Metamask')}
+              Add to Metamask
             </Text>
             <MetamaskIcon ml="4px" />
           </Button>

@@ -89,15 +89,12 @@ const StakeModal: React.FC<StakeModalProps> = ({
       try {
         await onUnstake(stakeAmount, stakingToken.decimals)
         toastSuccess(
-          `${('Unstaked')}!`,
-          t('Your %symbol% earnings have also been harvested to your wallet!', {
-            symbol: earningToken.symbol,
-          }),
-        )
+          `Unstaked!`, `Your ${earningToken.symbol} earnings have also been harvested to your wallet!`
+          ),
         setPendingTx(false)
         onDismiss()
       } catch (e) {
-        toastError(t('Canceled'), t('Please try again and confirm the transaction.'))
+        toastError('Canceled', 'Please try again and confirm the transaction.')
         setPendingTx(false)
       }
     } else {
@@ -105,15 +102,12 @@ const StakeModal: React.FC<StakeModalProps> = ({
         // staking
         await onStake(stakeAmount, stakingToken.decimals)
         toastSuccess(
-          `${('Staked')}!`,
-          t('Your %symbol% funds have been staked in the pool!', {
-            symbol: stakingToken.symbol,
-          }),
+          `Staked!`, `Your ${stakingToken.symbol} funds have been staked in the pool!`
         )
         setPendingTx(false)
         onDismiss()
       } catch (e) {
-        toastError(t('Canceled'), t('Please try again and confirm the transaction.'))
+        toastError('Canceled', 'Please try again and confirm the transaction.')
         setPendingTx(false)
       }
     }
@@ -121,20 +115,17 @@ const StakeModal: React.FC<StakeModalProps> = ({
 
   return (
     <Modal
-      title={isRemovingStake ? t('Unstake') : t('Stake in Pool')}
+      title={isRemovingStake ? 'Unstake' : 'Stake in Pool'}
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
     >
       {stakingLimit.gt(0) && !isRemovingStake && (
         <Text color="secondary" bold mb="24px" style={{ textAlign: 'center' }} fontSize="16px">
-          {('Max stake for this pool: %amount% %token%', {
-            amount: getFullDisplayBalance(stakingLimit, stakingToken.decimals, 0),
-            token: stakingToken.symbol,
-          })}
+          Max stake for this pool: {getFullDisplayBalance(stakingLimit, stakingToken.decimals, 0)} {stakingToken.symbol}
         </Text>
       )}
       <Flex alignItems="center" justifyContent="space-between" mb="8px">
-        <Text bold>{isRemovingStake ? t('Unstake') : t('Stake')}:</Text>
+        <Text bold>{isRemovingStake ? 'Unstake' : 'Stake'}:</Text>
         <Flex alignItems="center" minWidth="70px">
           <Image src={`/images/tokens/${stakingToken.symbol}.png`} width={24} height={24} alt={stakingToken.symbol} />
           <Text ml="4px" bold>
@@ -151,16 +142,11 @@ const StakeModal: React.FC<StakeModalProps> = ({
       />
       {hasReachedStakeLimit && (
         <Text color="failure" fontSize="12px" style={{ textAlign: 'right' }} mt="4px">
-          {('Maximum total stake: %amount% %token%', {
-            amount: getFullDisplayBalance(new BigNumber(stakingLimit), stakingToken.decimals, 0),
-            token: stakingToken.symbol,
-          })}
+          Maximum total stake: {getFullDisplayBalance(new BigNumber(stakingLimit), stakingToken.decimals, 0)} {stakingToken.symbol}
         </Text>
       )}
       <Text ml="auto" color="textSubtle" fontSize="12px" mb="8px">
-        {('Balance: %balance%', {
-          balance: getFullDisplayBalance(getCalculatedStakingLimit(), stakingToken.decimals),
-        })}
+        Balance: {getFullDisplayBalance(getCalculatedStakingLimit(), stakingToken.decimals)}
       </Text>
       <Slider
         min={0}
@@ -175,7 +161,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
         <PercentageButton onClick={() => handleChangePercent(25)}>25%</PercentageButton>
         <PercentageButton onClick={() => handleChangePercent(50)}>50%</PercentageButton>
         <PercentageButton onClick={() => handleChangePercent(75)}>75%</PercentageButton>
-        <PercentageButton onClick={() => handleChangePercent(100)}>{('Max')}</PercentageButton>
+        <PercentageButton onClick={() => handleChangePercent(100)}>Max</PercentageButton>
       </Flex>
       <Button
         isLoading={pendingTx}
@@ -184,12 +170,12 @@ const StakeModal: React.FC<StakeModalProps> = ({
         disabled={!stakeAmount || parseFloat(stakeAmount) === 0 || hasReachedStakeLimit}
         mt="24px"
       >
-        {pendingTx ? t('Confirming') : t('Confirm')}
+        {pendingTx ? 'Confirming' : 'Confirm'}
       </Button>
       {!isRemovingStake && (
         <StyledLink external href={BASE_EXCHANGE_URL}>
           <Button width="100%" mt="8px" variant="secondary">
-            {('Get %symbol%', { symbol: stakingToken.symbol })}
+            Get {stakingToken.symbol}
           </Button>
         </StyledLink>
       )}

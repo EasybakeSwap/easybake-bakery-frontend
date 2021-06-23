@@ -63,7 +63,7 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
   const dateTimeLastAction = new Date(lastActionInMs)
   const dateStringToDisplay = dateTimeLastAction.toLocaleString()
 
-  const labelText = isAutoVault ? t('Recent OVEN profit') : t('%asset% Earned', { asset: earningToken.symbol })
+  const labelText = isAutoVault ? 'Recent OVEN profit' : `${earningToken.symbol} Earned`
   earningTokenBalance = isAutoVault ? autoOvenToDisplay : earningTokenBalance
   hasEarnings = isAutoVault ? hasAutoEarnings : hasEarnings
   earningTokenDollarBalance = isAutoVault ? autoUsdToDisplay : earningTokenDollarBalance

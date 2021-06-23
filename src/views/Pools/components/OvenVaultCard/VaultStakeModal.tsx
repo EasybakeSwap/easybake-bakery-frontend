@@ -87,7 +87,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
           setPendingTx(true)
         })
         .on('receipt', () => {
-          toastSuccess(t('Unstaked!'), t('Your earnings have also been harvested to your wallet'))
+          toastSuccess('Unstaked!', 'Your earnings have also been harvested to your wallet')
           setPendingTx(false)
           onDismiss()
           dispatch(fetchOvenVaultUserData({ account }))
@@ -95,7 +95,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
         .on('error', (error) => {
           console.error(error)
           // Remove message from toast before prod
-          toastError(t('Error'), t('%error% - Please try again.', { error: error.message }))
+          toastError('Error', `${error.message} - Please try again.`)
           setPendingTx(false)
         })
     } else {
@@ -108,7 +108,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
           setPendingTx(true)
         })
         .on('receipt', () => {
-          toastSuccess(t('Unstaked!'), t('Your earnings have also been harvested to your wallet'))
+          toastSuccess('Unstaked!', 'Your earnings have also been harvested to your wallet')
           setPendingTx(false)
           onDismiss()
           dispatch(fetchOvenVaultUserData({ account }))
@@ -116,7 +116,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
         .on('error', (error) => {
           console.error(error)
           // Remove message from toast before prod
-          toastError(t('Error'), t('%error% - Please try again.', { error: error.message }))
+          toastError('Error', `${error.message} - Please try again.`)
           setPendingTx(false)
         })
     }
@@ -132,7 +132,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
         setPendingTx(true)
       })
       .on('receipt', () => {
-        toastSuccess(t('Staked!'), t('Your funds have been staked in the pool'))
+        toastSuccess('Staked!', 'Your funds have been staked in the pool')
         setPendingTx(false)
         onDismiss()
         dispatch(fetchOvenVaultUserData({ account }))
@@ -140,7 +140,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
       .on('error', (error) => {
         console.error(error)
         // Remove message from toast before prod
-        toastError(t('Error'), t('%error% - Please try again.', { error: error.message }))
+        toastError('Error', `${error.message} - Please try again.`)
         setPendingTx(false)
       })
   }
@@ -201,7 +201,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
           75%
         </StyledButton>
         <StyledButton scale="xs" mx="2px" p="4px 16px" variant="tertiary" onClick={() => handleChangePercent(100)}>
-          {('Max')}
+          Max
         </StyledButton>
       </Flex>
       {isRemovingStake && hasUnstakingFee && (
@@ -214,11 +214,11 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
         disabled={!stakeAmount || parseFloat(stakeAmount) === 0}
         mt="24px"
       >
-        {pendingTx ? t('Confirming') : t('Confirm')}
+        {pendingTx ? 'Confirming' : 'Confirm'}
       </Button>
       {!isRemovingStake && (
         <Button mt="8px" as="a" external href={BASE_EXCHANGE_URL} variant="secondary">
-          {('Get %symbol%', { symbol: stakingToken.symbol })}
+          Get {stakingToken.symbol}
         </Button>
       )}
     </Modal>

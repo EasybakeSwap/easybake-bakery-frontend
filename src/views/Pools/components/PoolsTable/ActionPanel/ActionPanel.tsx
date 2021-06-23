@@ -135,8 +135,8 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
       return getBalanceNumber(totalOvenInVault, stakingToken.decimals)
     }
     if (isManualOvenPool) {
-      const manualCakeTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalOvenInVault)
-      return getBalanceNumber(manualCakeTotalMinusAutoVault, stakingToken.decimals)
+      const manualOvenTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalOvenInVault)
+      return getBalanceNumber(manualOvenTotalMinusAutoVault, stakingToken.decimals)
     }
     return getBalanceNumber(totalStaked, stakingToken.decimals)
   }
@@ -145,14 +145,12 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
     targetRef: totalStakedTargetRef,
     tooltip: totalStakedTooltip,
     tooltipVisible: totalStakedTooltipVisible,
-  } = useTooltip(t('Total amount of %symbol% staked in this pool', { symbol: stakingToken.symbol }), {
+  } = useTooltip(`Total amount of ${stakingToken.symbol} staked in this pool`, {
     placement: 'bottom',
   })
 
-  const manualTooltipText = t('You must harvest and compound your earnings from this pool manually.')
-  const autoTooltipText = t(
-    'Any funds you stake in this pool will be automagically harvested and restaked (compounded) for you.',
-  )
+  const manualTooltipText = 'You must harvest and compound your earnings from this pool manually.'
+  const autoTooltipText = 'Any funds you stake in this pool will be automagically harvested and restaked (compounded) for you.'
 
   const {
     targetRef: tagTargetRef,
@@ -172,12 +170,12 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
   const blocksRow =
     blocksRemaining || blocksUntilStart ? (
       <Flex mb="8px" justifyContent="space-between">
-        <Text>{hasPoolStarted ? t('Ends in') : t('Starts in')}:</Text>
+        <Text>{hasPoolStarted ? 'Ends in' : 'Starts in'}:</Text>
         <Flex>
           <Link external href={getEtherscanBlockCountdownUrl(endBlock)}>
             <Balance fontSize="16px" value={blocksToDisplay} decimals={0} color="primary" />
             <Text ml="4px" color="primary" textTransform="lowercase">
-              {('Blocks')}
+              Blocks
             </Text>
             <TimerIcon ml="4px" color="primary" />
           </Link>
@@ -189,14 +187,14 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
 
   const aprRow = (
     <Flex justifyContent="space-between" alignItems="center" mb="8px">
-      <Text>{isAutoVault ? t('APY') : t('APR')}</Text>
+      <Text>{isAutoVault ? 'APY' : 'APR'}</Text>
       <Apr pool={pool} showIcon performanceFee={isAutoVault ? performanceFeeAsDecimal : 0} />
     </Flex>
   )
 
   const totalStakedRow = (
     <Flex justifyContent="space-between" alignItems="center" mb="8px">
-      <Text maxWidth={['50px', '100%']}>{('Total staked')}</Text>
+      <Text maxWidth={['50px', '100%']}>Total staked</Text>
       <Flex alignItems="center">
         {totalStaked ? (
           <>
@@ -222,12 +220,12 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
         {shouldShowBlockCountdown && blocksRow}
         <Flex mb="8px" justifyContent={['flex-end', 'flex-end', 'flex-start']}>
           <LinkExternal href={`https://easybake.info/token/${getAddress(earningToken.address)}`} bold={false}>
-            {('Info site')}
+            Info site
           </LinkExternal>
         </Flex>
         <Flex mb="8px" justifyContent={['flex-end', 'flex-end', 'flex-start']}>
           <LinkExternal href={earningToken.projectLink} bold={false}>
-            {('Project site')}
+            Project site
           </LinkExternal>
         </Flex>
         {account && isMetaMaskInScope && tokenAddress && (
@@ -238,7 +236,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
               height="auto"
               onClick={() => registerToken(tokenAddress, earningToken.symbol, earningToken.decimals, imageSrc)}
             >
-              <Text color="primary">{('Add to Metamask')}</Text>
+              <Text color="primary">Add to Metamask</Text>
               <MetamaskIcon ml="4px" />
             </Button>
           </Flex>
@@ -252,7 +250,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
       <ActionContainer>
         {showSubtitle && (
           <Text mt="4px" mb="16px" color="textSubtle">
-            {isAutoVault ? t('Automatic restaking') : `${('Earn')} OVEN ${('Stake').toLocaleLowerCase()} OVEN`}
+            {isAutoVault ? `Automatic restaking` : `Stake OVEN Earn OVEN`}
           </Text>
         )}
         <Harvest {...pool} userDataLoaded={userDataLoaded} />

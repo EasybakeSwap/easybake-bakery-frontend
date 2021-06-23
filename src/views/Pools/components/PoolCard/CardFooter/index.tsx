@@ -26,10 +26,8 @@ const Footer: React.FC<FooterProps> = ({ pool, account }) => {
   
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const manualTooltipText = t('You must harvest and compound your earnings from this pool manually.')
-  const autoTooltipText = t(
-    'Any funds you stake in this pool will be automagically harvested and restaked (compounded) for you.',
-  )
+  const manualTooltipText = 'You must harvest and compound your earnings from this pool manually.'
+  const autoTooltipText = 'Any funds you stake in this pool will be automagically harvested and restaked (compounded) for you.'
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(isAutoVault ? autoTooltipText : manualTooltipText, {
     placement: 'bottom',
@@ -46,7 +44,7 @@ const Footer: React.FC<FooterProps> = ({ pool, account }) => {
           </Flex>
         </Flex>
         <ExpandableLabel expanded={isExpanded} onClick={() => setIsExpanded(!isExpanded)}>
-          {isExpanded ? t('Hide') : t('Details')}
+          {isExpanded ? 'Hide' : 'Details'}
         </ExpandableLabel>
       </ExpandableButtonWrapper>
       {isExpanded && <ExpandedFooter pool={pool} account={account} />}

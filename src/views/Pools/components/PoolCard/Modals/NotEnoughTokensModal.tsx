@@ -20,30 +20,28 @@ const NotEnoughTokensModal: React.FC<NotEnoughTokensModalProps> = ({ tokenSymbol
 
   return (
     <Modal
-      title={('%symbol% required', { symbol: tokenSymbol })}
+      title={`${tokenSymbol} required`}
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
     >
       <Text color="failure" bold>
-        {('Insufficient %symbol% balance', { symbol: tokenSymbol })}
+        Insufficient {tokenSymbol} balance
       </Text>
-      <Text mt="24px">{('You’ll need %symbol% to stake in this pool!', { symbol: tokenSymbol })}</Text>
+      <Text mt="24px">You’ll need {tokenSymbol} to stake in this pool!</Text>
       <Text>
-        {('Buy some %symbol%, or make sure your %symbol% isn’t in another pool or LP.', {
-          symbol: tokenSymbol,
-        })}
+        Buy some {tokenSymbol}, or make sure your {tokenSymbol} isn’t in another pool or LP.
       </Text>
       <Button mt="24px" as="a" external href={BASE_EXCHANGE_URL}>
-        {('Buy')} {tokenSymbol}
+        Buy {tokenSymbol}
       </Button>
       <StyledLink href="https://yieldwatch.net" external>
         <Button variant="secondary" mt="8px" width="100%">
-          {('Locate Assets')}
+          Locate Assets
           <OpenNewIcon color="primary" ml="4px" />
         </Button>
       </StyledLink>
       <Button variant="text" onClick={onDismiss}>
-        {('Close Window')}
+        Close Window
       </Button>
     </Modal>
   )

@@ -23,7 +23,7 @@ const EndsInCell: React.FC<FinishCellProps> = ({ pool }) => {
   const { shouldShowBlockCountdown, blocksUntilStart, blocksRemaining, hasPoolStarted, blocksToDisplay } =
     getPoolBlockInfo(pool, currentBlock)
 
-  const isCakePool = sousId === 0
+  const isOvenPool = sousId === 0
 
   const renderBlocks = shouldShowBlockCountdown ? (
     <Flex alignItems="center">
@@ -47,12 +47,12 @@ const EndsInCell: React.FC<FinishCellProps> = ({ pool }) => {
   // Opted to go for this since we don't really need a separate publicDataLoaded flag
   // anywhere else
   const isLoadingPublicData = !totalStaked.gt(0) || !currentBlock || (!blocksRemaining && !blocksUntilStart)
-  const showLoading = isLoadingPublicData && !isCakePool && !isFinished
+  const showLoading = isLoadingPublicData && !isOvenPool && !isFinished
   return (
     <StyledCell role="cell">
       <CellContent>
         <Text fontSize="12px" color="textSubtle" textAlign="left">
-          {hasPoolStarted || !shouldShowBlockCountdown ? t('Ends in') : t('Starts in')}
+          {hasPoolStarted || !shouldShowBlockCountdown ? 'Ends in' : 'Starts in'}
         </Text>
         {showLoading ? <Skeleton width="80px" height="16px" /> : renderBlocks}
       </CellContent>

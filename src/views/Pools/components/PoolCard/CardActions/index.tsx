@@ -41,7 +41,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
                 {`${earningToken.symbol} `}
               </InlineText>
               <InlineText color="textSubtle" textTransform="uppercase" bold fontSize="12px">
-                {('Earned')}
+                Earned
               </InlineText>
             </Box>
             <HarvestActions
@@ -56,10 +56,10 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
         )}
         <Box display="inline">
           <InlineText color={isStaked ? 'secondary' : 'textSubtle'} textTransform="uppercase" bold fontSize="12px">
-            {isStaked ? stakingToken.symbol : t('Stake')}{' '}
+            {isStaked ? stakingToken.symbol : 'Stake'}{' '}
           </InlineText>
           <InlineText color={isStaked ? 'textSubtle' : 'secondary'} textTransform="uppercase" bold fontSize="12px">
-            {isStaked ? t('Staked') : `${stakingToken.symbol}`}
+            {isStaked ? 'Staked' : `${stakingToken.symbol}`}
           </InlineText>
         </Box>
         {needsApproval ? (

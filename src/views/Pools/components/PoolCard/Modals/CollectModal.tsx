@@ -61,13 +61,13 @@ const CollectModal: React.FC<CollectModalProps> = ({
       try {
         await onStake(fullBalance, earningToken.decimals)
         toastSuccess(
-          `${('Compounded')}!`,
-          t('Your %symbol% earnings have been re-invested into the pool!', { symbol: earningToken.symbol }),
+          'Compounded!',
+          `Your ${earningToken.symbol} earnings have been re-invested into the pool!`,
         )
         setPendingTx(false)
         onDismiss()
       } catch (e) {
-        toastError(t('Canceled'), t('Please try again and confirm the transaction.'))
+        toastError('Canceled', 'Please try again and confirm the transaction.')
         setPendingTx(false)
       }
     } else {
@@ -75,13 +75,13 @@ const CollectModal: React.FC<CollectModalProps> = ({
       try {
         await onReward()
         toastSuccess(
-          `${('Harvested')}!`,
-          t('Your %symbol% earnings have been sent to your wallet!', { symbol: earningToken.symbol }),
+          `Harvested!`,
+          `Your ${earningToken.symbol} earnings have been sent to your wallet!`,
         )
         setPendingTx(false)
         onDismiss()
       } catch (e) {
-        toastError(t('Canceled'), t('Please try again and confirm the transaction.'))
+        toastError('Canceled', 'Please try again and confirm the transaction.')
         setPendingTx(false)
       }
     }
@@ -89,7 +89,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
 
   return (
     <Modal
-      title={`${earningToken.symbol} ${isCompoundPool ? t('Collect') : t('Harvest')}`}
+      title={`${earningToken.symbol} ${isCompoundPool ? 'Collect' : 'Harvest'}`}
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
     >
@@ -112,7 +112,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
       )}
 
       <Flex justifyContent="space-between" alignItems="center" mb="24px">
-        <Text>{shouldCompound ? t('Compounding') : t('Harvesting')}:</Text>
+        <Text>{shouldCompound ? 'Compounding' : 'Harvesting'}:</Text>
         <Flex flexDirection="column">
           <Heading>
             {formattedBalance} {earningToken.symbol}
@@ -127,7 +127,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
         isLoading={pendingTx}
         endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
       >
-        {pendingTx ? t('Confirming') : t('Confirm')}
+        {pendingTx ? 'Confirming' : 'Confirm'}
       </Button>
       <Button variant="text" onClick={onDismiss} pb="0px">
         {('Close Window')}

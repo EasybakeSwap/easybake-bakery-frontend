@@ -57,15 +57,15 @@ const BountyModal: React.FC<BountyModalProps> = ({
         setPendingTx(true)
       })
       .on('receipt', () => {
-        toastSuccess(t('Bounty collected!'), t('CAKE bounty has been sent to your wallet.'))
+        toastSuccess('Bounty collected!', 'OVEN bounty has been sent to your wallet.')
         setPendingTx(false)
         onDismiss()
       })
       .on('error', (error) => {
         console.error(error)
         toastError(
-          t('Could not be collected'),
-          t('There may be an issue with your transaction, or another user claimed the bounty first.'),
+          'Could not be collected',
+          'There may be an issue with your transaction, or another user claimed the bounty first.',
         )
         setPendingTx(false)
         onDismiss()
