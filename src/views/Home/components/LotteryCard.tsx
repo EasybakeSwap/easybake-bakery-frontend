@@ -54,7 +54,7 @@ import React, { useState, useCallback } from 'react'
 //   const [onPresentApprove] = useModal(<PurchaseWarningModal />)
 //   const { claimAmount, setLastUpdated } = useTotalClaim()
 //   const { onMultiClaim } = useMultiClaimLottery()
-//   const { balance: cakeBalance } = useTokenBalance(getOvenAddress())
+//   const { balance: ovenBalance } = useTokenBalance(getOvenAddress())
 //   const { handleApprove, requestedApproval } = useApproval(onPresentApprove)
 
 //   const handleClaim = useCallback(async () => {
@@ -89,7 +89,7 @@ import React, { useState, useCallback } from 'react'
 //     )
 //   }
 
-//   const [onPresentBuy] = useModal(<BuyTicketModal max={cakeBalance} />)
+//   const [onPresentBuy] = useModal(<BuyTicketModal max={ovenBalance} />)
 
 //   return (
 //     <StyledLotteryCard>
@@ -97,7 +97,7 @@ import React, { useState, useCallback } from 'react'
 //         <Heading scale="xl" mb="24px">
 //           {('Your Lottery Winnings')}
 //         </Heading>
-//         <CardImage src="/images/ticket.svg" alt="cake logo" width={64} height={64} />
+//         <CardImage src="/images/ticket.svg" alt="oven logo" width={64} height={64} />
 //         <Block>
 //           <Label>{('CAKE to Collect')}:</Label>
 //           <OvenWinnings claimAmount={claimAmount} />

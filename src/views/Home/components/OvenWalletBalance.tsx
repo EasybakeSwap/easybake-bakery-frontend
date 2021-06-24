@@ -8,13 +8,13 @@ import { getBalanceNumber } from 'utils/formatBalance'
 import { usePriceOvenUsdc } from 'state/hooks'
 import { BigNumber } from 'bignumber.js'
 import CardValue from './CardValue'
-import CardUsdtValue from './CardUsdtValue'
+import CardUsdcValue from './CardUsdcValue'
 
 const OvenWalletBalance = () => {
   
-  const { balance: cakeBalance } = useTokenBalance(getOvenAddress())
+  const { balance: ovenBalance } = useTokenBalance(getOvenAddress())
   const ovenPriceUsdc = usePriceOvenUsdc()
-  const busdBalance = new BigNumber(getBalanceNumber(cakeBalance)).multipliedBy(ovenPriceUsdc).toNumber()
+  const busdBalance = new BigNumber(getBalanceNumber(ovenBalance)).multipliedBy(ovenPriceUsdc).toNumber()
   const { account } = useWeb3React()
 
   if (!account) {
@@ -27,8 +27,8 @@ const OvenWalletBalance = () => {
 
   return (
     <>
-      <CardValue value={getBalanceNumber(cakeBalance)} decimals={4} fontSize="24px" lineHeight="36px" />
-      {ovenPriceUsdc.gt(0) ? <CardUsdtValue value={busdBalance} /> : <br />}
+      <CardValue value={getBalanceNumber(ovenBalance)} decimals={4} fontSize="24px" lineHeight="36px" />
+      {ovenPriceUsdc.gt(0) ? <CardUsdcValue value={busdBalance} /> : <br />}
     </>
   )
 }

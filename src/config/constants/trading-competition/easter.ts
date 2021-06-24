@@ -16,7 +16,7 @@ export interface Rank {
   group: string
   rank: string
   tier: Tiers
-  cakePrizeInUsd: number
+  ovenPrizeInUsd: number
   achievements: Achievement
   hasNft: boolean
 }
@@ -31,7 +31,7 @@ const easterPrizes: Config = {
       group: '4',
       rank: '1',
       tier: Tiers.GOLD,
-      cakePrizeInUsd: 21000,
+      ovenPrizeInUsd: 21000,
       achievements: {
         champion: 1250,
         teamPlayer: 750,
@@ -43,7 +43,7 @@ const easterPrizes: Config = {
       group: '3',
       rank: '2 ~ 10',
       tier: Tiers.SILVER,
-      cakePrizeInUsd: 49000,
+      ovenPrizeInUsd: 49000,
       achievements: {
         teamPlayer: 750,
         trophy: 500,
@@ -54,7 +54,7 @@ const easterPrizes: Config = {
       group: '2',
       rank: '11 ~ 100',
       tier: Tiers.BRONZE,
-      cakePrizeInUsd: 42000,
+      ovenPrizeInUsd: 42000,
       achievements: {
         teamPlayer: 750,
         trophy: 500,
@@ -66,7 +66,7 @@ const easterPrizes: Config = {
       group: '1',
       rank: '101 ~ 500',
       tier: Tiers.PURPLE,
-      cakePrizeInUsd: 28000,
+      ovenPrizeInUsd: 28000,
       achievements: {
         teamPlayer: 750,
         trophy: 500,
@@ -78,7 +78,7 @@ const easterPrizes: Config = {
       group: '0',
       rank: '501+',
       tier: Tiers.TEAL,
-      cakePrizeInUsd: 0,
+      ovenPrizeInUsd: 0,
       achievements: {
         trophy: 500,
       },
@@ -90,7 +90,7 @@ const easterPrizes: Config = {
       group: '4',
       rank: '1',
       tier: Tiers.GOLD,
-      cakePrizeInUsd: 6000,
+      ovenPrizeInUsd: 6000,
       achievements: {
         champion: 1250,
         teamPlayer: 750,
@@ -102,7 +102,7 @@ const easterPrizes: Config = {
       group: '3',
       rank: '2 ~ 10',
       tier: Tiers.SILVER,
-      cakePrizeInUsd: 14000,
+      ovenPrizeInUsd: 14000,
       achievements: {
         teamPlayer: 750,
         trophy: 250,
@@ -113,7 +113,7 @@ const easterPrizes: Config = {
       group: '2',
       rank: '11 ~ 100',
       tier: Tiers.BRONZE,
-      cakePrizeInUsd: 12000,
+      ovenPrizeInUsd: 12000,
       achievements: {
         teamPlayer: 750,
         trophy: 250,
@@ -124,7 +124,7 @@ const easterPrizes: Config = {
       group: '1',
       rank: '101 ~ 500',
       tier: Tiers.PURPLE,
-      cakePrizeInUsd: 8000,
+      ovenPrizeInUsd: 8000,
       achievements: {
         teamPlayer: 750,
         trophy: 250,
@@ -135,7 +135,7 @@ const easterPrizes: Config = {
       group: '0',
       rank: '501+',
       tier: Tiers.TEAL,
-      cakePrizeInUsd: 0,
+      ovenPrizeInUsd: 0,
       achievements: {
         trophy: 250,
       },
@@ -147,7 +147,7 @@ const easterPrizes: Config = {
       group: '4',
       rank: '1',
       tier: Tiers.GOLD,
-      cakePrizeInUsd: 3000,
+      ovenPrizeInUsd: 3000,
       achievements: {
         champion: 1250,
         teamPlayer: 750,
@@ -159,7 +159,7 @@ const easterPrizes: Config = {
       group: '3',
       rank: '2 ~ 10',
       tier: Tiers.SILVER,
-      cakePrizeInUsd: 7000,
+      ovenPrizeInUsd: 7000,
       achievements: {
         teamPlayer: 750,
         trophy: 100,
@@ -170,7 +170,7 @@ const easterPrizes: Config = {
       group: '2',
       rank: '11 ~ 100',
       tier: Tiers.BRONZE,
-      cakePrizeInUsd: 6000,
+      ovenPrizeInUsd: 6000,
       achievements: {
         teamPlayer: 750,
         trophy: 100,
@@ -181,7 +181,7 @@ const easterPrizes: Config = {
       group: '1',
       rank: '101 ~ 500',
       tier: Tiers.PURPLE,
-      cakePrizeInUsd: 4000,
+      ovenPrizeInUsd: 4000,
       achievements: {
         teamPlayer: 750,
         trophy: 100,
@@ -192,7 +192,7 @@ const easterPrizes: Config = {
       group: '0',
       rank: '501+',
       tier: Tiers.TEAL,
-      cakePrizeInUsd: 0,
+      ovenPrizeInUsd: 0,
       achievements: {
         trophy: 100,
       },

@@ -4,7 +4,7 @@ import {BASE_ETHERSCAN_URL } from 'config'
 import { nodes } from './getRpcUrl'
 
 /**
- * Prompt the user to add HECO as a network on Metamask, or switch to HECO if the wallet is on a different network
+ * Prompt the user to add MAINNET as a network on Metamask, or switch to MAINNET if the wallet is on a different network
  * @returns {boolean} true if the setup succeeded, false otherwise
  */
 export const setupNetwork = async () => {
@@ -17,10 +17,10 @@ export const setupNetwork = async () => {
         params: [
           {
             chainId: `0x${chainId.toString(16)}`,
-            chainName: 'Huobi Smart Chain Mainnet',
+            chainName: 'Ethereum Mainnet',
             nativeCurrency: {
-              name: 'Huobi Token',
-              symbol: 'HT',
+              name: 'Ether',
+              symbol: 'ETH',
               decimals: 18,
             },
             rpcUrls: nodes,

@@ -27,7 +27,7 @@ const StyledCardHeader: React.FC<{
       return 'Auto'
     }
     if (isOvenPool) {
-      // manual cake
+      // manual oven
       return 'Manual'
     }
     // all other pools

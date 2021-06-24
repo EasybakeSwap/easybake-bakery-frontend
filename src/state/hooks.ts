@@ -50,8 +50,8 @@ export const usePollFarmsData = (includeArchive = false) => {
 
 /**
  * Fetches the "core" farm data used globally
- * 1 = OVEN-HT LP
- * 4 = USDC-HT LP
+ * 1 = OVEN-ETH LP
+ * 4 = USDC-ETH LP
  */
 export const usePollCoreFarmData = () => {
   const dispatch = useAppDispatch()

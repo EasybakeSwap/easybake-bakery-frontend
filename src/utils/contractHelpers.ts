@@ -14,11 +14,11 @@ import {
   getMasterChefAddress,
   getOvenVaultAddress,
   getMulticallAddress,
-  getProfileAddress,
-  getBunnyFactoryAddress,
-  getBunnySpecialAddress,
-  getClaimRefundAddress,
-  getPointCenterIfoAddress
+  // getProfileAddress,
+  // getBunnyFactoryAddress,
+  // getBunnySpecialAddress,
+  // getClaimRefundAddress,
+  // getPointCenterIfoAddress
 } from 'utils/addressHelpers'
 
 // -----------------
@@ -87,18 +87,18 @@ export const getMulticallContract = (web3?: Web3) => {
 }
 
 // Not implemented yet - here to avoid errors
-export const getProfileContract = (web3?: Web3) => {
-  return getContract(profileAbi, getProfileAddress(), web3)
-}
-export const getBunnyFactoryContract = (web3?: Web3) => {
-  return getContract(bunnyFactoryAbi, getBunnyFactoryAddress(), web3)
-}
-export const getBunnySpecialContract = (web3?: Web3) => {
-  return getContract(bunnySpecialAbi, getBunnySpecialAddress(), web3)
-}
-export const getClaimRefundContract = (web3?: Web3) => {
-  return getContract(claimRefundAbi, getClaimRefundAddress(), web3)
-}
-export const getPointCenterIfoContract = (web3?: Web3) => {
-  return getContract(pointCenterIfo, getPointCenterIfoAddress(), web3)
-}
+// export const getProfileContract = (web3?: Web3) => {
+//   return getContract(profileAbi, getProfileAddress(), web3)
+// }
+// export const getBunnyFactoryContract = (web3?: Web3) => {
+//   return getContract(bunnyFactoryAbi, getBunnyFactoryAddress(), web3)
+// }
+// export const getBunnySpecialContract = (web3?: Web3) => {
+//   return getContract(bunnySpecialAbi, getBunnySpecialAddress(), web3)
+// }
+// export const getClaimRefundContract = (web3?: Web3) => {
+//   return getContract(claimRefundAbi, getClaimRefundAddress(), web3)
+// }
+// export const getPointCenterIfoContract = (web3?: Web3) => {
+//   return getContract(pointCenterIfo, getPointCenterIfoAddress(), web3)
+// }

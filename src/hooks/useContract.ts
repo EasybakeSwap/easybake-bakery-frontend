@@ -9,8 +9,8 @@ import {
   getMasterChefAddress,
   getOvenAddress,
   getOvenVaultAddress,
-  getProfileAddress,
-  getLotteryAddress,
+  // getProfileAddress,
+  // getLotteryAddress,
 } from 'utils/addressHelpers'
 import { poolsConfig } from 'config/constants'
 import { PoolCategory } from 'config/constants/types'
@@ -86,20 +86,20 @@ export const useOvenVaultContract = () => {
 //   return useContract(pancakeRabbitsAbi, getOvenAddress())
 // }
 
-export const useProfile = () => {
-  const abi = (profile as unknown) as AbiItem
-  return useContract(abi, getProfileAddress())
-}
+// export const useProfile = () => {
+//   const abi = (profile as unknown) as AbiItem
+//   return useContract(abi, getProfileAddress())
+// }
 
-export const useLottery = () => {
-  const abi = (lottery as unknown) as AbiItem
-  return useContract(abi, getLotteryAddress())
-}
+// export const useLottery = () => {
+//   const abi = (lottery as unknown) as AbiItem
+//   return useContract(abi, getLotteryAddress())
+// }
 
-export const useLotteryTicket = () => {
-  const abi = (lotteryTicket as unknown) as AbiItem
-  return useContract(abi, getLotteryAddress()) // UPDATE get()
-}
+// export const useLotteryTicket = () => {
+//   const abi = (lotteryTicket as unknown) as AbiItem
+//   return useContract(abi, getLotteryAddress()) // UPDATE get()
+// }
 
 
 // export const usePointCenterIfoContract = () => {

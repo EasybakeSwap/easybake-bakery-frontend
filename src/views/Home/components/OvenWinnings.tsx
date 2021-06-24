@@ -7,7 +7,7 @@ import { BigNumber } from 'bignumber.js'
 import styled from 'styled-components'
 
 import CardValue from './CardValue'
-import CardUsdtValue from './CardUsdtValue'
+import CardUsdcValue from './CardUsdcValue'
 
 const Block = styled.div`
   margin-bottom: 24px;
@@ -35,7 +35,7 @@ const OvenWinnings: React.FC<OvenWinningsProps> = ({ claimAmount }) => {
   return (
     <Block>
       <CardValue value={ovenAmount} lineHeight="1.5" />
-      {ovenPriceUsdc.gt(0) && <CardUsdtValue value={claimAmountBusd} decimals={2} />}
+      {ovenPriceUsdc.gt(0) && <CardUsdcValue value={claimAmountBusd} decimals={2} />}
     </Block>
   )
 }

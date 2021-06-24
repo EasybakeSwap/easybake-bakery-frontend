@@ -24,7 +24,7 @@ const OvenStats = () => {
   
   const totalSupply = useTotalSupply()
   const burnedBalance = getBalanceNumber(useBurnedBalance(getOvenAddress()))
-  const cakeSupply = totalSupply ? getBalanceNumber(totalSupply) - burnedBalance : 0
+  const ovenSupply = totalSupply ? getBalanceNumber(totalSupply) - burnedBalance : 0
 
   return (
     <StyledOvenStats>
@@ -34,7 +34,7 @@ const OvenStats = () => {
         </Heading>
         <Row>
           <Text fontSize="14px">{('Total OVEN Supply')}</Text>
-          {cakeSupply && <CardValue fontSize="14px" value={cakeSupply} />}
+          {ovenSupply && <CardValue fontSize="14px" value={ovenSupply} />}
         </Row>
         <Row>
           <Text fontSize="14px">{('Total OVEN Burned')}</Text>

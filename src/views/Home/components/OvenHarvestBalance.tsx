@@ -8,7 +8,7 @@ import { usePriceOvenUsdc } from 'state/hooks'
 import styled from 'styled-components'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import CardValue from './CardValue'
-import CardUsdtValue from './CardUsdtValue'
+import CardUsdcValue from './CardUsdcValue'
 
 const Block = styled.div`
   margin-bottom: 24px;
@@ -39,7 +39,7 @@ const OvenHarvestBalance = () => {
   return (
     <Block>
       <CardValue value={earningsSum} lineHeight="1.5" />
-      {ovenPriceUsdc.gt(0) && <CardUsdtValue value={earningsUsdt} />}
+      {ovenPriceUsdc.gt(0) && <CardUsdcValue value={earningsUsdt} />}
     </Block>
   )
 }

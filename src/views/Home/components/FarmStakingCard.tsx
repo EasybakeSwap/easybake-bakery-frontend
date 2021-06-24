@@ -11,7 +11,7 @@ import OvenHarvestBalance from './OvenHarvestBalance'
 import OvenWalletBalance from './OvenWalletBalance'
 
 const StyledFarmStakingCard = styled(Card)`
-  background-image: url('/images/cake-bg.svg');
+  background-image: url('/images/oven-bg.svg');
   background-repeat: no-repeat;
   background-position: top right;
   min-height: 376px;

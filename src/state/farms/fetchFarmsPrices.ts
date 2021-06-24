@@ -20,7 +20,7 @@ const getFarmBaseTokenPrice = (farm: Farm, quoteTokenFarm: Farm, ethPriceUsdc: B
     return hasTokenPriceVsQuote ? ethPriceUsdc.times(farm.tokenPriceVsQuote) : BIG_ZERO
   }
 
-  // We can only calculate profits without a quoteTokenFarm for USDC/HT farms
+  // We can only calculate profits without a quoteTokenFarm for USDC/ETH farms
   if (!quoteTokenFarm) {
     return BIG_ZERO
   }
@@ -73,8 +73,8 @@ const getFarmQuoteTokenPrice = (farm: Farm, quoteTokenFarm: Farm, ethPriceUsdc: 
 }
 
 const fetchFarmsPrices = async (farms) => {
-  const htUsdcFarm = farms.find((farm: Farm) => farm.pid === 252)
-  const ethPriceUsdc = htUsdcFarm.tokenPriceVsQuote ? BIG_ONE.div(htUsdcFarm.tokenPriceVsQuote) : BIG_ZERO
+  const ethUsdcFarm = farms.find((farm: Farm) => farm.pid === 4)
+  const ethPriceUsdc = ethUsdcFarm.tokenPriceVsQuote ? BIG_ONE.div(ethUsdcFarm.tokenPriceVsQuote) : BIG_ZERO
 
   const farmsWithPrices = farms.map((farm) => {
     const quoteTokenFarm = getFarmFromTokenSymbol(farms, farm.quoteToken.symbol)
